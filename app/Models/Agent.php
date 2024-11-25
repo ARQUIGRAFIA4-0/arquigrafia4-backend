@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Agent extends Model
 {
@@ -30,11 +31,15 @@ class Agent extends Model
         ];
     }
 
-    /**
-     * The roles that belong to the user.
-     */
+    // relationships
+    
     public function images(): BelongsToMany
     {
         return $this->belongsToMany(Image::class);
+    }
+
+    public function dates(): HasMany
+    {
+        return $this->hasMany(AgentDate::class);
     }
 }
