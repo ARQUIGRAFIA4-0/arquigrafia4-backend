@@ -11,6 +11,8 @@ class AgentDate extends Model
 {
     use HasUuids;
 
+    protected $connection = 'vrac_agent_dates';
+
     public $typeEnum = ['life', 'activity', 'other'];
 
     protected $fillable = [

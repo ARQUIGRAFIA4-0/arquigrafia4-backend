@@ -12,6 +12,8 @@ class Image extends Model
 {
     use HasFactory, SoftDeletes, HasUuids;
 
+    protected $connection = 'vrac_images';
+
     protected $fillable = [
         'id',
         'ref_id',
