@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\VRACore;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AgentDate extends Model
+class VRACAgentDate extends Model
 {
     use HasUuids;
 
@@ -38,6 +38,6 @@ class AgentDate extends Model
 
     public function agent(): BelongsTo
     {
-        return $this->belongsTo(Agent::class);
+        return $this->belongsTo(VRACAgent::class);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\VRACore;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Image extends Model
+class VRACImage extends Model
 {
-    use HasFactory, SoftDeletes, HasUuids;
+    use SoftDeletes, HasUuids;
 
     protected $connection = 'vrac_images';
 
@@ -31,11 +31,10 @@ class Image extends Model
         ];
     }
 
-    /**
-     * The roles that belong to the user.
-     */
+    // relationships
+
     public function agents(): BelongsToMany
     {
-        return $this->belongsToMany(Agent::class);
+        return $this->belongsToMany(VRACAgent::class);
     }
 }

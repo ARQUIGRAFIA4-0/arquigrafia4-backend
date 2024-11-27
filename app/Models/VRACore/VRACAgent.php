@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\VRACore;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Agent extends Model
+class VRACAgent extends Model
 {
-    use HasFactory, HasUuids;
+    use HasUuids;
 
     protected $connection = 'vrac_agents';
 
@@ -40,12 +40,12 @@ class Agent extends Model
     
     public function images(): BelongsToMany
     {
-        return $this->belongsToMany(Image::class);
+        return $this->belongsToMany(VRACImage::class);
     }
 
     public function dates(): HasMany
     {
-        return $this->hasMany(AgentDate::class);
+        return $this->hasMany(VRACAgentDate::class);
     }
 
     public function contributorName(): BelongsTo

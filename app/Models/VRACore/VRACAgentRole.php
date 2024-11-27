@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\VRACore;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class VRACAgentRole extends Model
 {
-    use HasFactory, HasUuids;
+    use HasUuids;
 
     protected $connection = 'vrac_agent_roles';
 
@@ -34,7 +34,7 @@ class VRACAgentRole extends Model
 
     public function agents(): HasMany
     {
-        return $this->hasMany(Agent::class);
+        return $this->hasMany(VRACAgent::class);
     }
 
 }
