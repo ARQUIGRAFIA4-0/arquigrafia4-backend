@@ -37,4 +37,30 @@ class VRACImage extends Model
     {
         return $this->belongsToMany(VRACAgent::class);
     }
+
+    public function culturalContexts(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACCulturalContext::class, 'cultural_context_image', 'image_id', 'cultural_context_id');
+    }
+
+    public function dates(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACDate::class, 'date_image', 'image_id', 'date_id');
+    }
+
+    public function descriptions(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACDescription::class, 'description_image', 'image_id', 'description_id');
+    }
+
+    // para o nosso caso, title será no singular pois a image sempre só terá 1 title, e vice-versa
+    public function title(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACTitle::class, 'image_title', 'image_id', 'title_id')->take(1);
+    }
+
+    public function techniques(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACTechnique::class, 'image_technique', 'image_id', 'technique_id');
+    }
 }
