@@ -63,4 +63,14 @@ class VRACImage extends Model
     {
         return $this->belongsToMany(VRACTechnique::class, 'image_technique', 'image_id', 'technique_id');
     }
+
+    public function workTypes(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACWorkType::class, 'image_work_type', 'image_id', 'work_type_id');
+    }
+
+    public function materials(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACMaterial::class, 'image_material', 'image_id', 'material_id');
+    }
 }
