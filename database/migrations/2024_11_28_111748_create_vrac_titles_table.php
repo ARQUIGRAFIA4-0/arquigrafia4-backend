@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('vrac_titles', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('title');
+            $table->string('label');
             $table->string('type')->nullable();
             $table->boolean('pref')->default(true);
             $table->string('source')->nullable();

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('vrac_techniques', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('technique')->index();
+            $table->string('label')->index();
             $table->string('vocab')->nullable();
             $table->string('ref_id')->nullable(); 
             $table->timestamps();

@@ -15,7 +15,7 @@ class VRACAgentRole extends Model
 
     protected $fillable = [
         'id',
-        'role',
+        'label',
         'vocab',
         'ref_id',
     ];
@@ -24,7 +24,7 @@ class VRACAgentRole extends Model
     {
         return [
             'id' => 'string',
-            'role' => 'string',
+            'label' => 'string',
             'vocab' => 'string',
             'ref_id' => 'string',
         ];

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('vrac_materials', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('material')->nullable();
+            $table->string('label')->nullable();
             $table->string('type')->default('other');
             $table->string('vocab')->nullable();
             $table->string('ref_id')->nullable(); 

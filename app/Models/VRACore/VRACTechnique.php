@@ -15,7 +15,7 @@ class VRACTechnique extends Model
 
     protected $fillable = [
         'id',
-        'technique',
+        'label',
         'vocab',
         'ref_id',
     ];
@@ -24,7 +24,7 @@ class VRACTechnique extends Model
     {
         return [
             'id' => 'string',
-            'technique' => 'string',
+            'label' => 'string',
             'vocab' => 'string',
             'ref_id' => 'string',
         ];

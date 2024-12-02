@@ -15,7 +15,7 @@ class VRACWorkType extends Model
 
     protected $fillable = [
         'id',
-        'type',
+        'label',
         'vocab',
         'ref_id',
     ];
@@ -24,7 +24,7 @@ class VRACWorkType extends Model
     {
         return [
             'id' => 'string',
-            'type' => 'string',
+            'label' => 'string',
             'vocab' => 'string',
             'ref_id' => 'string',
         ];

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('vrac_agent_roles', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('role')->index();
+            $table->string('label')->index();
             $table->string('vocab')->nullable();
             $table->string('ref_id')->nullable();
             $table->timestamps();

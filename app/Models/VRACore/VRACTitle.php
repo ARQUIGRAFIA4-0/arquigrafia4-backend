@@ -15,7 +15,7 @@ class VRACTitle extends Model
 
     protected $fillable = [
         'id',
-        'title',
+        'label',
         'type',
         'pref',
         'source',
@@ -27,7 +27,7 @@ class VRACTitle extends Model
     {
         return [
             'id' => 'string',
-            'title' => 'string',
+            'label' => 'string',
             'type' => 'string',
             'pref' => 'boolean',
             'source' => 'string',

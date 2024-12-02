@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('vrac_cultural_contexts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('context')->index();
-            $table->json('variant_contexts')->nullable();
+            $table->string('label')->index();
+            $table->json('variant_labels')->nullable();
             $table->string('vocab')->nullable();
             $table->string('ref_id')->nullable();
             $table->timestamps();

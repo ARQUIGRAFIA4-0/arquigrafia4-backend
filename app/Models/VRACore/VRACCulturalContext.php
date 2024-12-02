@@ -15,8 +15,8 @@ class VRACCulturalContext extends Model
 
     protected $fillable = [
         'id',
-        'context',
-        'variant_contexts',
+        'label',
+        'variant_labels',
         'vocab',
         'ref_id',
     ];
@@ -25,8 +25,8 @@ class VRACCulturalContext extends Model
     {
         return [
             'id' => 'string',
-            'context' => 'string',
-            'variant_contexts' => 'array',
+            'label' => 'string',
+            'variant_labels' => 'array',
             'vocab' => 'string',
             'ref_id' => 'string',
         ];

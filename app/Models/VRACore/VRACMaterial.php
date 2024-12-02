@@ -15,7 +15,7 @@ class VRACMaterial extends Model
 
     protected $fillable = [
         'id',
-        'material',
+        'label',
         'type',
         'vocab',
         'ref_id',
@@ -25,7 +25,7 @@ class VRACMaterial extends Model
     {
         return [
             'id' => 'string',
-            'material' => 'string',
+            'label' => 'string',
             'type' => 'array',
             'vocab' => 'string',
             'ref_id' => 'string',
