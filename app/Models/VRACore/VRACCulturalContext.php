@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class VRACCulturalContext extends Model
 {
@@ -37,5 +38,10 @@ class VRACCulturalContext extends Model
     public function images(): BelongsToMany
     {
         return $this->belongsToMany(VRACImage::class, 'cultural_context_image', 'cultural_context_id', 'image_id');
+    }
+
+    public function agents(): HasMany
+    {
+        return $this->hasMany(VRACAgent::class, 'culture_id', 'id');
     }
 }

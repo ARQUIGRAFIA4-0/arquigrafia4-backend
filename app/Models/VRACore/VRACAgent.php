@@ -57,4 +57,9 @@ class VRACAgent extends Model
     {
         return $this->belongsTo(VRACAgentRole::class, 'id', 'role_id');
     }
+
+    public function culture(): BelongsTo
+    {
+        return $this->belongsTo(VRACCulturalContext::class, 'id', 'culture_id');
+    }
 }
