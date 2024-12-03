@@ -73,4 +73,14 @@ class VRACImage extends Model
     {
         return $this->belongsToMany(VRACMaterial::class, 'image_material', 'image_id', 'material_id');
     }
+
+    public function stylePeriods(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACStylePeriod::class, 'image_style_period', 'image_id', 'style_period_id');
+    }
+
+    public function measurements(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACMeasurement::class, 'image_measurement', 'image_id', 'measurement_id');
+    }
 }
