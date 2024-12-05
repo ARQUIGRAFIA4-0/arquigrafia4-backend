@@ -83,4 +83,29 @@ class VRACImage extends Model
     {
         return $this->belongsToMany(VRACMeasurement::class, 'image_measurement', 'image_id', 'measurement_id');
     }
+
+    public function stateEditions(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACStateEdition::class, 'image_state_edition', 'image_id', 'state_edition_id');
+    }
+
+    public function sources(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACSource::class, 'image_source', 'image_id', 'source_id');
+    }
+
+    public function rights(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACRight::class, 'image_right', 'image_id', 'right_id');
+    }
+
+    public function inscriptions(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACInscription::class, 'image_inscription', 'image_id', 'inscription_id');
+    }
+
+    public function subjects(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACSubject::class, 'image_subject', 'image_id', 'subject_id');
+    }
 }
