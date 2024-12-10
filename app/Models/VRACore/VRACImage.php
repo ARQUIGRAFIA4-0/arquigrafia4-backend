@@ -12,7 +12,7 @@ class VRACImage extends Model
 {
     use SoftDeletes, HasUuids;
 
-    protected $connection = 'vrac_images';
+    protected $table = 'vrac_images';
 
     protected $fillable = [
         'id',

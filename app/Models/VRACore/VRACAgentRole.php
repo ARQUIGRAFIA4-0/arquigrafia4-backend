@@ -11,7 +11,7 @@ class VRACAgentRole extends Model
 {
     use HasUuids;
 
-    protected $connection = 'vrac_agent_roles';
+    protected $table = 'vrac_agent_roles';
 
     protected $fillable = [
         'id',

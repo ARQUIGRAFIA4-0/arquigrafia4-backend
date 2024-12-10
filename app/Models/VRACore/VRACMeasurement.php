@@ -11,7 +11,7 @@ class VRACMeasurement extends Model
 {
     use HasUuids;
 
-    protected $connection = 'vrac_measurements';
+    protected $table = 'vrac_measurements';
 
     protected $fillable = [
         'id',

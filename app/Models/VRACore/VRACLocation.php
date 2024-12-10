@@ -12,7 +12,7 @@ class VRACLocation extends Model
 {
     use HasUuids;
 
-    protected $connection = 'vrac_locations';
+    protected $table = 'vrac_locations';
 
     protected $fillable = [
         'id',

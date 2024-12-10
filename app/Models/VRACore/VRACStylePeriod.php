@@ -11,7 +11,7 @@ class VRACStylePeriod extends Model
 {
     use HasUuids;
 
-    protected $connection = 'vrac_style_periods';
+    protected $table = 'vrac_style_periods';
 
     protected $fillable = [
         'id',

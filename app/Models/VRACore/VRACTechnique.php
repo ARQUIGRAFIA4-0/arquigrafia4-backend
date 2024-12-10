@@ -11,7 +11,7 @@ class VRACTechnique extends Model
 {
     use HasUuids;
     
-    protected $connection = 'vrac_techniques';
+    protected $table = 'vrac_techniques';
 
     protected $fillable = [
         'id',

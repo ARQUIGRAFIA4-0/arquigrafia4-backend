@@ -11,7 +11,7 @@ class VRACDate extends Model
 {
     use HasUuids;
     
-    protected $connection = 'vrac_dates';
+    protected $table = 'vrac_dates';
 
     protected $fillable = [
         'id',

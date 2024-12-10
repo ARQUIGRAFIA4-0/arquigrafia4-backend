@@ -12,7 +12,7 @@ class VRACCulturalContext extends Model
 {
     use HasUuids;
 
-    protected $connection = 'vrac_cultural_contexts';
+    protected $table = 'vrac_cultural_contexts';
 
     protected $fillable = [
         'id',

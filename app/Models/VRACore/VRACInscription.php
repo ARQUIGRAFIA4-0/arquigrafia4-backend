@@ -11,7 +11,7 @@ class VRACInscription extends Model
 {
     use HasUuids;
 
-    protected $connection = 'vrac_inscriptions';
+    protected $table = 'vrac_inscriptions';
 
     protected $fillable = [
         'id',

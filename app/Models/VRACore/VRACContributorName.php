@@ -11,7 +11,7 @@ class VRACContributorName extends Model
 {
     use HasUuids;
 
-    protected $connection = 'vrac_contributor_names';
+    protected $table = 'vrac_contributor_names';
 
     public $typeEnum = ['personal', 'corporate', 'family', 'other'];
 

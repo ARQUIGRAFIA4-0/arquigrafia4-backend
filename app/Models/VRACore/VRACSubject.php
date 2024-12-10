@@ -11,7 +11,7 @@ class VRACSubject extends Model
 {
     use HasUuids;
 
-    protected $connection = 'vrac_subjects';
+    protected $table = 'vrac_subjects';
 
     protected $fillable = [
         'id',

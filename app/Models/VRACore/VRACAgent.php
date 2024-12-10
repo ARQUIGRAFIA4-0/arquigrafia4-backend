@@ -13,7 +13,7 @@ class VRACAgent extends Model
 {
     use HasUuids;
 
-    protected $connection = 'vrac_agents';
+    protected $table = 'vrac_agents';
 
     protected $fillable = [
         'id',

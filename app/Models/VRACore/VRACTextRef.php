@@ -10,7 +10,7 @@ class VRACTextRef extends Model
 {
     use HasUuids;
 
-    protected $connection = 'vrac_text_refs';
+    protected $table = 'vrac_text_refs';
 
     protected $fillable = [
         'id',

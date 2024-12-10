@@ -11,7 +11,7 @@ class VRACLocationName extends Model
 {
     use HasUuids;
 
-    protected $connection = 'vrac_location_names';
+    protected $table = 'vrac_location_names';
 
     protected $fillable = [
         'id',

@@ -11,7 +11,7 @@ class VRACTitle extends Model
 {
     use HasUuids;
     
-    protected $connection = 'vrac_titles';
+    protected $table = 'vrac_titles';
 
     protected $fillable = [
         'id',

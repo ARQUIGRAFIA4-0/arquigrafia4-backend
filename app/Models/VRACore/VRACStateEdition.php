@@ -11,7 +11,7 @@ class VRACStateEdition extends Model
 {
     use HasUuids;
 
-    protected $connection = 'vrac_state_editions';
+    protected $table = 'vrac_state_editions';
 
     protected $fillable = [
         'id',

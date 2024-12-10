@@ -11,7 +11,7 @@ class VRACMaterial extends Model
 {
     use HasUuids;
 
-    protected $connection = 'vrac_materials';
+    protected $table = 'vrac_materials';
 
     protected $fillable = [
         'id',

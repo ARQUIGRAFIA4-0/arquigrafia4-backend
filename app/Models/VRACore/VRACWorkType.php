@@ -11,7 +11,7 @@ class VRACWorkType extends Model
 {
     use HasUuids;
 
-    protected $connection = 'vrac_work_types';
+    protected $table = 'vrac_work_types';
 
     protected $fillable = [
         'id',
