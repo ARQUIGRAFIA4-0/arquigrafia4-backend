@@ -108,4 +108,9 @@ class VRACImage extends Model
     {
         return $this->belongsToMany(VRACSubject::class, 'image_subject', 'image_id', 'subject_id');
     }
+
+    public function locations(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACLocation::class, 'location_image', 'image_id', 'location_id');
+    }
 }
