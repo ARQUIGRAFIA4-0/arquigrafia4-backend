@@ -40,7 +40,7 @@ class VRACContributorName extends Model
 
     public function agents(): HasMany
     {
-        return $this->hasMany(VRACAgent::class);
+        return $this->hasMany(VRACAgent::class, 'contributor_name_id', 'id');
     }
 
 }

@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class VRACAgent extends Model
 {
-    use HasUuids;
+    use HasUuids, SoftDeletes;
 
     protected $table = 'vrac_agents';
 
@@ -32,7 +33,7 @@ class VRACAgent extends Model
             'attribution' => 'string', // size 100
             'contributor_name_id' => 'string',
             'role_id' => 'string',
-            'deleted_at' => 'timestamp',
+            'deleted_at' => 'date',
         ];
     }
 
@@ -50,16 +51,16 @@ class VRACAgent extends Model
 
     public function contributorName(): BelongsTo
     {
-        return $this->belongsTo(VRACContributorName::class, 'id', 'contributor_name_id');
+        return $this->belongsTo(VRACContributorName::class, 'contributor_name_id', 'id');
     }
 
     public function role(): BelongsTo
     {
-        return $this->belongsTo(VRACAgentRole::class, 'id', 'role_id');
+        return $this->belongsTo(VRACAgentRole::class, 'role_id', 'id');
     }
 
     public function culture(): BelongsTo
     {
-        return $this->belongsTo(VRACCulturalContext::class, 'id', 'culture_id');
+        return $this->belongsTo(VRACCulturalContext::class, 'culture_id', 'id');
     }
 }

@@ -34,7 +34,7 @@ class VRACAgentRole extends Model
 
     public function agents(): HasMany
     {
-        return $this->hasMany(VRACAgent::class);
+        return $this->hasMany(VRACAgent::class, 'role_id', 'id');
     }
 
 }

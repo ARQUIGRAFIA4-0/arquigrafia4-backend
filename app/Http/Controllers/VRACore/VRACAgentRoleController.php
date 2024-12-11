@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\VRACore;
 
 use App\Http\Controllers\Controller;
+use App\Models\VRACore\VRACAgentRole;
 use Illuminate\Http\Request;
 
 class VRACAgentRoleController extends Controller
@@ -12,7 +13,11 @@ class VRACAgentRoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = VRACAgentRole::all();
+
+        return response()->json([
+            'roles' => $roles,
+        ]);
     }
 
     /**
@@ -20,7 +25,16 @@ class VRACAgentRoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $role = new VRACAgentRole();
+
+        $role->label = $request->input('label');
+        $role->vocab = $request->input('vocab');
+        $role->ref_id = $request->input('ref_id');
+        $role->save();
+
+        return response()->json([
+            'role' => $role,
+        ], 201);
     }
 
     /**
@@ -28,7 +42,11 @@ class VRACAgentRoleController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $role = VRACAgentRole::with('agents')->find($id);
+        
+        return response()->json([
+            'role' => $role,
+        ]);
     }
 
     /**
@@ -36,7 +54,16 @@ class VRACAgentRoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $role = VRACAgentRole::find($id);
+
+        $role->label = $request->input('label');
+        $role->vocab = $request->input('vocab');
+        $role->ref_id = $request->input('ref_id');
+        $role->save();
+
+        return response()->json([
+            'role' => $role,
+        ]);
     }
 
     /**
@@ -44,6 +71,12 @@ class VRACAgentRoleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $role = VRACAgentRole::find($id);
+        
+        $role->delete();
+
+        return response()->json([
+            'role' => $role,
+        ]);
     }
 }
