@@ -15,8 +15,8 @@ class VRACDescription extends Model
 
     protected $fillable = [
         'id',
-        'text' => 'string',
-        'source' => 'string',
+        'text',
+        'source',
     ];
 
     protected function casts(): array

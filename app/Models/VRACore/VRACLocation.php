@@ -35,7 +35,7 @@ class VRACLocation extends Model
     
     public function name(): BelongsTo
     {
-        return $this->belongsTo(VRACLocationName::class, 'id', 'location_name_id');
+        return $this->belongsTo(VRACLocationName::class, 'location_name_id', 'id');
     }
 
     public function images(): BelongsToMany
