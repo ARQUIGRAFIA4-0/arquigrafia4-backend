@@ -10,7 +10,7 @@ class IIIFManifestController extends Controller
 {
     public function getManifest($id)
     {
-        $image = VRACImage::with(['title'])->findOrFail($id);
+        $image = VRACImage::with(VRACImage::RELATIONS)->findOrFail($id);
 
         $manifest = [
             '@context' => 'http://iiif.io/api/presentation/3/context.json',
