@@ -30,6 +30,26 @@ class VRACImage extends Model
         ];
     }
 
+    // List of all relationships
+    public const RELATIONS = [
+        'agents',
+        'culturalContexts',
+        'dates',
+        'descriptions',
+        'title',
+        'techniques',
+        'workTypes',
+        'materials',
+        'stylePeriods',
+        'measurements',
+        'stateEditions',
+        'sources',
+        'rights',
+        'inscription',
+        'subjects',
+        'locations'
+    ];
+
     // relationships
 
     public function agents(): BelongsToMany
