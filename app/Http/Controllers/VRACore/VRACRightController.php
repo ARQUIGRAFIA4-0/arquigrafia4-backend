@@ -25,7 +25,7 @@ class VRACRightController extends Controller
      */
     public function store(Request $request)
     {
-        $right = new VRACRight();
+        $right = new VRACRight;
 
         $right->text = $request->input('text');
         $right->type = $request->input('type');

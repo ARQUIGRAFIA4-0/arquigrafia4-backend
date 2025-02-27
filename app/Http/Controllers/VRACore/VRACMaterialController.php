@@ -25,7 +25,7 @@ class VRACMaterialController extends Controller
      */
     public function store(Request $request)
     {
-        $material = new VRACMaterial();
+        $material = new VRACMaterial;
 
         $material->label = $request->input('label');
         $material->type = $request->input('type');
@@ -74,9 +74,9 @@ class VRACMaterialController extends Controller
     public function destroy(string $id)
     {
         $material = VRACMaterial::find($id);
-        
+
         $material->delete();
-        
+
         return response()->json([
             'material' => $material,
         ]);

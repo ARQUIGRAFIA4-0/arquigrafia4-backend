@@ -25,7 +25,7 @@ class VRACStylePeriodController extends Controller
      */
     public function store(Request $request)
     {
-        $period = new VRACStylePeriod();
+        $period = new VRACStylePeriod;
 
         $period->label = $request->input('label');
         $period->ref_id = $request->input('ref_id');

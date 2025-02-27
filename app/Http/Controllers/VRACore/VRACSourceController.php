@@ -25,7 +25,7 @@ class VRACSourceController extends Controller
      */
     public function store(Request $request)
     {
-        $source = new VRACSource();
+        $source = new VRACSource;
 
         $source->name = $request->input('name');
         $source->name_type = $request->input('name_type');

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('label')->nullable();
             $table->string('type')->default('other');
             $table->string('vocab')->nullable();
-            $table->string('ref_id')->nullable(); 
+            $table->string('ref_id')->nullable();
             $table->timestamps();
         });
     }

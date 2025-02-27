@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('label')->index();
             $table->string('vocab')->nullable();
-            $table->string('ref_id')->nullable(); 
+            $table->string('ref_id')->nullable();
             $table->timestamps();
         });
     }

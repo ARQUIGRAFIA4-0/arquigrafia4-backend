@@ -25,7 +25,7 @@ class VRACSubjectController extends Controller
      */
     public function store(Request $request)
     {
-        $subject = new VRACSubject();
+        $subject = new VRACSubject;
 
         $subject->term = $request->input('term');
         $subject->type = $request->input('type');

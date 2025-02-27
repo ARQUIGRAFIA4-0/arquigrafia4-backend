@@ -3,14 +3,13 @@
 namespace App\Models\VRACore;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class VRACTitle extends Model
 {
     use HasUuids;
-    
+
     protected $table = 'vrac_titles';
 
     protected $fillable = [
@@ -37,7 +36,7 @@ class VRACTitle extends Model
     }
 
     // relationships
-    
+
     public function images(): BelongsToMany
     {
         return $this->belongsToMany(VRACImage::class, 'image_title', 'title_id', 'image_id');

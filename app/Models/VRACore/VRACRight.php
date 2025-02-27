@@ -3,7 +3,6 @@
 namespace App\Models\VRACore;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -33,7 +32,7 @@ class VRACRight extends Model
     }
 
     // relationships
-    
+
     public function images(): BelongsToMany
     {
         return $this->belongsToMany(VRACImage::class, 'image_right', 'right_id', 'image_id');

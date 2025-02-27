@@ -25,7 +25,7 @@ class VRACStateEditionController extends Controller
      */
     public function store(Request $request)
     {
-        $edition = new VRACStateEdition();
+        $edition = new VRACStateEdition;
 
         $edition->name = $request->input('name');
         $edition->description = $request->input('description');
