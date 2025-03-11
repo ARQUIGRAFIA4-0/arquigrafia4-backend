@@ -8,6 +8,7 @@ use App\Models\VRACore\VRACContributorName;
 use App\Models\VRACore\VRACDate;
 use App\Models\VRACore\VRACDescription;
 use App\Models\VRACore\VRACImage;
+use App\Models\VRACore\VRACSubject;
 use App\Models\VRACore\VRACTitle;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +38,11 @@ class VRACImageSeeder extends Seeder
 
             $contributor = VRACContributorName::firstOrCreate(
                 ['name' => 'Biblioteca da FAUUSP'],
-                ['id' => Str::uuid()]
+                [
+                    'id' => Str::uuid(),
+                    'type' => 'corporate'
+                ],
+
             );
 
             $role = VRACAgentRole::firstOrCreate(
@@ -57,19 +62,34 @@ class VRACImageSeeder extends Seeder
                 [
                     'type' => 'creation',
                     'earliest_date' => '1971-01-01T00:00:00',
-                    'earliest_date_circa' => 1,
+                    'circa_earliest_date' => 1,
                     'latest_date' => '1980-01-01T00:00:00',
-                    'latest_date_circa' => 1,
+                    'circa_latest_date' => 1,
                 ],
                 [
                     'id' => Str::uuid(),
                 ]
             );
 
+            $subjects = collect([
+                'Estação Rodoviária',
+                'Concreto Aparente',
+                'Pilar',
+                'Abertura Zenital',
+                'Cobertura',
+                'Canteiro de Obras'
+            ])->map(fn($term) => VRACSubject::firstOrCreate([
+                'id' => Str::uuid(),
+                'term' => $term,
+            ]));
+
+            $subjectIds = $subjects->pluck('id')->toArray();
+
             $image->title()->attach($title->id);
-            $image->description()->attach($description->id);
-            $image->agent()->attach($agent->id);
-            $image->date()->attach($date->id);
+            $image->descriptions()->attach($description->id);
+            $image->agents()->attach($agent->id);
+            $image->dates()->attach($date->id);
+            $image->subjects()->attach($subjectIds);
         });
     }
 }
