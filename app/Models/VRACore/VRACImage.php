@@ -45,7 +45,7 @@ class VRACImage extends Model
         'stateEditions',
         'sources',
         'rights',
-        'inscription',
+        'inscriptions',
         'subjects',
         'locations'
     ];
@@ -54,7 +54,7 @@ class VRACImage extends Model
 
     public function agents(): BelongsToMany
     {
-        return $this->belongsToMany(VRACAgent::class);
+        return $this->belongsToMany(VRACAgent::class, 'agent_image', 'image_id', 'agent_id');
     }
 
     public function culturalContexts(): BelongsToMany

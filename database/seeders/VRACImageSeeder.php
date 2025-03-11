@@ -26,17 +26,17 @@ class VRACImageSeeder extends Seeder
             ]);
 
             $title = VRACTitle::firstOrCreate(
-                ['label' => 'Título'],
+                ['label' => 'Estação Rodoviária de Jaú'],
                 ['id' => Str::uuid()]
             );
 
             $description = VRACDescription::firstOrCreate(
-                ['text' => 'Descrição da imagem'],
+                ['text' => 'Vista geral da estação rodoviária de Jaú em fase de construção.'],
                 ['id' => Str::uuid()]
             );
 
             $contributor = VRACContributorName::firstOrCreate(
-                ['name' => 'Contribuidor'],
+                ['name' => 'Biblioteca da FAUUSP'],
                 ['id' => Str::uuid()]
             );
 
@@ -56,8 +56,10 @@ class VRACImageSeeder extends Seeder
             $date = VRACDate::firstOrCreate(
                 [
                     'type' => 'creation',
-                    'earliest_date' => '1900-01-01T00:00:00',
-                    'latest_date' => '1900-12-31T00:00:00'
+                    'earliest_date' => '1971-01-01T00:00:00',
+                    'earliest_date_circa' => 1,
+                    'latest_date' => '1980-01-01T00:00:00',
+                    'latest_date_circa' => 1,
                 ],
                 [
                     'id' => Str::uuid(),
