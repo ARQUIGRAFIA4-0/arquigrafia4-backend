@@ -16,7 +16,7 @@ class IIIFManifestController extends Controller
             '@context' => 'http://iiif.io/api/presentation/3/context.json',
             'id' => route('iiif.manifest', ['id' => $id]),
             'type' => 'Manifest',
-            'label' => ['none' => [$image->title->label]],
+            'label' => ['none' => [$image->title[0]->label]],
         ];
 
         return Response::json($manifest, 200, ['Content-Type' => 'application/ld+json']);
