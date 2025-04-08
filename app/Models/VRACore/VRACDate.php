@@ -43,4 +43,20 @@ class VRACDate extends Model
     {
         return $this->belongsToMany(VRACImage::class, 'date_image', 'date_id', 'image_id');
     }
+
+    public function formattedDateRange(): string
+    {
+        $earliest = $this->earliest_date ? $this->earliest_date->format('Y') : '';
+        $latest = $this->latest_date ? $this->latest_date->format('Y') : '';
+
+        if ($this->circa_earliest_date && $this->circa_latest_date) {
+            return "c.$earliest-c.$latest";
+        } elseif ($this->circa_earliest_date) {
+            return "c.$earliest-$latest";
+        } elseif ($this->circa_latest_date) {
+            return "$earliest-c.$latest";
+        } else {
+            return "$earliest-$latest";
+        }
+    }
 }
