@@ -6,6 +6,9 @@ use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\RefreshTokenRepository;
+use Laravel\Passport\TokenRepository;
 
 class UserController extends Controller
 {
@@ -22,19 +25,10 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreUserRequest $request)
     {
-        //
     }
 
     /**
@@ -51,19 +45,10 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
     }
 
     /**
@@ -76,10 +61,23 @@ class UserController extends Controller
 
     public function me()
     {
-        $user = Auth::user();
+        $loggedUser = Auth::user();
 
         return response()->json([
-            'user' => $user,
+            'user' => $loggedUser,
         ]);
+    }
+
+    public function logout()
+    {
+        $loggedUser = Auth::user();
+        $tokenRepository = app(TokenRepository::class);
+        $refreshTokenRepository = app(RefreshTokenRepository::class);
+        
+        $currentToken = $tokenRepository->forUser($loggedUser->id)->first();
+        // Revoke an access token...
+        $tokenRepository->revokeAccessToken($currentToken->id);
+        // Revoke all of the token's refresh tokens...
+        $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($currentToken->id);
     }
 }
