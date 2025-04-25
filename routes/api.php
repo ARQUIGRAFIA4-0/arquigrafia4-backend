@@ -21,7 +21,6 @@ use App\Http\Controllers\VRACore\VRACTechniqueController;
 use App\Http\Controllers\VRACore\VRACTextRefController;
 use App\Http\Controllers\VRACore\VRACTitleController;
 use App\Http\Controllers\VRACore\VRACWorkTypeController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
@@ -33,6 +32,7 @@ Route::apiResource('users', UserController::class)->only(['index', 'store', 'sho
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('users', UserController::class)->only(['update', 'destroy']);
     Route::get('me', [UserController::class, 'me']);
+    Route::post('logout', [UserController::class, 'logout']);
 });
 
 // VRACore
