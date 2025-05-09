@@ -2,16 +2,21 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 // use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Illuminate\Notifications\Notifiable;
 
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens;
+    use HasApiTokens,
+        SoftDeletes,
+        HasUuids,
+        Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -19,9 +24,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'name',
         'email',
+        'email_verified_at',
         'password',
+        'avatar_path',
     ];
 
     /**
@@ -42,8 +50,16 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            'id' => 'string',
+            'name' => 'string',
+            'email' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'avatar_path' => 'string',
+            'deleted_at' => 'datetime',
         ];
     }
+
+    // relationships
+
 }
