@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VRACore\VRACAgentController;
 use App\Http\Controllers\VRACore\VRACAgentRoleController;
@@ -27,9 +28,19 @@ Route::apiResource('users', UserController::class)->only(['index', 'store', 'sho
 
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('users', UserController::class)->only(['update', 'destroy']);
-    Route::get('me', [UserController::class, 'me']);
-    Route::post('logout', [UserController::class, 'logout']);
+    Route::get('me', [AuthController::class, 'me']);
+    Route::post('logout', [AuthController::class, 'logout']);
 });
+
+Route::post('/account-verification-email', [AuthController::class, 'sendVerificationEmail'])
+    ->middleware(['throttle:6,1'])->name('verification.email');
+Route::post('/verify-account', [AuthController::class, 'verifyEmail'])
+    ->middleware(['throttle:6,1'])->name('verification.verify');
+
+Route::post('/forgot-password-email', [AuthController::class, 'passwordResetEmail'])
+    ->middleware(['guest', 'throttle:6,1'])->name('password.email');
+Route::post('/verify-password-reset', [AuthController::class, 'verifyPasswordReset'])
+    ->middleware(['guest', 'throttle:6,1'])->name('password.verify');
 
 // VRACore
 Route::apiResource('vrac-agents', VRACAgentController::class);

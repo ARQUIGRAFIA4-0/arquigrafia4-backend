@@ -117,7 +117,8 @@ return [
         'name' => 'nome',
         'password' => 'senha',
         'password_confirm' => 'confirmação de senha',
-        'message' => 'mensagem'
+        'message' => 'mensagem',
+        'code' => 'código',
     ],
 
 ];
