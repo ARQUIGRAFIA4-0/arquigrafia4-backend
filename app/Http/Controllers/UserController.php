@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\User\DeleteUserRequest;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -22,19 +24,19 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
+
+        return response()->json([
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -42,20 +44,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $loggedUser = Auth::user();
-
         return response()->json([
-            'loggedUser' => $loggedUser,
             'user' => $user,
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
     }
 
     /**
@@ -63,21 +54,23 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $user->name = $request->input('name');
+        if ($user->email != $request->input('email')) $user->email = $request->input('email');
+        if ($request->filled('password')) $user->password = Hash::make($request->input('password'));
+        $user->save();
+
+        return response()->json([
+            'user' => $user,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(DeleteUserRequest $request, User $user)
     {
-        //
-    }
-
-    public function me()
-    {
-        $user = Auth::user();
-
+        $user->delete();
+        
         return response()->json([
             'user' => $user,
         ]);
