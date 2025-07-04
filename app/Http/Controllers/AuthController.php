@@ -7,7 +7,6 @@ use App\Models\PasswordResetToken;
 use App\Models\User;
 use App\Notifications\AccountVerificationRequested;
 use App\Notifications\PasswordResetRequested;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;

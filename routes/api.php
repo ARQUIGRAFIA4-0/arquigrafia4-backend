@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VRACore\VRACAgentController;
 use App\Http\Controllers\VRACore\VRACAgentRoleController;
@@ -25,9 +26,12 @@ use App\Http\Controllers\VRACore\VRACWorkTypeController;
 use Illuminate\Support\Facades\Route;
 
 Route::apiResource('users', UserController::class)->only(['index', 'store', 'show']);
+Route::apiResource('profiles', ProfileController::class)->only(['show']);
+Route::get('profiles/by-user-id/{userId}', [ProfileController::class, 'getByUserId']);
 
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('users', UserController::class)->only(['update', 'destroy']);
+    Route::apiResource('profiles', ProfileController::class)->only(['store', 'update']);
     Route::get('me', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
 });
