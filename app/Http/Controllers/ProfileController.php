@@ -24,7 +24,10 @@ class ProfileController extends Controller
      */
     public function store(StoreProfileRequest $request)
     {
-        $profile = new Profile();
+        $profile = Profile::where('user_id', $request->input('user_id'))->first();
+        if (!$profile) {
+            $profile = new Profile();
+        }
 
         $profile->user_id = $request->input('user_id');
         $profile->gender = $request->input('gender');
@@ -84,8 +87,12 @@ class ProfileController extends Controller
 
     public function getByUserId(string $userId)
     {
-        // validar userId como uuid
+        // validar userId como uuid?
         $profile = Profile::where('user_id', $userId)->first();
+
+        if (!$profile) {
+            return response()->json(['message' => 'profile not found'], 404);
+        }
 
         return new ProfileResource($profile);
     }
