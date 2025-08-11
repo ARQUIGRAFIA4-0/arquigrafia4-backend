@@ -25,7 +25,7 @@ class VRACContributorNameController extends Controller
      */
     public function store(Request $request)
     {
-        $cName = new VRACContributorName();
+        $cName = new VRACContributorName;
 
         $cName->name = $request->input('name');
         $cName->type = $request->input('type', 'individual');
@@ -44,7 +44,7 @@ class VRACContributorNameController extends Controller
     public function show(string $id)
     {
         $cName = VRACContributorName::with('agents')->find($id);
-        
+
         return response()->json([
             'name' => $cName,
         ]);
@@ -74,7 +74,7 @@ class VRACContributorNameController extends Controller
     public function destroy(string $id)
     {
         $cName = VRACContributorName::find($id);
-        
+
         $cName->delete();
 
         return response()->json([

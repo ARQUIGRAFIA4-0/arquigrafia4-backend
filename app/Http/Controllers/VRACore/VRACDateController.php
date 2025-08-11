@@ -25,7 +25,7 @@ class VRACDateController extends Controller
      */
     public function store(Request $request)
     {
-        $date = new VRACDate();
+        $date = new VRACDate;
 
         $date->type = $request->input('type');
         $date->earliest_date = $request->input('earliest_date');
@@ -80,7 +80,7 @@ class VRACDateController extends Controller
     public function destroy(string $id)
     {
         $date = VRACDate::find($id);
-        
+
         $date->delete();
 
         return response()->json([

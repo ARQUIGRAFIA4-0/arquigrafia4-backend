@@ -25,7 +25,7 @@ class VRACMeasurementController extends Controller
      */
     public function store(Request $request)
     {
-        $measurement = new VRACMeasurement();
+        $measurement = new VRACMeasurement;
 
         $measurement->value = $request->input('value');
         $measurement->type = $request->input('type');
@@ -74,9 +74,9 @@ class VRACMeasurementController extends Controller
     public function destroy(string $id)
     {
         $measurement = VRACMeasurement::find($id);
-        
+
         $measurement->delete();
-        
+
         return response()->json([
             'measurement' => $measurement,
         ]);

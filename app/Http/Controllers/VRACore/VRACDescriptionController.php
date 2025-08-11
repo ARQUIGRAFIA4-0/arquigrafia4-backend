@@ -25,7 +25,7 @@ class VRACDescriptionController extends Controller
      */
     public function store(Request $request)
     {
-        $description = new VRACDescription();
+        $description = new VRACDescription;
 
         $description->text = $request->input('text');
         $description->source = $request->input('source');
@@ -70,7 +70,7 @@ class VRACDescriptionController extends Controller
     public function destroy(string $id)
     {
         $description = VRACDescription::find($id);
-        
+
         $description->delete();
 
         return response()->json([

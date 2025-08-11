@@ -3,14 +3,13 @@
 namespace App\Models\VRACore;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class VRACDate extends Model
 {
     use HasUuids;
-    
+
     protected $table = 'vrac_dates';
 
     protected $fillable = [
@@ -39,9 +38,25 @@ class VRACDate extends Model
     }
 
     // relationships
-    
+
     public function images(): BelongsToMany
     {
         return $this->belongsToMany(VRACImage::class, 'date_image', 'date_id', 'image_id');
+    }
+
+    public function formattedDateRange(): string
+    {
+        $earliest = $this->earliest_date ? $this->earliest_date->format('Y') : '';
+        $latest = $this->latest_date ? $this->latest_date->format('Y') : '';
+
+        if ($this->circa_earliest_date && $this->circa_latest_date) {
+            return "c.$earliest-c.$latest";
+        } elseif ($this->circa_earliest_date) {
+            return "c.$earliest-$latest";
+        } elseif ($this->circa_latest_date) {
+            return "$earliest-c.$latest";
+        } else {
+            return "$earliest-$latest";
+        }
     }
 }

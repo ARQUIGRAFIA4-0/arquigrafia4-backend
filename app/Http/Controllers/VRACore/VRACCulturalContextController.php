@@ -25,7 +25,7 @@ class VRACCulturalContextController extends Controller
      */
     public function store(Request $request)
     {
-        $context = new VRACCulturalContext();
+        $context = new VRACCulturalContext;
 
         $context->label = $request->input('label');
         $context->vocab = $request->input('vocab');

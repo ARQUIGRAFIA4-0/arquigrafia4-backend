@@ -25,7 +25,7 @@ class VRACTechniqueController extends Controller
      */
     public function store(Request $request)
     {
-        $technique = new VRACTechnique();
+        $technique = new VRACTechnique;
 
         $technique->label = $request->input('label');
         $technique->vocab = $request->input('vocab');
