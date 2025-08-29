@@ -25,7 +25,7 @@ class VRACWorkTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $workType = new VRACWorkType();
+        $workType = new VRACWorkType;
 
         $workType->label = $request->input('label');
         $workType->vocab = $request->input('vocab');

@@ -25,7 +25,7 @@ class VRACLocationNameController extends Controller
      */
     public function store(Request $request)
     {
-        $locationName = new VRACLocationName();
+        $locationName = new VRACLocationName;
 
         $locationName->label = $request->input('label');
         $locationName->type = $request->input('type');
@@ -74,7 +74,7 @@ class VRACLocationNameController extends Controller
     public function destroy(string $id)
     {
         $locationName = VRACLocationName::find($id);
-        
+
         $locationName->delete();
 
         return response()->json([

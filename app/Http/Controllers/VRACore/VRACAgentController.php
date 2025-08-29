@@ -25,7 +25,7 @@ class VRACAgentController extends Controller
      */
     public function store(Request $request)
     {
-        $agent = new VRACAgent();
+        $agent = new VRACAgent;
 
         $agent->contributor_name_id = $request->input('contributor_name_id');
         $agent->role_id = $request->input('role_id');
@@ -44,7 +44,7 @@ class VRACAgentController extends Controller
     public function show(string $id)
     {
         $agent = VRACAgent::with('contributorName', 'role')->find($id);
-        
+
         return response()->json([
             'agent' => $agent,
         ]);
@@ -74,7 +74,7 @@ class VRACAgentController extends Controller
     public function destroy(string $id)
     {
         $agent = VRACAgent::find($id);
-        
+
         $agent->delete();
 
         return response()->json([

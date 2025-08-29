@@ -25,7 +25,7 @@ class VRACTitleController extends Controller
      */
     public function store(Request $request)
     {
-        $title = new VRACTitle();
+        $title = new VRACTitle;
 
         $title->label = $request->input('label');
         $title->type = $request->input('type');

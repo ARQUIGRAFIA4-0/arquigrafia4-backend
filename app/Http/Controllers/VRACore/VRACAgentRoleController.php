@@ -25,7 +25,7 @@ class VRACAgentRoleController extends Controller
      */
     public function store(Request $request)
     {
-        $role = new VRACAgentRole();
+        $role = new VRACAgentRole;
 
         $role->label = $request->input('label');
         $role->vocab = $request->input('vocab');
@@ -43,7 +43,7 @@ class VRACAgentRoleController extends Controller
     public function show(string $id)
     {
         $role = VRACAgentRole::with('agents')->find($id);
-        
+
         return response()->json([
             'role' => $role,
         ]);
@@ -72,7 +72,7 @@ class VRACAgentRoleController extends Controller
     public function destroy(string $id)
     {
         $role = VRACAgentRole::find($id);
-        
+
         $role->delete();
 
         return response()->json([

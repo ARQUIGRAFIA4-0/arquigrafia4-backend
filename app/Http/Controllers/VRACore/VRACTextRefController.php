@@ -25,7 +25,7 @@ class VRACTextRefController extends Controller
      */
     public function store(Request $request)
     {
-        $ref = new VRACTextRef();
+        $ref = new VRACTextRef;
 
         $ref->name = $request->input('name');
         $ref->name_type = $request->input('name_type');

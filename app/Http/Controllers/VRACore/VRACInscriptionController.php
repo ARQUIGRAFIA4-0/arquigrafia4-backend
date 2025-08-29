@@ -25,7 +25,7 @@ class VRACInscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        $inscription = new VRACInscription();
+        $inscription = new VRACInscription;
 
         $inscription->label = $request->input('label');
         $inscription->type = $request->input('type');
@@ -74,7 +74,7 @@ class VRACInscriptionController extends Controller
     public function destroy(string $id)
     {
         $inscription = VRACInscription::find($id);
-        
+
         $inscription->delete();
 
         return response()->json([

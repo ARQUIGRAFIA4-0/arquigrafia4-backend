@@ -3,7 +3,6 @@
 namespace App\Models\VRACore;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class VRACTextRef extends Model
@@ -32,5 +31,5 @@ class VRACTextRef extends Model
     }
 
     // relationships
-    
+
 }

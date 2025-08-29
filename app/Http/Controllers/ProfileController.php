@@ -24,19 +24,21 @@ class ProfileController extends Controller
      */
     public function store(StoreProfileRequest $request)
     {
-        $profile = new Profile();
+        $profile = Profile::where('user_id', $request->input('user_id'))->first();
+        if (!$profile) {
+            $profile = new Profile();
+        }
 
         $profile->user_id = $request->input('user_id');
         $profile->gender = $request->input('gender');
         $profile->birthdate = $request->input('birthdate');
-        $profile->phone = $request->input('phone');
         $profile->scholarity = $request->input('scholarity');
-        $profile->website = $request->input('website');
         $profile->socials = $request->input('socials');
         $profile->configurations = $request->input('configurations');
-        $profile->country = $request->input('country');
-        $profile->state = $request->input('state');
-        $profile->city = $request->input('city');
+        $profile->bio = $request->input('bio');
+        $profile->race = $request->input('race');
+        $profile->profession = $request->input('profession');
+        $profile->address = $request->input('address');
 
         $profile->save();
 
@@ -58,14 +60,13 @@ class ProfileController extends Controller
     {
         $profile->gender = $request->input('gender');
         $profile->birthdate = $request->input('birthdate');
-        $profile->phone = $request->input('phone');
         $profile->scholarity = $request->input('scholarity');
-        $profile->website = $request->input('website');
         $profile->socials = $request->input('socials');
         $profile->configurations = $request->input('configurations');
-        $profile->country = $request->input('country');
-        $profile->state = $request->input('state');
-        $profile->city = $request->input('city');
+        $profile->bio = $request->input('bio');
+        $profile->race = $request->input('race');
+        $profile->profession = $request->input('profession');
+        $profile->address = $request->input('address');
 
         $profile->save();
 
@@ -84,8 +85,12 @@ class ProfileController extends Controller
 
     public function getByUserId(string $userId)
     {
-        // validar userId como uuid
+        // validar userId como uuid?
         $profile = Profile::where('user_id', $userId)->first();
+
+        if (!$profile) {
+            return response()->json(['message' => 'profile not found'], 404);
+        }
 
         return new ProfileResource($profile);
     }

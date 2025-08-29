@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Http\Requests\User\DeleteUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -69,6 +68,7 @@ class UserController extends Controller
      */
     public function destroy(DeleteUserRequest $request, User $user)
     {
+        optional($user->profile())->delete();
         $user->delete();
         
         return response()->json([
