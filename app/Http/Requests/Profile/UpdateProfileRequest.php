@@ -28,14 +28,13 @@ class UpdateProfileRequest extends FormRequest
             'user_id' => 'required|uuid|exists:users,id',
             'gender' => 'nullable|string|max:20',
             'birthdate' => 'nullable|date',
-            'phone' => 'nullable|string|max:20',
             'scholarity' => 'nullable|string|max:20',
-            'website' => 'nullable|string|max:250',
             'socials' => 'nullable|array',
             'configurations' => 'nullable|array',
-            'country' => 'nullable|string|max:50',
-            'state' => 'nullable|string|max:50',
-            'city' => 'nullable|string|max:50',
+            'bio' => 'nullable|string|max:500',
+            'race' => 'nullable|string|max:20',
+            'profession' => 'nullable|string|max:50',
+            'address' => 'nullable|string|max:250',
         ];
     }
 }

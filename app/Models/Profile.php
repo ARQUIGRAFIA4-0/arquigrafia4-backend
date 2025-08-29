@@ -19,14 +19,13 @@ class Profile extends Model
         'user_id',
         'gender',
         'birthdate',
-        'phone',
         'scholarity',
-        'website',
         'socials',
         'configurations',
-        'country',
-        'state',
-        'city',
+        'bio',
+        'race',
+        'profession',
+        'address',
     ];
 
     /**
@@ -40,14 +39,13 @@ class Profile extends Model
             'user_id' => 'string',
             'gender' => 'string',
             'birthdate' => 'date',
-            'phone' => 'string',
             'scholarity' => 'string',
-            'website' => 'string',
             'socials' => 'array',
             'configurations' => 'array',
-            'country' => 'string',
-            'state' => 'string',
-            'city' => 'string',
+            'bio' => 'string',
+            'race' => 'string',
+            'profession' => 'string',
+            'address' => 'string',
         ];
     }
 

@@ -19,17 +19,23 @@ class ProfileResource extends JsonResource
         if ($loggedUser && $loggedUser->id == $this->user_id) {
             $genderCheck = true;
             $birthdateCheck = true;
-            $phoneCheck = true;
             $scholarityCheck = true;
+            $raceCheck = true;
+            $professionCheck = true;
+            $addressCheck = true;
         } else {
             $genderCheck = false;
             if (array_key_exists('gender', $this->configurations) && $this->configurations['gender']) $genderCheck = true;
             $birthdateCheck = false;
             if (array_key_exists('birthdate', $this->configurations) && $this->configurations['birthdate']) $birthdateCheck = true;
-            $phoneCheck = false;
-            if (array_key_exists('phone', $this->configurations) && $this->configurations['phone']) $phoneCheck = true;
             $scholarityCheck = false;
             if (array_key_exists('scholarity', $this->configurations) && $this->configurations['scholarity']) $scholarityCheck = true;
+            $raceCheck = false;
+            if (array_key_exists('race', $this->configurations) && $this->configurations['race']) $raceCheck = true;
+            $professionCheck = false;
+            if (array_key_exists('profession', $this->configurations) && $this->configurations['profession']) $professionCheck = true;
+            $addressCheck = false;
+            if (array_key_exists('address', $this->configurations) && $this->configurations['address']) $addressCheck = true;
         }
         
         return [
@@ -37,14 +43,13 @@ class ProfileResource extends JsonResource
             'user_id' => $this->user_id,
             'gender' => $genderCheck ? $this->gender : '',
             'birthdate' => $birthdateCheck ? $this->birthdate : '',
-            'phone' => $phoneCheck ? $this->phone : '',
             'scholarity' => $scholarityCheck ? $this->scholarity : '',
-            'website' => $this->website,
             'socials' => $this->socials,
             'configurations' => $this->configurations,
-            'country' => $this->country,
-            'state' => $this->state,
-            'city' => $this->city,
+            'bio' => $scholarityCheck ? $this->bio : '',
+            'race' => $raceCheck ? $this->race : '',
+            'profession' => $professionCheck ? $this->profession : '',
+            'address' => $addressCheck ? $this->address : '',
         ];
     }
 }
