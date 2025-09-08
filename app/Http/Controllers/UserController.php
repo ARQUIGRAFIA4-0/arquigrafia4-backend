@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Requests\User\DeleteUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Models\Profile;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -32,6 +33,11 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->password = Hash::make($request->input('password'));
         $user->save();
+
+        // creates Profile
+        $profile = new Profile();
+        $profile->user_id = $user->id;
+        $profile->save();
 
         return response()->json([
             'user' => $user,
