@@ -22,7 +22,12 @@ class StoreImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'image' => 'required|image|max:6000',
+            'user_id' => 'required|uuid|exists:users',
+            'collective_id' => 'nullable|uuid', // adicionar validação quando implementar collectives
+            'legacy_id' => 'nullable|integer',
+            'ref_id' => 'nullable|string|max:255',
+            'source' => 'nullable|string|max:255',
         ];
     }
 }

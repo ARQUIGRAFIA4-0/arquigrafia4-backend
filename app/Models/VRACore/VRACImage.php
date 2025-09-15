@@ -2,8 +2,10 @@
 
 namespace App\Models\VRACore;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,8 +17,12 @@ class VRACImage extends Model
 
     protected $fillable = [
         'id',
+        'user_id',
+        'collective_id',
+        'legacy_id',
         'ref_id',
         'source',
+        'processed_at',
         'deleted_at',
     ];
 
@@ -24,10 +30,35 @@ class VRACImage extends Model
     {
         return [
             'id' => 'string',
+            'user_id' => 'string',
+            'collective_id' => 'string',
+            'legacy_id' => 'integer',
             'ref_id' => 'string',
             'source' => 'string',
+            'processed_at' => 'timestamp',
             'deleted_at' => 'timestamp',
         ];
+    }
+
+    // methods
+    public function basePath()
+    {
+        return 'storage/app/public/images/iiif/' . $this->id;
+    }
+
+    public function originalPath()
+    {
+        return 'storage/app/public/images/iiif/' . $this->id . '/full/max/0/default.jpg';
+    }
+
+    public function squarePath()
+    {
+        return 'storage/app/public/images/iiif/' . $this->id . '/full/1024,/0/default.jpg';
+    }
+
+    public function thumbnailPath()
+    {
+        return 'storage/app/public/images/iiif/' . $this->id . '/full/200,/0/default.jpg';
     }
 
     // List of all relationships
@@ -51,6 +82,10 @@ class VRACImage extends Model
     ];
 
     // relationships
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function agents(): BelongsToMany
     {
