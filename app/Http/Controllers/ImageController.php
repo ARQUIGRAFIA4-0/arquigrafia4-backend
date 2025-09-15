@@ -6,6 +6,8 @@ use App\Models\Image;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\UpdateImageRequest;
 use App\Http\Resources\ImageResource;
+use App\Jobs\TileImage;
+use Jcupitt\Vips;
 
 class ImageController extends Controller
 {
@@ -20,7 +22,7 @@ class ImageController extends Controller
     {
         $image = new Image();
 
-        $image->file_path = $request->input('file_path');
+        $image->file_path = $request->input('file_path'); // storage/app/public/images/iiif/{uuid}
         $image->user_id = $request->input('user_id');
         $image->collective_id = $request->input('collective_id');
         $image->draft = $request->input('draft');
@@ -29,6 +31,10 @@ class ImageController extends Controller
         $image->source = $request->input('source');
 
         $image->save();
+
+        $this->createDerivative($image->file_path, 200);
+        $this->createDerivative($image->file_path, 1024);
+        TileImage::dispatch($image);
 
         return new ImageResource($image);
     }
@@ -58,5 +64,11 @@ class ImageController extends Controller
         $image->delete();
         
         return new ImageResource($image);
+    }
+
+    public function createDerivative(string $file_path, int $size = 200)
+    {
+        $thumbnail = Vips\Image::thumbnail($file_path . "/full/max/0/default.jpg", $size, ['height' => $size]);
+        $thumbnail->writeToFile($file_path . "/full/$size,/0/default.jpg");
     }
 }
