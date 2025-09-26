@@ -22,12 +22,17 @@ class StoreImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'required|image|max:6000',
+            'image' => 'required|file|mimes:jpg,jpeg,png,heic|max:6000',
             'user_id' => 'required|uuid|exists:users',
             'collective_id' => 'nullable|uuid', // adicionar validação quando implementar collectives
             'legacy_id' => 'nullable|integer',
             'ref_id' => 'nullable|string|max:255',
             'source' => 'nullable|string|max:255',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
+            'owner_name' => 'required|string|max:255',
+            'commercial' => 'required|string|max:10',
+            'editable' => 'required|string|max:10',
         ];
     }
 }

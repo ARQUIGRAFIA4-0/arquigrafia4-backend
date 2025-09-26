@@ -107,10 +107,9 @@ class VRACImage extends Model
         return $this->belongsToMany(VRACDescription::class, 'description_image', 'image_id', 'description_id');
     }
 
-    // para o nosso caso, title será no singular pois a image sempre só terá 1 title, e vice-versa
-    public function title(): BelongsToMany
+    public function titles(): BelongsToMany
     {
-        return $this->belongsToMany(VRACTitle::class, 'image_title', 'image_id', 'title_id')->take(1);
+        return $this->belongsToMany(VRACTitle::class, 'image_title', 'image_id', 'title_id');
     }
 
     public function techniques(): BelongsToMany
