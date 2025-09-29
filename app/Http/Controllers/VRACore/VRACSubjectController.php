@@ -16,7 +16,7 @@ class VRACSubjectController extends Controller
         $subjects = VRACSubject::all();
 
         return response()->json([
-            'subjects' => $subjects,
+            'data' => $subjects,
         ]);
     }
 
@@ -35,7 +35,7 @@ class VRACSubjectController extends Controller
         $subject->save();
 
         return response()->json([
-            'subject' => $subject,
+            'data' => $subject,
         ]);
     }
 
@@ -47,7 +47,7 @@ class VRACSubjectController extends Controller
         $subject = VRACSubject::find($id);
 
         return response()->json([
-            'subject' => $subject,
+            'data' => $subject,
         ]);
     }
 
@@ -66,7 +66,7 @@ class VRACSubjectController extends Controller
         $subject->save();
 
         return response()->json([
-            'subject' => $subject,
+            'data' => $subject,
         ]);
     }
 
@@ -80,7 +80,7 @@ class VRACSubjectController extends Controller
         $subject->delete();
 
         return response()->json([
-            'subject' => $subject,
+            'data' => $subject,
         ]);
     }
 }
