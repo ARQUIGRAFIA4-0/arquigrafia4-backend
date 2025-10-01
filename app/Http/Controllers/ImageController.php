@@ -32,8 +32,8 @@ class ImageController extends Controller
         $image->source = $request->input('source');
         $image->save();
 
-        $path = $request->file('image')->store(
-            $image->basePath(), 'public'
+        $path = $request->file('image')->storeAs(
+            dirname($image->originalPath()), 'default.jpg', 'public'
         );
 
         $title = new VRACTitle();
@@ -42,10 +42,10 @@ class ImageController extends Controller
         $title->save();
         $image->titles()->sync($title->id);
 
-        $description = new VRACDescription();
-        $description->text = $request->input('description');
-        $description->save();
-        $image->descriptions()->sync($description->id);
+        // $description = new VRACDescription();
+        // $description->text = $request->input('description');
+        // $description->save();
+        // $image->descriptions()->sync($description->id);
 
         $right = VRACRight::createWithConditions(
             $request->input('title'),
@@ -54,8 +54,8 @@ class ImageController extends Controller
         );
         $image->rights()->sync($right->id);
 
-        $this->createDerivative($image->basePath(), 200);
-        $this->createDerivative($image->basePath(), 1024);
+        $this->createDerivative($image, 200);
+        $this->createDerivative($image, 1024);
         TileImage::dispatch($image);
 
         return new ImageResource($image);
@@ -103,9 +103,13 @@ class ImageController extends Controller
         return new ImageResource($image);
     }
 
-    private function createDerivative(string $file_path, int $size = 200)
+    private function createDerivative(VRACImage $image, int $size = 200)
     {
-        $thumbnail = VipsImage::thumbnail($file_path . "/full/max/0/default.jpg", $size, ['height' => $size]);
-        $thumbnail->writeToFile($file_path . "/full/$size,/0/default.jpg");
+        $thumbnail = VipsImage::thumbnail($image->originalPath(), $size, ['height' => $size]);
+        $destination = $image->basePath() . "/full/$size,/0/default.jpg";
+        if (!file_exists(dirname($destination))) {
+            mkdir(dirname($destination), 0755, true);
+        }
+        $thumbnail->writeToFile($destination);
     }
 }

@@ -43,22 +43,22 @@ class VRACImage extends Model
     // methods
     public function basePath()
     {
-        return 'storage/app/public/images/iiif/' . $this->id;
+        return storage_path('app/public/images/iiif/' . $this->id);
     }
 
     public function originalPath()
     {
-        return 'storage/app/public/images/iiif/' . $this->id . '/full/max/0/default.jpg';
+        return storage_path('app/public/images/iiif/' . $this->id . '/full/max/0/default.jpg');
     }
 
     public function squarePath()
     {
-        return 'storage/app/public/images/iiif/' . $this->id . '/full/1024,/0/default.jpg';
+        return storage_path('app/public/images/iiif/' . $this->id . '/full/1024,/0/default.jpg');
     }
 
     public function thumbnailPath()
     {
-        return 'storage/app/public/images/iiif/' . $this->id . '/full/200,/0/default.jpg';
+        return storage_path('app/public/images/iiif/' . $this->id . '/full/200,/0/default.jpg');
     }
 
     // List of all relationships

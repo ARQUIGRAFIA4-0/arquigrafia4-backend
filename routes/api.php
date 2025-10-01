@@ -23,6 +23,7 @@ use App\Http\Controllers\VRACore\VRACTechniqueController;
 use App\Http\Controllers\VRACore\VRACTextRefController;
 use App\Http\Controllers\VRACore\VRACTitleController;
 use App\Http\Controllers\VRACore\VRACWorkTypeController;
+use App\Http\Controllers\IIIFManifestController;
 use Illuminate\Support\Facades\Route;
 
 Route::apiResource('users', UserController::class)->only(['index', 'store', 'show']);
@@ -68,3 +69,11 @@ Route::apiResource('vrac-techniques', VRACTechniqueController::class);
 Route::apiResource('vrac-text-refs', VRACTextRefController::class);
 Route::apiResource('vrac-titles', VRACTitleController::class);
 Route::apiResource('vrac-work-types', VRACWorkTypeController::class);
+
+/// IIIF
+Route::get('/iiif/{id}/manifest', [IIIFManifestController::class, 'getManifest'])->name('iiif.manifest');
+
+// Image uploads
+use App\Http\Controllers\ImageController;
+
+Route::post('images', [ImageController::class, 'store']);
