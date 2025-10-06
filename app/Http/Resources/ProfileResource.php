@@ -46,7 +46,7 @@ class ProfileResource extends JsonResource
             'scholarity' => $scholarityCheck ? $this->scholarity : '',
             'socials' => $this->socials,
             'configurations' => $this->configurations,
-            'bio' => $scholarityCheck ? $this->bio : '',
+            'bio' => $this->bio,
             'race' => $raceCheck ? $this->race : '',
             'profession' => $professionCheck ? $this->profession : '',
             'address' => $addressCheck ? $this->address : '',
