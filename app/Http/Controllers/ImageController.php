@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreImageRequest;
-use App\Http\Requests\UpdateImageRequest;
+use App\Http\Requests\Image\StoreImageRequest;
+use App\Http\Requests\Image\UpdateImageRequest;
 use App\Http\Resources\ImageResource;
 use App\Jobs\TileImage;
 use App\Models\VRACore\VRACDescription;
