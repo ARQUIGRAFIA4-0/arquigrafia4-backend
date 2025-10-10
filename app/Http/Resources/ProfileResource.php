@@ -16,6 +16,12 @@ class ProfileResource extends JsonResource
     {
         $loggedUser = $request->user('api');
 
+        $genderCheck = false;
+        $birthdateCheck = false;
+        $scholarityCheck = false;
+        $raceCheck = false;
+        $professionCheck = false;
+        $addressCheck = false;
         if ($loggedUser && $loggedUser->id == $this->user_id) {
             $genderCheck = true;
             $birthdateCheck = true;
@@ -23,18 +29,12 @@ class ProfileResource extends JsonResource
             $raceCheck = true;
             $professionCheck = true;
             $addressCheck = true;
-        } else {
-            $genderCheck = false;
+        } else if ($this->configurations) {
             if (array_key_exists('gender', $this->configurations) && $this->configurations['gender']) $genderCheck = true;
-            $birthdateCheck = false;
             if (array_key_exists('birthdate', $this->configurations) && $this->configurations['birthdate']) $birthdateCheck = true;
-            $scholarityCheck = false;
             if (array_key_exists('scholarity', $this->configurations) && $this->configurations['scholarity']) $scholarityCheck = true;
-            $raceCheck = false;
             if (array_key_exists('race', $this->configurations) && $this->configurations['race']) $raceCheck = true;
-            $professionCheck = false;
             if (array_key_exists('profession', $this->configurations) && $this->configurations['profession']) $professionCheck = true;
-            $addressCheck = false;
             if (array_key_exists('address', $this->configurations) && $this->configurations['address']) $addressCheck = true;
         }
         
@@ -46,10 +46,11 @@ class ProfileResource extends JsonResource
             'scholarity' => $scholarityCheck ? $this->scholarity : '',
             'socials' => $this->socials,
             'configurations' => $this->configurations,
-            'bio' => $scholarityCheck ? $this->bio : '',
+            'bio' => $this->bio,
             'race' => $raceCheck ? $this->race : '',
             'profession' => $professionCheck ? $this->profession : '',
             'address' => $addressCheck ? $this->address : '',
+            'subjects' => $this->subjects,
         ];
     }
 }
