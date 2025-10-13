@@ -42,10 +42,12 @@ class ImageController extends Controller
         $title->save();
         $image->titles()->sync($title->id);
 
-        // $description = new VRACDescription();
-        // $description->text = $request->input('description');
-        // $description->save();
-        // $image->descriptions()->sync($description->id);
+        if ($request->filled('description')) {
+            $description = new VRACDescription();
+            $description->text = $request->input('description');
+            $description->save();
+            $image->descriptions()->sync($description->id);
+        }
 
         $right = VRACRight::createWithConditions(
             $request->input('title'),
