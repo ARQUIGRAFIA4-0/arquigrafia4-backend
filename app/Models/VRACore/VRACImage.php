@@ -18,6 +18,8 @@ class VRACImage extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'thumb_path',
+        'medium_path',
         'collective_id',
         'legacy_id',
         'ref_id',
@@ -31,6 +33,8 @@ class VRACImage extends Model
         return [
             'id' => 'string',
             'user_id' => 'string',
+            'thumb_path' => 'string',
+            'medium_path' => 'string',
             'collective_id' => 'string',
             'legacy_id' => 'integer',
             'ref_id' => 'string',
@@ -43,22 +47,12 @@ class VRACImage extends Model
     // methods
     public function basePath()
     {
-        return storage_path('app/public/images/iiif/' . $this->id);
+        return 'app/public/images/iiif/' . $this->id;
     }
 
     public function originalPath()
     {
-        return storage_path('app/public/images/iiif/' . $this->id . '/full/max/0/default.jpg');
-    }
-
-    public function squarePath()
-    {
-        return storage_path('app/public/images/iiif/' . $this->id . '/full/1024,/0/default.jpg');
-    }
-
-    public function thumbnailPath()
-    {
-        return storage_path('app/public/images/iiif/' . $this->id . '/full/200,/0/default.jpg');
+        return 'app/public/images/iiif/' . $this->id . '/full/max/0/default.jpg';
     }
 
     // List of all relationships

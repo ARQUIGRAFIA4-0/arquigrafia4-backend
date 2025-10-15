@@ -33,7 +33,7 @@ class ImageController extends Controller
         $image->save();
 
         $path = $request->file('image')->storeAs(
-            dirname($image->originalPath()), 'default.jpg', 'public'
+            'images/iiif/' . $image->id . '/full/max/0', 'default.jpg', 'public'
         );
 
         $title = new VRACTitle();
@@ -54,8 +54,12 @@ class ImageController extends Controller
         );
         $image->rights()->sync($right->id);
 
-        $this->createDerivative($image, 200);
-        $this->createDerivative($image, 1024);
+        $thumb_path = $this->createDerivative($image, 200);
+        $image->thumb_path = $thumb_path;
+
+        $medium_path = $this->createDerivative($image, 1024);
+        $image->medium_path = $medium_path;
+
         TileImage::dispatch($image);
 
         return new ImageResource($image);
@@ -105,11 +109,15 @@ class ImageController extends Controller
 
     private function createDerivative(VRACImage $image, int $size = 200)
     {
-        $thumbnail = VipsImage::thumbnail($image->originalPath(), $size, ['height' => $size]);
-        $destination = $image->basePath() . "/full/$size,/0/default.jpg";
+        $thumbnail = VipsImage::thumbnail(storage_path($image->originalPath()), $size, ['height' => $size]);
+        $width = $thumbnail->width;
+        $height = $thumbnail->height;
+        $img_path = $image->basePath() . "/full/$width,$height/0/default.jpg";
+        $destination = storage_path($img_path);
         if (!file_exists(dirname($destination))) {
             mkdir(dirname($destination), 0755, true);
         }
         $thumbnail->writeToFile($destination);
+        return $img_path;
     }
 }
