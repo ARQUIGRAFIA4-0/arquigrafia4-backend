@@ -42,6 +42,8 @@ class ProfileController extends Controller
 
         $profile->save();
 
+        $profile->subjects()->sync($request->input('subjects'));
+
         return new ProfileResource($profile);
     }
 
@@ -69,6 +71,8 @@ class ProfileController extends Controller
         $profile->address = $request->input('address');
 
         $profile->save();
+
+        $profile->subjects()->sync($request->input('subjects'));
 
         return new ProfileResource($profile);
     }
