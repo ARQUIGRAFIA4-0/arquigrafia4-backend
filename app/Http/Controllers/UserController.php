@@ -7,6 +7,7 @@ use App\Http\Requests\User\DeleteUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\Profile;
+use App\Models\VRACore\VRACContributorName;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -38,6 +39,14 @@ class UserController extends Controller
         $profile = new Profile();
         $profile->user_id = $user->id;
         $profile->save();
+
+        // creates Contributor
+        $contributor = new VRACContributorName();
+        $contributor->name = $request->input('name');
+        $contributor->type = 'personal';
+        $contributor->vocab = 'ARQUIGRAFIA';
+        $contributor->ref_id = $user->id;
+        $contributor->save();
 
         return response()->json([
             'user' => $user,
