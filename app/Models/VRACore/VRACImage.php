@@ -45,15 +45,87 @@ class VRACImage extends Model
     }
 
     // methods
-    public function basePath()
+    protected string $baseDir = 'images/iiif';
+    public function path(string $type = 'base', string $mode = 'relative', array $options = []): ?string
     {
-        return 'app/public/images/iiif/' . $this->id;
+        // Build the relative path first
+        switch ($type) {
+            case 'base':
+                $relative = "{$this->baseDir}/{$this->id}";
+                break;
+
+            case 'original':
+                $relative = "{$this->baseDir}/{$this->id}/full/max/0/default.jpg";
+                break;
+
+            case 'thumb':
+                $width = $options['width'] ?? 300;
+                $height = $options['height'] ?? $width;
+                $relative = "{$this->baseDir}/{$this->id}/full/{$width},{$height}/0/default.jpg";
+                break;
+
+            case 'info':
+                $relative = "{$this->baseDir}/{$this->id}/info.json";
+                break;
+
+            default:
+                return null;
+        }
+
+        // Transform depending on mode
+        return match ($mode) {
+            'relative' => $relative,
+            'absolute' => storage_path("app/public/{$relative}"),
+            'url' => asset(str_replace('images/', '', $relative)), // iiif/... instead of images/iiif
+            default => $relative,
+        };
     }
 
-    public function originalPath()
-    {
-        return 'app/public/images/iiif/' . $this->id . '/full/max/0/default.jpg';
-    }
+    // public function basePath()
+    // {
+    //     return 'images/iiif/' . $this->id;
+    // }
+
+    // public function baseURL()
+    // {
+    //     return asset('iiif/' . $this->id);
+    // }
+
+    // public function baseAbsolutePath()
+    // {
+    //     return storage_path('app/public/' . $this->basePath());
+    // }
+
+    // public function originalPath()
+    // {
+    //     return $this->basePath() . '/full/max/0/default.jpg';
+    // }
+
+    // public function originalURL()
+    // {
+    //     return asset('iiif/' . $this->id . '/full/max/0/default.jpg');
+    // }
+
+    // public function originalAbsolutePath()
+    // {
+    //     return storage_path('app/public/' . $this->originalPath());
+    // }
+
+    // public function thumbPath($width, $height)
+    // {
+    //     return $this->basePath() . "/full/{$width},{$height}/0/default.jpg";
+    // }
+
+    // public function thumbURL()
+    // {
+    //     return asset('iiif/' . $this->thumb_path);
+    // }
+
+    // public function thumbAbsolutePath($width, $height)
+    // {
+    //     return storage_path('app/public/' . $this->thumbPath($width, $height));
+    // }
+    
 
     // List of all relationships
     public const RELATIONS = [
@@ -61,7 +133,7 @@ class VRACImage extends Model
         'culturalContexts',
         'dates',
         'descriptions',
-        'title',
+        'titles',
         'techniques',
         'workTypes',
         'materials',
