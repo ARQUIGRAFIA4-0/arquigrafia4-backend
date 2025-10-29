@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Storage;
 use App\Models\VRACore\VRACImage;
 use Jcupitt\Vips;
 
@@ -22,9 +23,8 @@ class TileImage implements ShouldQueue
     public function handle(): void
     {
         try {
-            $original = storage_path($this->image->originalPath());
-            $image = Vips\Image::newFromFile($original, ['access' => 'sequential']);
-            $image->dzsave(storage_path($this->image->basePath()), [
+            $image = Vips\Image::newFromFile($this->image->originalAbsolutePath(), ['access' => 'sequential']);
+            $image->dzsave($this->image->path('base', 'absolute'), [ // baseAbsolutePath()
                 'layout' => 'iiif3',
                 'id' => 'http://dev.arquigrafia.org/iiif'
             ]);

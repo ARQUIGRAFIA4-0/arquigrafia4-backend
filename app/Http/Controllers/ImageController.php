@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\UpdateImageRequest;
 use App\Http\Resources\ImageResource;
+use Illuminate\Support\Facades\Storage;
 use App\Jobs\TileImage;
 use App\Models\VRACore\VRACDescription;
 use App\Models\VRACore\VRACImage;
@@ -32,12 +33,12 @@ class ImageController extends Controller
         $image->source = $request->input('source');
         $image->save();
 
-        $path = $request->file('image')->storeAs(
-            'images/iiif/' . $image->id . '/full/max/0', 'default.jpg', 'public'
-        );
+        $uploaded = VipsImage::newFromBuffer($request->file('image')->getContent(), '', ['access' => 'sequential']); 
+        $converted = $uploaded->writeToBuffer('.jpg');
+        Storage::disk('public')->put($image->path('original'), $converted);
 
         $title = new VRACTitle();
-        $title->label = $request->input('title');
+        $title->label = $request->input('title');   
         $title->type = 'other';
         $title->save();
         $image->titles()->sync($title->id);
@@ -54,11 +55,13 @@ class ImageController extends Controller
         );
         $image->rights()->sync($right->id);
 
-        $thumb_path = $this->createDerivative($image, 200);
-        $image->thumb_path = $thumb_path;
+        $thumb_path = $this->createDerivative($image, 300);
+        $image->thumb_path = asset('iiif/' . $thumb_path);
+        $image->save();   
 
         $medium_path = $this->createDerivative($image, 1024);
-        $image->medium_path = $medium_path;
+        $image->medium_path = asset('iiif/' . $medium_path);
+        $image->save();   
 
         TileImage::dispatch($image);
 
@@ -107,17 +110,17 @@ class ImageController extends Controller
         return new ImageResource($image);
     }
 
-    private function createDerivative(VRACImage $image, int $size = 200)
+    private function createDerivative(VRACImage $image, int $size = 300)
     {
-        $thumbnail = VipsImage::thumbnail(storage_path($image->originalPath()), $size, ['height' => $size]);
+        $thumbnail = VipsImage::thumbnail($image->path('original', 'absolute'), $size); //originalAbsolutePath()
         $width = $thumbnail->width;
         $height = $thumbnail->height;
-        $img_path = $image->basePath() . "/full/$width,$height/0/default.jpg";
-        $destination = storage_path($img_path);
+        $thumb_path =  "$image->id/full/$width,$height/0/default.jpg";
+        $destination = $image->path('thumb', 'absolute', ['width' => $width, 'height' => $height]); //thumbAbsolutePath($width, $height);  
         if (!file_exists(dirname($destination))) {
             mkdir(dirname($destination), 0755, true);
         }
         $thumbnail->writeToFile($destination);
-        return $img_path;
+        return $thumb_path;
     }
 }
