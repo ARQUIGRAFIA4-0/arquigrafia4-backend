@@ -11,6 +11,7 @@ use App\Models\VRACore\VRACImage;
 use App\Models\VRACore\VRACRight;
 use App\Models\VRACore\VRACTitle;
 use Jcupitt\Vips\Image as VipsImage;
+use Illuminate\Support\Str;
 
 class ImageController extends Controller
 {
@@ -42,19 +43,20 @@ class ImageController extends Controller
         $title->save();
         $image->titles()->sync($title->id);
 
+        $right = new VRACRight();
+        $right->text = Str::upper($request->input('right_text'));
+        $right->type = 'copyrighted';
+        $right->href = 'https://creativecommons.org/licenses/' . Str::lower($request->input('right_text')) . '/4.0';
+        $right->rights_holder = $request->input('owner_name');
+        $right->save();
+        $image->rights()->sync($right->id);
+
         if ($request->filled('description')) {
             $description = new VRACDescription();
             $description->text = $request->input('description');
             $description->save();
             $image->descriptions()->sync($description->id);
         }
-
-        $right = VRACRight::createWithConditions(
-            $request->input('title'),
-            $request->input('commercial'),
-            $request->input('editable')
-        );
-        $image->rights()->sync($right->id);
 
         $this->createDerivative($image, 200);
         $this->createDerivative($image, 1024);
@@ -81,19 +83,19 @@ class ImageController extends Controller
         $title->label = $request->input('title');
         $title->type = 'other';
         $title->save();
-        $image->titles()->sync($title->id);
 
-        $description = $image->descriptions->first();
-        $description->text = $request->input('description');
-        $description->save();
-        $image->descriptions()->sync($description->id);
+        $right = $image->rights->first();
+        $right->text = Str::upper($request->input('right_text'));
+        $right->type = 'copyrighted';
+        $right->href = 'https://creativecommons.org/licenses/' . Str::lower($request->input('right_text')) . '/4.0';
+        $right->rights_holder = $request->input('owner_name');
+        $right->save();
 
-        // $right = VRACRight::createWithConditions(
-        //     $request->input('title'),
-        //     $request->input('commercial'),
-        //     $request->input('editable')
-        // );
-        // $image->rights()->sync($right->id);
+        if ($request->filled('description')) {
+            $description = $image->descriptions->first();
+            $description->text = $request->input('description');
+            $description->save();
+        }
 
         return new ImageResource($image);
     }

@@ -33,8 +33,7 @@ class UpdateImageRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:500',
             'owner_name' => 'required|string|max:255',
-            'commercial' => 'required|string|max:10',
-            'editable' => 'required|string|max:10',
+            'right_text' => 'required|string|max:255',
         ];
     }
 }
