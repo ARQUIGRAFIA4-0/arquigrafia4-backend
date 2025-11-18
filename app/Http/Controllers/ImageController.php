@@ -33,9 +33,12 @@ class ImageController extends Controller
         $image->source = $request->input('source');
         $image->save();
 
-        $uploaded = VipsImage::newFromBuffer($request->file('image')->getContent(), '', ['access' => 'sequential']); 
-        $converted = $uploaded->writeToBuffer('.jpg');
-        Storage::disk('public')->put($image->path('original'), $converted);
+    // load original into vips from uploaded buffer and capture original dimensions
+    $uploaded = VipsImage::newFromBuffer($request->file('image')->getContent(), '', ['access' => 'sequential']);
+    $origWidth = $uploaded->width ?? null;
+    $origHeight = $uploaded->height ?? null;
+    $converted = $uploaded->writeToBuffer('.jpg');
+    Storage::disk('public')->put($image->path('original'), $converted);
 
         $title = new VRACTitle();
         $title->label = $request->input('title');   
@@ -55,13 +58,28 @@ class ImageController extends Controller
         );
         $image->rights()->sync($right->id);
 
-        $thumb_path = $this->createDerivative($image, 300);
-        $image->thumb_path = asset('iiif/' . $thumb_path);
-        $image->save();   
 
-        $medium_path = $this->createDerivative($image, 1024);
-        $image->medium_path = asset('iiif/' . $medium_path);
-        $image->save();   
+        // Create derivatives and capture their sizes
+        $thumbInfo = $this->createDerivative($image, 300);
+        $midInfo = $this->createDerivative($image, 1024);
+
+        // Store sizes as JSON structure: original, mid, thumb
+        $image->sizes = [
+            'original' => [
+                'width' => $origWidth,
+                'height' => $origHeight,
+            ],
+            'mid' => [
+                'width' => $midInfo['width'] ?? null,
+                'height' => $midInfo['height'] ?? null,
+            ],
+            'thumb' => [
+                'width' => $thumbInfo['width'] ?? null,
+                'height' => $thumbInfo['height'] ?? null,
+            ],
+        ];
+
+        $image->save();
 
         TileImage::dispatch($image);
 
@@ -110,17 +128,26 @@ class ImageController extends Controller
         return new ImageResource($image);
     }
 
-    private function createDerivative(VRACImage $image, int $size = 300)
+    private function createDerivative(VRACImage $image, int $size = 300): array
     {
-        $thumbnail = VipsImage::thumbnail($image->path('original', 'absolute'), $size); //originalAbsolutePath()
+        // Create a thumbnail with vips and write to the appropriate storage path.
+        $thumbnail = VipsImage::thumbnail($image->path('original', 'absolute'), $size);
         $width = $thumbnail->width;
         $height = $thumbnail->height;
-        $thumb_path =  "$image->id/full/$width,$height/0/default.jpg";
-        $destination = $image->path('thumb', 'absolute', ['width' => $width, 'height' => $height]); //thumbAbsolutePath($width, $height);  
-        if (!file_exists(dirname($destination))) {
+
+    // relative IIIF-style path for the derivative (storage relative under images/iiif/{id})
+    $relPath = $image->path('thumb', 'relative', ['width' => $width, 'height' => $height]);
+
+        $destination = $image->path('thumb', 'absolute', ['width' => $width, 'height' => $height]);
+        if (! file_exists(dirname($destination))) {
             mkdir(dirname($destination), 0755, true);
         }
         $thumbnail->writeToFile($destination);
-        return $thumb_path;
+
+        return [
+            'rel_path' => $relPath,
+            'width' => $width,
+            'height' => $height,
+        ];
     }
 }

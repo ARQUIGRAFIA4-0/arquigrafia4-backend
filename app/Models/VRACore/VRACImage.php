@@ -18,8 +18,7 @@ class VRACImage extends Model
     protected $fillable = [
         'id',
         'user_id',
-        'thumb_path',
-        'medium_path',
+        'sizes',
         'collective_id',
         'legacy_id',
         'ref_id',
@@ -33,8 +32,7 @@ class VRACImage extends Model
         return [
             'id' => 'string',
             'user_id' => 'string',
-            'thumb_path' => 'string',
-            'medium_path' => 'string',
+            'sizes' => 'array',
             'collective_id' => 'string',
             'legacy_id' => 'integer',
             'ref_id' => 'string',
