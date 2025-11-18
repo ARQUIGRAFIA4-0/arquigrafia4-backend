@@ -57,8 +57,8 @@ class VRACImage extends Model
                 break;
 
             case 'thumb':
-                $width = $options['width'] ?? 300;
-                $height = $options['height'] ?? $width;
+                $width = $this->sizes["thumb"]["width"];
+                $height = $this->sizes["thumb"]["height"];
                 $relative = "{$this->baseDir}/{$this->id}/full/{$width},{$height}/0/default.jpg";
                 break;
 
@@ -78,52 +78,6 @@ class VRACImage extends Model
             default => $relative,
         };
     }
-
-    // public function basePath()
-    // {
-    //     return 'images/iiif/' . $this->id;
-    // }
-
-    // public function baseURL()
-    // {
-    //     return asset('iiif/' . $this->id);
-    // }
-
-    // public function baseAbsolutePath()
-    // {
-    //     return storage_path('app/public/' . $this->basePath());
-    // }
-
-    // public function originalPath()
-    // {
-    //     return $this->basePath() . '/full/max/0/default.jpg';
-    // }
-
-    // public function originalURL()
-    // {
-    //     return asset('iiif/' . $this->id . '/full/max/0/default.jpg');
-    // }
-
-    // public function originalAbsolutePath()
-    // {
-    //     return storage_path('app/public/' . $this->originalPath());
-    // }
-
-    // public function thumbPath($width, $height)
-    // {
-    //     return $this->basePath() . "/full/{$width},{$height}/0/default.jpg";
-    // }
-
-    // public function thumbURL()
-    // {
-    //     return asset('iiif/' . $this->thumb_path);
-    // }
-
-    // public function thumbAbsolutePath($width, $height)
-    // {
-    //     return storage_path('app/public/' . $this->thumbPath($width, $height));
-    // }
-    
 
     // List of all relationships
     public const RELATIONS = [

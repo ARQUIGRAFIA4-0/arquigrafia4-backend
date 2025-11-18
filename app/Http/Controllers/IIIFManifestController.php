@@ -135,7 +135,7 @@ class IIIFManifestController extends Controller
 
     private function getThumbnail($image) {
         $thumbnail = [
-            'id' => $image->thumb_path,
+            'id' => $image->path('thumb', 'url'),
             'type' => 'Image',
             'format' => 'image/jpeg'
         ];
