@@ -144,26 +144,23 @@ class LegacyCSVSeeder extends Seeder
                 }
 
                 // Agent - VRA_Agent contains user id
-                $agentUserId = trim($data['VRA_Agent'] ?? '');
-                if ($agentUserId !== '') {
-                    $user = User::find($agentUserId);
-                    if ($user) {
-                        // contributor name from user
-                        $contrib = VRACContributorName::firstOrCreate(
-                            ['name' => $user->name],
-                            ['id' => (string) Str::uuid(), 'type' => 'personal']
-                        );
+                $imageContributor = trim($data['VRA_ImageContributor'] ?? '');
+                if ($imageContributor !== '') {
+                    
+                    $contrib = VRACContributorName::firstOrCreate(
+                        ['name' => $imageContributor],
+                        ['id' => (string) Str::uuid(), 'type' => 'personal']
+                    );
 
-                        $agent = VRACAgent::firstOrCreate(
-                            [
-                                'contributor_name_id' => $contrib->id,
-                                'role_id' => $photographerRole->id,
-                            ],
-                            ['id' => (string) Str::uuid()]
-                        );
+                    $agent = VRACAgent::firstOrCreate(
+                        [
+                            'contributor_name_id' => $contrib->id,
+                            'role_id' => $photographerRole->id,
+                        ],
+                        ['id' => (string) Str::uuid()]
+                    );
 
-                        $image->agents()->syncWithoutDetaching($agent->id);
-                    }
+                    $image->agents()->syncWithoutDetaching($agent->id);
                 }
             });
 
