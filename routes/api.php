@@ -24,17 +24,20 @@ use App\Http\Controllers\VRACore\VRACTextRefController;
 use App\Http\Controllers\VRACore\VRACTitleController;
 use App\Http\Controllers\VRACore\VRACWorkTypeController;
 use App\Http\Controllers\IIIFManifestController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 
 Route::apiResource('users', UserController::class)->only(['index', 'store', 'show']);
 Route::apiResource('profiles', ProfileController::class)->only(['show']);
 Route::get('profiles/by-user-id/{userId}', [ProfileController::class, 'getByUserId']);
+Route::apiResource('images', ImageController::class)->only(['index', 'show']);
 
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('users', UserController::class)->only(['update', 'destroy']);
     Route::apiResource('profiles', ProfileController::class)->only(['store', 'update']);
     Route::get('me', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::apiResource('images', ImageController::class)->only(['store', 'update', 'destroy']);
 });
 
 Route::middleware('throttle:6,1')->group(function () {
@@ -72,8 +75,3 @@ Route::apiResource('vrac-work-types', VRACWorkTypeController::class);
 
 /// IIIF
 Route::get('/iiif/{id}/manifest', [IIIFManifestController::class, 'getManifest'])->name('iiif.manifest');
-
-// Image uploads
-use App\Http\Controllers\ImageController;
-
-Route::post('images', [ImageController::class, 'store']);

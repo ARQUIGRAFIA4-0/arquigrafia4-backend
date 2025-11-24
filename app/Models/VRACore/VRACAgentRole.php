@@ -29,7 +29,12 @@ class VRACAgentRole extends Model
         ];
     }
 
-    // relationships
+    public static function getPhotographer()
+    {
+        return VRACAgentRole::where('label', 'fotógrafo')->first();
+    }
+
+    // relations
 
     public function agents(): HasMany
     {

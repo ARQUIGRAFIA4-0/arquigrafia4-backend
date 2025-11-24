@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('location_image', function (Blueprint $table) {
-            $table->uuid('location_id')->index();
+        Schema::create('image_location', function (Blueprint $table) {
             $table->uuid('image_id')->index();
+            $table->uuid('location_id')->index();
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('location_image');
+        Schema::dropIfExists('image_location');
     }
 };

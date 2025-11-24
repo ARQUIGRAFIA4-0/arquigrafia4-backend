@@ -2,6 +2,7 @@
 
 namespace App\Models\VRACore;
 
+use App\Models\Location;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -61,7 +62,7 @@ class VRACImage extends Model
         return storage_path('app/public/images/iiif/' . $this->id . '/full/200,/0/default.jpg');
     }
 
-    // List of all relationships
+    // List of all relations
     public const RELATIONS = [
         'agents',
         'culturalContexts',
@@ -81,7 +82,7 @@ class VRACImage extends Model
         'locations'
     ];
 
-    // relationships
+    // relations
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -164,6 +165,6 @@ class VRACImage extends Model
 
     public function locations(): BelongsToMany
     {
-        return $this->belongsToMany(VRACLocation::class, 'location_image', 'image_id', 'location_id');
+        return $this->belongsToMany(Location::class, 'image_location', 'image_id', 'location_id');
     }
 }
