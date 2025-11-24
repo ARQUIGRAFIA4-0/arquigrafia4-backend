@@ -2,6 +2,7 @@
 
 namespace App\Models\VRACore;
 
+use App\Models\Profile;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -38,5 +39,10 @@ class VRACSubject extends Model
     public function images(): BelongsToMany
     {
         return $this->belongsToMany(VRACImage::class, 'image_subject', 'subject_id', 'image_id');
+    }
+
+    public function profiles(): BelongsToMany
+    {
+        return $this->belongsToMany(Profile::class, 'profile_subject', 'subject_id', 'profile_id');
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Profile;
 
+use App\Models\VRACore\VRACSubject;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreProfileRequest extends FormRequest
 {
@@ -34,6 +36,11 @@ class StoreProfileRequest extends FormRequest
             'race' => 'nullable|string|max:20',
             'profession' => 'nullable|string|max:50',
             'address' => 'nullable|string|max:250',
+            'subjects' => [
+                'nullable',
+                'array',
+                Rule::exists(VRACSubject::class, 'id'),
+            ],
         ];
     }
 }

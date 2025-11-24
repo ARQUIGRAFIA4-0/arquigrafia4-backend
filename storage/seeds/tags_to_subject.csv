@@ -1,0 +1,3875 @@
+id;name;count;type
+1;Concreto;3280;NULL
+2;"Concreto pintado";480;NULL
+3;Alvenaria;1998;NULL
+4;Vidro;2016;NULL
+5;Ferro;2194;NULL
+6;"Elemento vazado";224;NULL
+7;Cobogó;172;NULL
+8;"Fachada cega";235;NULL
+9;Pilar;1000;NULL
+10;Abertura;409;NULL
+11;"Guarda corpo";322;NULL
+12;Público;2689;NULL
+13;Reservatório;3;NULL
+14;Edifício;1468;NULL
+15;Prédio;1274;NULL
+16;Patio;36;NULL
+17;Mármore;59;NULL
+18;Granito;238;NULL
+19;Madeira;1199;NULL
+20;Ornamento;178;NULL
+21;"Alto relevo";71;NULL
+22;"Baixo relevo";41;NULL
+23;Friso;71;NULL
+24;Voluta;66;NULL
+25;Bandeira;44;NULL
+26;Sacada;58;NULL
+27;"Mão francesa";23;NULL
+28;"Porta duas folhas";72;NULL
+29;"Janela pivotante";106;NULL
+30;"Janela duas folhas";54;NULL
+31;Financeiro;59;NULL
+32;Banco;726;NULL
+33;Rua;893;NULL
+34;Calçada;731;NULL
+35;"Concreto aparente";2030;NULL
+36;Esquadria;1231;NULL
+37;"Pano de vidro";1187;NULL
+38;Pilastra;51;NULL
+39;"Parede curva";187;NULL
+40;Comercial;168;NULL
+41;Circulação;851;NULL
+42;Poste;442;NULL
+43;"Janela basculante";418;NULL
+44;"Janela de correr";116;NULL
+45;Veneziana;240;NULL
+46;Varanda;188;NULL
+47;Marquise;226;NULL
+48;Habitação;885;NULL
+49;Cimento;367;NULL
+50;Pedra;862;NULL
+51;Escultura;328;NULL
+52;Coluna;742;NULL
+53;Pórtico;51;NULL
+54;Telha;296;NULL
+55;"Telha cerâmica";337;NULL
+56;Telhado;351;NULL
+57;Caixilho;798;NULL
+58;Janela;776;NULL
+59;Balaústre;70;NULL
+60;Frontão;62;NULL
+61;Arco;178;NULL
+62;Óculo;39;NULL
+63;"Ar condicionado";115;NULL
+64;Mureta;241;NULL
+65;Mosaico;153;NULL
+66;Educacional;399;NULL
+67;Faculdade;208;NULL
+68;Igreja;225;NULL
+69;Cerâmica;931;NULL
+70;Mobiliário;411;NULL
+71;Beiral;247;NULL
+72;"Tijolo de barro";245;NULL
+73;"Óculo Portão";4;NULL
+74;"Banca de jornal";20;NULL
+75;Degrau;398;NULL
+76;Escada;493;NULL
+77;"Óculo Degrau";0;NULL
+78;Estrutura;621;NULL
+79;Laje;497;NULL
+80;Vão;18;NULL
+81;Muro;253;NULL
+82;Transporte;257;NULL
+83;Gárgula;49;NULL
+84;Passarela;70;NULL
+85;Patamar;342;NULL
+86;"Caixa dágua";6;NULL
+87;Clube;57;NULL
+88;Esportivo;46;NULL
+89;Cultural;181;NULL
+90;Rampa;157;NULL
+91;Água;260;NULL
+92;Cobertura;758;NULL
+93;"Janela guilhotina";90;NULL
+94;Turístico;259;NULL
+95;Hotel;34;NULL
+96;Piscina;52;NULL
+97;"Estrutura de madeira";80;NULL
+98;Apoio;210;NULL
+99;Fachada;672;NULL
+100;Parede;306;NULL
+101;Casa;670;NULL
+102;Residência;819;NULL
+103;Viga;426;NULL
+104;Cachorro;19;NULL
+105;Porta;310;NULL
+106;"Porta de correr";118;NULL
+107;Pérgola;136;NULL
+108;Brise;437;NULL
+109;Cano;64;NULL
+110;Terraço;108;NULL
+111;Mesa;177;NULL
+112;Bancada;54;NULL
+113;Luminária;559;NULL
+114;"Piso de madeira";51;NULL
+115;"Sala de estar";43;NULL
+116;Platibanda;378;NULL
+117;Jardim;587;NULL
+118;Estante;72;NULL
+119;"Forro de madeira";20;NULL
+120;Biblioteca;23;NULL
+121;Vitral;51;NULL
+122;Armário;20;NULL
+123;Cozinha;5;NULL
+124;Lareira;24;NULL
+125;"Parede inclinada";24;NULL
+126;Portão;114;NULL
+127;Atelier;36;NULL
+128;Corrimão;185;NULL
+129;"Escada caracol";155;NULL
+130;Pilotis;250;NULL
+131;"Estrutura em balanço";21;NULL
+132;Escadaria;145;NULL
+133;Verde;5;NULL
+134;Azul;11;NULL
+135;Largo;38;NULL
+136;Barroco;1;NULL
+137;Franciscano;1;NULL
+138;Conjunto;1;NULL
+139;Museu;194;NULL
+140;Ecletismo;30;NULL
+141;Palacete;10;NULL
+142;Eclético;3;NULL
+143;Interior;8;NULL
+144;Palácio;5;NULL
+145;Salão;4;NULL
+146;Cunhais;3;NULL
+147;Mercado;18;NULL
+148;Elevador;4;NULL
+149;Patrimônio;34;NULL
+150;Intervenção;24;NULL
+151;Piso;18;NULL
+152;"Mosaico português";139;NULL
+153;Brises;6;NULL
+154;Restaurante;4;NULL
+155;Metal;9;NULL
+156;"Ramos de Azevedo Jahu Jaú Ecletismo";1;NULL
+157;"Jahu Jaú Ecletismo";1;NULL
+158;Jahu;4;NULL
+159;"Banco Melhoramentos";1;NULL
+160;Jaú;4;NULL
+161;"Edifício Comercial";2;NULL
+162;Arqueologia;6;NULL
+163;Ruína;41;NULL
+164;"Duas águas";5;NULL
+165;Açúcar;8;NULL
+166;Colonial;18;NULL
+167;Engenho;19;NULL
+168;Conservação;1;NULL
+169;Usp;5;NULL
+170;Fundações;1;NULL
+171;Base;6;NULL
+172;Andaime;76;NULL
+173;Auditório;12;NULL
+174;Lambris;1;NULL
+175;"Sala de aula";2;NULL
+176;Ardósia;3;NULL
+177;Alumínio;53;NULL
+178;Corredor;32;NULL
+179;"Piso intertravado";4;NULL
+180;Grade;122;NULL
+181;Portaria;1;NULL
+182;"Estação ferroviária";14;NULL
+183;Plataforma;50;NULL
+184;Estacionamento;112;NULL
+185;Teatro;27;NULL
+186;Relevo;2;NULL
+187;Praça;1039;NULL
+188;Centro;39;NULL
+189;"Século XX";6;NULL
+190;"Três pavimentos";1;NULL
+191;"Mineiros do Tietê";1;NULL
+192;"Arquitetura seiscentista";1;NULL
+193;"Arquitetura colonial";5;NULL
+194;Pernambuco;1;NULL
+195;"Século XVII";1;NULL
+196;Olinda;1;NULL
+197;Muxarabi;11;NULL
+198;"Lúcio costa";4;NULL
+199;Modernismo;20;NULL
+200;"Oscar niemeyer";15;NULL
+201;"Arquitetura moderna";351;NULL
+202;"Rio de janeiro";3;NULL
+203;Brise-soleil;1;NULL
+204;Brutalismo;107;NULL
+205;Mam;2;NULL
+206;"Affonso reidy";2;NULL
+207;SP;8;NULL
+208;"Casas - São Paulo
+arquitetura moderna
+São Paulo";1;NULL
+209;"Arquitetura moderna São Paulo";0;NULL
+210;Timbó;26;NULL
+211;Tijolo;161;NULL
+212;"Santa catarina";30;NULL
+213;Enxaimel;17;NULL
+214;"Telha plana";11;NULL
+215;Teuto-brasileira;5;NULL
+216;Luterana;7;NULL
+217;Evangélica;1;NULL
+218;"Estrutura metálica";121;NULL
+219;Eventos;2;NULL
+220;Pavilhão;20;NULL
+221;"Quadra poliesportiva";7;NULL
+222;Paralelepípedo;143;NULL
+223;Fábrica;15;NULL
+224;Chaminé;63;NULL
+225;Bicicleta;3;NULL
+226;Papelão;3;NULL
+227;"Fábrica papelão paralelepípedo tijolo timbó santa catarina";1;NULL
+228;Hammermeinster;2;NULL
+229;"Museu da música";2;NULL
+230;Losango;1;NULL
+231;"Arquitetura teuto-brasileira";6;NULL
+232;"Jardim botânico";6;NULL
+233;Empena;36;NULL
+234;Numeração;1;NULL
+235;Encaixe;1;NULL
+236;Rancho;1;NULL
+237;Assoalho;1;NULL
+238;Palco;9;NULL
+239;"Museu do Imigrante";2;NULL
+240;"Torre sineira";3;NULL
+241;Relógio;39;NULL
+242;Comércio;20;NULL
+243;Tora;1;NULL
+244;Galpão;14;NULL
+245;Araucária;1;NULL
+246;Ponte;76;NULL
+247;"Roda d'água";1;NULL
+248;"Rio benedito";2;NULL
+249;Engrenagem;1;NULL
+250;"Ponte estaiadada";1;NULL
+251;Barragem;1;NULL
+252;Balcão;32;NULL
+253;Sótão;1;NULL
+254;Chalé;1;NULL
+255;Vidros;1;NULL
+256;"Hans broos";4;NULL
+257;"Itoupava seca";4;NULL
+258;Blumenau;4;NULL
+259;Pilares;9;NULL
+260;Bancos;2;NULL
+261;Coro;1;NULL
+262;Altar;24;NULL
+263;"Arquitetura contemporânea";5;NULL
+264;"Art Déco";1;NULL
+265;"Década de 1930";1;NULL
+266;"Arquitetura paulista";2;NULL
+267;"Anos 30";1;NULL
+268;"Arquitetura portuguesa";1;NULL
+269;"Escada de mão";49;NULL
+270;"Plano inclinado";95;NULL
+271;Portinhola;24;NULL
+272;Azulejo;196;NULL
+273;Toldo;69;NULL
+274;Taipa;48;NULL
+275;Cerca;156;NULL
+276;Caibro;10;NULL
+277;Ripa;127;NULL
+278;Mar;25;NULL
+279;Pilarete;89;NULL
+280;Casario;55;NULL
+281;Cumeeira;15;NULL
+282;Peitoril;37;NULL
+283;"Caixa d'água";61;NULL
+284;"Bloco de concreto";132;NULL
+285;Conduíte;14;NULL
+286;"Janela contrapeso";67;NULL
+287;"Conjunto habitacional";44;NULL
+288;"Bloco intertravado";38;NULL
+289;Garagem;29;NULL
+290;Claraboia;35;NULL
+291;"Abertura zenital";80;NULL
+292;Trilho;6;NULL
+293;Rufo;44;NULL
+294;Aeroporto;27;NULL
+295;Porte;2;NULL
+296;Holofote;35;NULL
+297;Epóxi;25;NULL
+298;Maquinário;33;NULL
+299;Enterrado;14;NULL
+300;Domus;56;NULL
+301;Cidade;120;NULL
+302;Persiana;34;NULL
+303;Colunata;84;NULL
+304;Painel;159;NULL
+305;Administrativo;241;NULL
+306;Ministério;221;NULL
+307;"Placa pré moldada";2;NULL
+308;Fibrocimento;102;NULL
+309;"Telhado duas águas";81;NULL
+310;Estrada;28;NULL
+311;"Telhado uma água";25;NULL
+312;Tenda;14;NULL
+313;Exaustor;8;NULL
+314;Alambrado;54;NULL
+315;Mezanino;110;NULL
+316;Carpete;9;NULL
+317;Religioso;286;NULL
+318;"Estação rodoviária";166;NULL
+319;"Vão livre";159;NULL
+320;Escora;104;NULL
+321;Vergalhão;80;NULL
+322;Areia;73;NULL
+323;Aço;154;NULL
+324;Fôrma;98;NULL
+325;Esteio;88;NULL
+326;Cimbramento;116;NULL
+327;Escola;227;NULL
+328;Construção;329;NULL
+329;"Canteiro de obra";87;NULL
+330;Desnível;450;NULL
+331;"Mares de morros";44;NULL
+332;Vale;8;NULL
+333;Planície;11;NULL
+334;Quadra;50;NULL
+335;Cascalho;32;NULL
+336;Equipamento;31;NULL
+337;"Armadura metálica";44;NULL
+338;Encosta;17;NULL
+339;Treliça;79;NULL
+340;"Anel de concreto";6;NULL
+341;Prefeitura;20;NULL
+342;Divisória;3;NULL
+343;"Duto de ar";2;NULL
+344;Tesoura;3;NULL
+345;Alojamento;5;NULL
+346;Montante;175;NULL
+347;Exposição;9;NULL
+348;Estúdio;3;NULL
+349;"Terraço jardim";40;NULL
+350;"Telhado quatro águas";25;NULL
+351;Cúpula;62;NULL
+352;Parque;713;NULL
+353;Pastilha;66;NULL
+354;"Arco pleno";84;NULL
+355;Pingadeira;7;NULL
+356;Lanternim;3;NULL
+357;Instituto;52;NULL
+358;"Pastilha cerâmica";59;NULL
+359;Mastro;44;NULL
+360;Tribunal;50;NULL
+361;Masstro;1;NULL
+362;Calçadão;35;NULL
+363;Cornija;47;NULL
+364;Granilite;4;NULL
+365;Extintor;2;NULL
+366;Guarda-corpo;649;NULL
+367;Hospital;43;NULL
+368;"Térreo livre";32;NULL
+369;"Bloco cerâmico";1;NULL
+370;Comunicação;13;NULL
+371;Telefonia;1;NULL
+372;Jornal;4;NULL
+373;"Taipa de mão";4;NULL
+374;"Arco abatido";15;NULL
+375;"Telha de madeira";1;NULL
+376;"Empena cega";6;NULL
+377;Torre;73;NULL
+378;Arcada;36;NULL
+379;Instalações;4;NULL
+380;Cortina;15;NULL
+381;Parapeito;21;NULL
+382;Estiva;13;NULL
+383;Palafita;30;NULL
+384;Tabuado;19;NULL
+385;Balaustrada;16;NULL
+386;"Cobertura vegetal";16;NULL
+387;Madeiramento;2;NULL
+388;Pranchado;1;NULL
+389;Amarelo;1;NULL
+390;Rosa;3;NULL
+391;Vermelho;1;NULL
+392;Branco;1;NULL
+393;"Tijolo aparente";8;NULL
+394;Aparecida;1;NULL
+395;Basílica;1;NULL
+396;"Ladrilho hidráulico";64;NULL
+397;"Pedra portuguesa";1;NULL
+398;Asfalto;2;NULL
+399;Lajota;3;NULL
+400;Paróquia;15;NULL
+401;"Arco ogival";32;NULL
+402;Capela;43;NULL
+403;Rosácea;5;NULL
+404;Mão-francesa;26;NULL
+405;"Tesoura de madeira";4;NULL
+406;Tirante;12;NULL
+407;Congresso;13;NULL
+408;Abóbada;102;NULL
+409;Industrial;10;NULL
+410;"Pau a pique";1;NULL
+411;"Espelho d'água";141;NULL
+412;Forro;43;NULL
+413;"Bloco de vidro";16;NULL
+414;Bronze;16;NULL
+415;Mural;39;NULL
+416;"Janela  basculante";1;NULL
+417;Estátua;5;NULL
+418;Nicho;4;NULL
+419;Capitel;15;NULL
+420;Embasamento;16;NULL
+421;"Portão duas folhas";2;NULL
+422;Rodoviária;38;NULL
+423;"Escada rolante";18;NULL
+424;Viaduto;41;NULL
+425;Galeria;21;NULL
+426;"Guardo corpo";1;NULL
+427;Cascaldi;1;NULL
+428;"Escola Paulista";1;NULL
+429;Artigas;2;NULL
+430;"República Velha";1;NULL
+431;Esquina;4;NULL
+432;Fonte;76;NULL
+433;Expositor;16;NULL
+434;Gesso;6;NULL
+435;Mansarda;9;NULL
+436;Monumento;76;NULL
+437;Borracha;3;NULL
+438;"Piso antiderrapante";3;NULL
+439;"igreja moderna";1;NULL
+440;estrangeiros;1;NULL
+441;"Concreto armado";14;NULL
+442;Lona;3;NULL
+443;"Treliça espacial";3;NULL
+444;Laboratório;13;NULL
+445;Calha;10;NULL
+446;"Cerca viva";7;NULL
+447;"Tijolo de pedra";2;NULL
+448;"Arco tudor";2;NULL
+449;"Telha cerâmico";1;NULL
+450;"Arco angrelado";1;NULL
+451;Verga;3;NULL
+452;"Arco de ferradura";1;NULL
+453;"Conjunto residencial";1;NULL
+454;Peitoral;1;NULL
+455;Mausoléu;3;NULL
+456;Túmulo;1;NULL
+457;"Cobertura metálica";13;NULL
+458;"Deck de madeira";7;NULL
+459;Tapume;12;NULL
+460;Energia;5;NULL
+461;Shed;8;NULL
+462;Arquibancada;17;NULL
+463;"Campo de futebol";15;NULL
+464;Escritório;23;NULL
+465;"Agência bancária";7;NULL
+466;"Centro Cultural";1;NULL
+467;Jardineira;13;NULL
+468;"Fibra de vidro";4;NULL
+469;"Laje nervurada";48;NULL
+470;Imprensa;6;NULL
+471;Pastilhas;1;NULL
+472;Seguradora;3;NULL
+473;Cassino;17;NULL
+474;"Térreo livreMosaic";1;NULL
+475;Bienal;5;NULL
+476;Ferr;1;NULL
+477;"Telhado invertido";3;NULL
+478;"Cobertura curva";9;NULL
+479;"Abóbada de berço";7;NULL
+480;"Grade sanfonada";1;NULL
+481;Guarita;6;NULL
+482;"anela basculante";1;NULL
+483;Moldura;4;NULL
+484;Instalação;8;NULL
+485;"Placa pré-moldada";6;NULL
+486;zenital;1;NULL
+487;"Chaminé. Guarda corpo";2;NULL
+488;PVC;5;NULL
+489;Tubulação;12;NULL
+490;Superquadra;15;NULL
+491;"Centro cívico";113;NULL
+492;"Painel pré moldado";9;NULL
+493;Placa;3;NULL
+494;Bar;4;NULL
+495;Esquadro;1;NULL
+496;Abóboda;2;NULL
+497;Catedral;61;NULL
+498;"Angra dos Reis";1;NULL
+499;"teatro municipal";2;NULL
+500;vista;7;NULL
+501;"edifício histórico";1;NULL
+502;"vista para o teatro";1;NULL
+503;"Paisagem Natural";1;NULL
+504;Morro;6;NULL
+505;Vegetação;1602;NULL
+506;"Árvore de porte";253;NULL
+507;cachaça;3;NULL
+508;"engenho de cana-de-açúcar";1;NULL
+509;alambique;1;NULL
+510;"mapa da cachaça";1;NULL
+511;"alambique de cachaça";1;NULL
+512;tiradentes;2;NULL
+513;"coronel xavier chaves";1;NULL
+514;"Painel vazado";2;NULL
+515;Rio;18;NULL
+516;Sino;4;NULL
+517;Caminho;139;NULL
+518;Espelho;12;NULL
+519;colunas;1;NULL
+520;arquitetura;65;NULL
+521;"concreto aparente pilar";1;NULL
+522;"caixilho concreto vidro piso";1;NULL
+523;Dark;1;NULL
+524;"Sao Paulo";73;NULL
+525;Dirty;1;NULL
+526;"Preto e Branco";5;NULL
+527;Segnini;31;NULL
+528;Barretto;31;NULL
+529;"Arquitetura Brutalista";9;NULL
+530;"Arquitetura Brutalista. Arquitetura Moderna";1;NULL
+531;teste;1;NULL
+532;"Ribeirão Preto";389;NULL
+533;Volumetria;26;NULL
+534;casca;5;NULL
+535;"sistema viário";1;NULL
+536;tirantes;1;NULL
+537;germano;1;NULL
+538;uberaba;9;NULL
+539;gultzgoff;7;NULL
+540;moderna;8;NULL
+541;condomínio;2;NULL
+542;alex;1;NULL
+543;contemporânea;1;NULL
+544;Abóbadas;1;NULL
+545;Arcos;1;NULL
+546;Curvas;4;NULL
+547;"Janela em fita";2;NULL
+548;Balanço;8;NULL
+549;Átrio;1;NULL
+550;Paisagismo;23;NULL
+551;Sineiro;2;NULL
+552;Pináculo;42;NULL
+553;Cunhal;2;NULL
+554;Cruz;4;NULL
+555;Forte;6;NULL
+556;Canhão;1;NULL
+557;Guindaste;2;NULL
+558;"Estrutura metálica pré-fabricada";2;NULL
+559;Docas;1;NULL
+560;Militar;2;NULL
+561;"Ijair Cunha";11;NULL
+562;Soutello;4;NULL
+563;Vigas;2;NULL
+564;Zanettini;5;NULL
+565;Reboco;3;NULL
+566;"Caixa d'´gua";2;NULL
+567;1959;1;NULL
+568;barão;1;NULL
+569;Carlo;1;NULL
+570;patriarca;4;NULL
+571;Merrill;1;NULL
+572;direita;1;NULL
+573;sé;2;NULL
+574;Gian;1;NULL
+575;Owings;1;NULL
+576;unibanco;1;NULL
+577;céu;1;NULL
+578;Jacques;1;NULL
+579;iguape;1;NULL
+580;Gasperini;1;NULL
+581;Pilon;1;NULL
+582;Skidmore;1;NULL
+583;arranha;1;NULL
+584;Piloti;5;NULL
+585;Pós-Modernismo;7;NULL
+586;Demolição;2;NULL
+587;"FAU Artigas "Vilanova Artigas"";1;NULL
+588;"FAU Artigas "Vilanova Artigas" brutalismo modernismo";1;NULL
+589;"FAU Artigas "Vilanova Artigas" biblioteca modernismo";1;NULL
+590;"FAU Artigas museu "Vilanova Artigas" "Piso do Museu"";1;NULL
+591;"FAU caramelo "Vilanova Artigas"Artigas greve assembleia";2;NULL
+592;"FAU rampas Artigas modernismo brutalismo "Vilanova Artigas"";1;NULL
+593;"Caixa d´água";33;NULL
+594;Arrimo;12;NULL
+595;"Arquitetura Brasileira";1;NULL
+596;Hera;1;NULL
+597;"Manoel Garcia";11;NULL
+598;"Desenho de piso";104;NULL
+599;Arranha-ceú;2;NULL
+600;Implantação;2;NULL
+601;"Castor Delgado Perez";1;NULL
+602;"Rino Levi";6;NULL
+603;Gramado;786;NULL
+604;"Rede de Caminhos";53;NULL
+605;Rotatória;3;NULL
+606;Forração;52;NULL
+607;Frontispício;17;NULL
+608;"Acesso ao metrô";17;NULL
+609;Canteiro;343;NULL
+610;"Ponto de táxi";4;NULL
+611;"Piso processado";2;NULL
+612;Ecadaria;1;NULL
+613;Gradil;116;NULL
+614;"Platibanda Sacada";1;NULL
+615;Palmeira;43;NULL
+616;Terra;231;NULL
+617;Cobre;23;NULL
+618;"Concreto estampado";48;NULL
+619;"Elemento circular";8;NULL
+620;"Canteiros Floridos";10;NULL
+621;"Entablamento Janela";1;NULL
+622;Alvenria;1;NULL
+623;"Canteiro florido";11;NULL
+624;"Palmeira Imperial";21;NULL
+625;"Fonte Caixilho";1;NULL
+626;Entablamento;1;NULL
+627;Quiosque;42;NULL
+628;"Escultura em aço";1;NULL
+629;"Escultura em bronze";6;NULL
+630;"Palmeira imperiai";2;NULL
+631;Caxilho;1;NULL
+632;Grantio;1;NULL
+633;Contraforte;8;NULL
+634;"Estrutura Metálica Espelho d'água";1;NULL
+635;Cascata;15;NULL
+636;"Catedral Prédio";1;NULL
+637;"Relógio Telha cerâmica";1;NULL
+638;"Frontão redondo";1;NULL
+639;Ladrilho;2;NULL
+640;"Terminal de ônibus";1;NULL
+641;Planta;3;NULL
+642;"Parque linear";8;NULL
+643;Projeto;3;NULL
+644;Desenho;3;NULL
+645;"Ponto de ônibus";11;NULL
+646;Elevado;33;NULL
+647;Túnel;7;NULL
+648;Caçada;1;NULL
+649;Arbusto;16;NULL
+650;Pedestal;9;NULL
+651;Playground;140;NULL
+652;"Concreto desempenado";5;NULL
+653;Cancela;1;NULL
+654;Difícil;1;NULL
+655;"Linha férrea";4;NULL
+656;"Arco de descarga";4;NULL
+657;Facha;1;NULL
+658;"Pista de cooper";4;NULL
+659;"Banco Ladrilho hidráulico";1;NULL
+660;"Barracas de ambulante";2;NULL
+661;"Escultura em granito";1;NULL
+662;Paralelepídedo;1;NULL
+663;"Frontão aberto";1;NULL
+664;"Alvenaria Vegetação";1;NULL
+665;"Tijolo de barro. Árvore de porte";1;NULL
+666;Coreto;7;NULL
+667;Lixeira;13;NULL
+668;"Espelo d'água";1;NULL
+669;"Canteiro central";1;NULL
+670;"Janela Veneziana";1;NULL
+671;Banca;9;NULL
+672;Plástico;3;NULL
+673;Bucci;8;NULL
+674;Fórmica;7;NULL
+675;"Sala de jantar";2;NULL
+676;Dormitório;5;NULL
+677;Quarto;4;NULL
+678;Hall;3;NULL
+679;Praia;5;NULL
+680;"Chaminé. Guarda-corpo";1;NULL
+681;"Sala de reunião";1;NULL
+682;Lago;107;NULL
+683;"Painel pré-moldado";9;NULL
+684;"Rua Jardim";1;NULL
+685;Represa;1;NULL
+686;Planetário;2;NULL
+687;Estádio;13;NULL
+688;Obra;3;NULL
+689;Lagoa;3;NULL
+690;"Rio Pinheiros";1;NULL
+691;RN;1;NULL
+692;Natal;2;NULL
+693;"Newton Navarro";1;NULL
+694;"reis magos";1;NULL
+695;fortaleza;1;NULL
+696;Corrente;1;NULL
+697;"Cobertura tensionada";1;NULL
+698;Parquinho;5;NULL
+699;Anfiteatro;4;NULL
+700;"Pista de skate";8;NULL
+701;"Pista de corrida";4;NULL
+702;"Praça. Público";1;NULL
+703;"Estrutura móvel";1;NULL
+704;Córrego;30;NULL
+705;Cateiro;1;NULL
+706;Saibro;5;NULL
+707;"Cimento estampado";1;NULL
+708;Campo;1;NULL
+709;"Edifício Circulação";1;NULL
+710;"Edifício Cidade";1;NULL
+711;"Rede de caminhos Gramado";1;NULL
+712;Residencial;20;NULL
+713;Esquipamento;1;NULL
+714;"Barracas de ambulantes";18;NULL
+715;´;1;NULL
+716;Ladeira;7;NULL
+717;Obelisco;4;NULL
+718;Ornato;8;NULL
+719;"Azulejo português";3;NULL
+720;Sinalização;1;NULL
+721;Haste;1;NULL
+722;"Frontão Ondulado";4;NULL
+723;Rótula;1;NULL
+724;"Piso de tijolos";7;NULL
+725;"Espécimes vegetais significativos";6;NULL
+726;"Espécimes significativos";1;NULL
+727;"Bosque de eucaliptos";1;NULL
+728;Assoreamento;7;NULL
+729;Assoareamento;4;NULL
+730;Bosque;2;NULL
+731;"Caminho de pedras";3;NULL
+732;"Vegetação Terra";1;NULL
+733;"Desnível Talude";3;NULL
+734;"Quadra de futebol";12;NULL
+735;Grelha;2;NULL
+736;"Terraço Jardim Patamar";2;NULL
+737;Jardineiras;1;NULL
+738;Arbuto;1;NULL
+739;"Mosaico português. Rua";1;NULL
+740;Caramanchão;3;NULL
+741;"Terreno baldio";1;NULL
+742;"Barraca de ambulante";1;NULL
+743;Câmara;5;NULL
+744;"Empena horizontal";1;NULL
+745;Chafariz;5;NULL
+746;Subsolo;1;NULL
+747;"Veneziana basculante";2;NULL
+748;"Cúpula geodésica";2;NULL
+749;"Empena vertical";1;NULL
+750;"Ladrilho antiderrapante";7;NULL
+751;"Treliça metálica";15;NULL
+752;"Estrutura pré-moldada";6;NULL
+753;"Painel pré-fabricado";2;NULL
+754;Cinema;17;NULL
+755;Pergolado;6;NULL
+756;"Vidro espelhado";5;NULL
+757;Altar-mor;1;NULL
+758;"Terminal rodoviário";4;NULL
+759;Vitrine;5;NULL
+760;"Janela uma folha";2;NULL
+761;"Muro de contenção";4;NULL
+762;Loja;19;NULL
+763;"Barra de contenção";2;NULL
+764;Totem;23;NULL
+765;"Guarda- corpo";2;NULL
+766;"Porta pivotante";3;NULL
+767;Ginásio;3;NULL
+768;"Canteiro de obras";6;NULL
+769;Metrô;9;NULL
+770;"Cobertura de vidro";2;NULL
+771;"Cimento queimado";2;NULL
+772;"Chão batido";28;NULL
+773;"Palmeira imperia";1;NULL
+774;imigrantes;1;NULL
+775;"Bolsa do Café";1;NULL
+776;exportação;1;NULL
+777;1922;1;NULL
+778;porto;2;NULL
+779;"centro histórico";3;NULL
+780;cafeeira;1;NULL
+781;imigrante;1;NULL
+782;"Ciclo do Café";1;NULL
+783;café;1;NULL
+784;Santos;3;NULL
+785;cafeeiro;1;NULL
+786;panteão;2;NULL
+787;independência;2;NULL
+788;"Panteão dos Andradas";2;NULL
+789;Pantheon;2;NULL
+790;Andradas;2;NULL
+791;"José Bonifácio de Andrada e Silva";2;NULL
+792;"José Bonifácio";2;NULL
+793;"Instituto Inhotim";2;NULL
+794;brasileira;1;NULL
+795;"arte contemporânea";1;NULL
+796;art;1;NULL
+797;"Galeria Adriana Varejão";1;NULL
+798;"Adriana Varejão";13;NULL
+799;Inhotim;14;NULL
+800;arte;4;NULL
+801;"galeria de arte";1;NULL
+802;poema;1;NULL
+803;"Simon Lane";1;NULL
+804;"artista plástico";1;NULL
+805;"True Rouge";1;NULL
+806;Tunga;1;NULL
+807;"Victor Brecheret";2;NULL
+808;"IV centenário de São Paulo";2;NULL
+809;"Parque Ibirapuera";2;NULL
+810;Ibirapuera;5;NULL
+811;"Monumento às Bandeiras";2;NULL
+812;"Ouro Preto";1;NULL
+813;"ciclo do ouro";1;NULL
+814;"arquitetura barroca";1;NULL
+815;"barroco tardio";1;NULL
+816;"inconfidência mineira";1;NULL
+817;"século XVIII";3;NULL
+818;"Museu da Inconfidência";1;NULL
+819;"Minas Gerais";9;NULL
+820;cantaria;18;NULL
+821;"casa de câmara e cadeia";1;NULL
+822;"Igreja barroca";1;NULL
+823;"ciclo do ouro.";1;NULL
+824;"Igreja Matriz de Santo Antônio";1;NULL
+825;"fotografia noturna";1;NULL
+826;"arquitetura histórica";1;NULL
+827;"Orlando Barbosa de Freitas";8;NULL
+828;Eternit;8;NULL
+829;maisonteste2;1;NULL
+830;maisonteste;3;NULL
+831;maisonteste3;1;NULL
+832;"Concreto com ferro";17;NULL
+833;"Predio de meia";1;NULL
+834;"concerto geral";6;NULL
+835;victorteste;2;NULL
+836;parati;2;NULL
+837;"rua da praia";2;NULL
+838;ouro;1;NULL
+839;Paraty;2;NULL
+840;janeiro;1;NULL
+841;zoológico;1;NULL
+842;girafa;1;NULL
+843;são;1;NULL
+844;paulo;1;NULL
+845;Brasília;6;NULL
+846;Niemeyer;3;NULL
+847;JK;1;NULL
+848;"Copan Prédio Abstração Concreto Moderno";3;NULL
+849;"Copan Edifício Abstração Concreto Modernista";2;NULL
+850;"Pinheiro Gonçalves";1;NULL
+851;pérgolas;1;NULL
+852;Lazer;5;NULL
+853;"Ponte elevada";1;NULL
+854;mineiro;1;NULL
+855;triângulo;1;NULL
+856;difusão;7;NULL
+857;schroden;2;NULL
+858;"triângulo mineiro";6;NULL
+859;regionalismo;4;NULL
+860;tapiocanga;1;NULL
+861;morada;1;NULL
+862;palmeiras;1;NULL
+863;Municipal;1;NULL
+864;"uso misto";8;NULL
+865;misto;1;NULL
+866;Níveis;1;NULL
+867;Transparência;1;NULL
+868;Sombra;1;NULL
+869;Garrefa;1;NULL
+870;Volume;3;NULL
+871;Bratke;2;NULL
+872;Coletor;9;NULL
+873;Sapê;1;NULL
+874;Pós-moderno;2;NULL
+875;Scatena;2;NULL
+876;"isabella dalfovo";1;NULL
+877;"casa do lago";1;NULL
+878;Cunha;14;NULL
+879;Gonçalves;9;NULL
+880;"Abóbada catalã";2;NULL
+881;Corbusier;2;NULL
+882;Modulor;2;NULL
+883;"templo zu lai budista budismo";1;NULL
+884;"jardim chinês templo zu lai vegetação paisagismo cotia";1;NULL
+885;Sobrado;4;NULL
+886;"Térreo Comercial";1;NULL
+887;Armazém;7;NULL
+888;Confeitaria;1;NULL
+889;"Arquitetura Popular";3;NULL
+890;"Arquitetura Fantástica";4;NULL
+891;"Casa de Cacos";11;NULL
+892;"Arquitetura Vernacular";2;NULL
+893;"Arquitetura Espontânea";10;NULL
+894;Contagem;4;NULL
+895;Cor;1;NULL
+896;Revestimento;1;NULL
+897;Plano;1;NULL
+898;UFMT;5;NULL
+899;Cuiabá;7;NULL
+900;Antigo;3;NULL
+901;OSESP;3;NULL
+902;CPTM;3;NULL
+903;"Julio Prestes";3;NULL
+904;Curva;4;NULL
+905;"Laje Inundada";1;NULL
+906;Quebra-sol;5;NULL
+907;abandonado;0;NULL
+908;"Largo do Paissandú";13;NULL
+909;"wilton paes de almeida";0;NULL
+910;"roger zmkhol";0;NULL
+911;1961;0;NULL
+912;cine;2;NULL
+913;"Igreja de Nossa Senhora do Rosário dos Homens Pretos";5;NULL
+914;anhangabaú;4;NULL
+915;"vista aérea";0;NULL
+916;martinelli;3;NULL
+917;"vale do anhangabaú";5;NULL
+918;"praça das artes";3;NULL
+919;zarzur;1;NULL
+920;"cine paissandú";1;NULL
+921;Reforma;2;NULL
+922;Descaso;3;NULL
+923;"Cássio Pinheiro Gonçalves";0;NULL
+924;"Carlos Zambroni";2;NULL
+925;Gabarra;1;NULL
+926;Soares;5;NULL
+927;Mattos;1;NULL
+928;Jordão;2;NULL
+929;Ferraiollo;1;NULL
+930;minhocão;13;NULL
+931;violada;3;NULL
+932;citinet;73;NULL
+933;sdr;18;NULL
+934;rem;18;NULL
+935;devassada;3;NULL
+936;koolhaas;18;NULL
+937;genérica;18;NULL
+938;autodestruição;4;NULL
+939;autofagia;4;NULL
+940;autodigestão;4;NULL
+941;originalidade;5;NULL
+942;realismo;5;NULL
+943;idealismo;5;NULL
+944;velho;3;NULL
+945;paradoxal;3;NULL
+946;novo;3;NULL
+947;estático;3;NULL
+948;dinâmico;3;NULL
+949;pedestre;1;NULL
+950;carro;1;NULL
+951;apropriação;1;NULL
+952;verticalidade;5;NULL
+953;"USP
+Rio
+Marginal
+Raia";2;NULL
+954;"Ocupação
+Moradia
+Centro
+Degradação";1;NULL
+955;"Centro
+São Paulo
+Martinelli
+Reflexo";1;NULL
+956;"Minhocão
+Elevado
+Rodoviarismo
+Exclusão";1;NULL
+957;urbanismo;5;NULL
+958;"questões urbanas";3;NULL
+959;"Fiação aérea";3;NULL
+960;"fios de eletricidade";3;NULL
+961;"poluição visual";3;NULL
+962;"prejuízo ambiental";3;NULL
+963;"fios de telefonia";3;NULL
+964;"caos urbano";3;NULL
+965;Copan;3;NULL
+966;República;4;NULL
+967;Consolação;3;NULL
+968;"centro econômico";3;NULL
+969;"eixo econômico";3;NULL
+970;"centro financeiro";3;NULL
+971;MASP;3;NULL
+972;avenida;15;NULL
+973;"Avenida Paulista";3;NULL
+974;"transporte público";4;NULL
+975;monotrilho;4;NULL
+976;"transporte urbano";4;NULL
+977;"via expressa";3;NULL
+978;rodoviarismo;4;NULL
+979;"Marginal Pinheiros";6;NULL
+980;"Taller Citinet";10;NULL
+981;#citinet;15;NULL
+982;"Estádio
+Futebol
+Megaconstrução
+Copa do Mundo";1;NULL
+983;"Pôr do sol
+silhueta
+automóvel
+rush";1;NULL
+984;"Trânsito
+Pedestres
+Corredor
+Caos";1;NULL
+985;"Favela
+Habitação
+Precariedade
+Desigualdade";1;NULL
+986;amnesia;2;NULL
+987;história;3;NULL
+988;nostálgica;2;NULL
+989;ilusão;2;NULL
+990;hipercidade;2;NULL
+991;desornamento;2;NULL
+992;periferia;2;NULL
+993;cores;7;NULL
+994;(des)centralização;1;NULL
+995;bairro;2;NULL
+996;"Favela
+Habitação
+Precariedade
+Desigualdade
+citinet";1;NULL
+997;Desigualdade;1;NULL
+998;Favela;2;NULL
+999;Precariedade;1;NULL
+1000;Pedestres;1;NULL
+1001;Caos;1;NULL
+1002;Trânsito;1;NULL
+1003;Futebol;1;NULL
+1004;Megaconstrução;1;NULL
+1005;"Copa do Mundo";1;NULL
+1006;Exclusão;1;NULL
+1007;Reflexo;6;NULL
+1008;Moradia;1;NULL
+1009;Degradação;1;NULL
+1010;Ocupação;1;NULL
+1011;Raia;1;NULL
+1012;Marginal;1;NULL
+1013;grafite;2;NULL
+1014;Faria;5;NULL
+1015;Lima;5;NULL
+1016;Bandeirista;3;NULL
+1017;taller;5;NULL
+1018;entulho;1;NULL
+1019;square;1;NULL
+1020;avião;1;NULL
+1021;citnet;1;NULL
+1022;"citinet noturna";1;NULL
+1023;"citinet favela landscape";1;NULL
+1024;landscape;3;NULL
+1025;noturna;2;NULL
+1026;iporanga;2;NULL
+1027;Indeterminação;1;NULL
+1028;Restauro;1;NULL
+1029;Geografia;1;NULL
+1030;"Pico do Jaraguá";1;NULL
+1031;"Serra da Cantareira";1;NULL
+1032;Repetição;2;NULL
+1033;"Iluminação zenital";2;NULL
+1034;Lojas;1;NULL
+1035;Crescimento;1;NULL
+1036;luzes;1;NULL
+1037;noite;2;NULL
+1038;"centro. locomoção";2;NULL
+1039;infraestrutura;2;NULL
+1040;"cidade genérica";5;NULL
+1041;cabos;2;NULL
+1042;"galeria comercial";1;NULL
+1043;janelas;6;NULL
+1044;densidade;2;NULL
+1045;prédios;7;NULL
+1046;"poste de luz";1;NULL
+1047;histórico;2;NULL
+1048;Edifícios;4;NULL
+1049;Inexpressividade;1;NULL
+1050;Carros;1;NULL
+1051;Perdizes;1;NULL
+1052;porumasampasemfio;1;NULL
+1053;Geometria;1;NULL
+1054;Topografia;0;NULL
+1055;Abrigo;1;NULL
+1056;"Concreto pintato";1;NULL
+1057;"Grelha metálica";1;NULL
+1058;"Mesas para jogos";15;NULL
+1059;Lixeiras;37;NULL
+1060;Forrações;11;NULL
+1061;Graado;1;NULL
+1062;"Mesa para jogos";1;NULL
+1063;Playgroud;1;NULL
+1064;Ciclovia;23;NULL
+1065;"Concreto pitando";2;NULL
+1066;"Pista de skate (halfpipe)";3;NULL
+1067;Terro;1;NULL
+1068;Ciculação;3;NULL
+1069;"Cimento pintado";3;NULL
+1070;Elemento;1;NULL
+1071;Banheiro;4;NULL
+1072;Via;23;NULL
+1073;"Estação de trem";3;NULL
+1074;"Equipamentos de ginástica";6;NULL
+1075;"Mureta Árvore de porte";1;NULL
+1076;Tanque;1;NULL
+1077;"Vegetação. Água";1;NULL
+1078;"Banco. Mesa";1;NULL
+1079;"Chão pisado";1;NULL
+1080;Rede;1;NULL
+1081;"Banco. Pérgola";1;NULL
+1082;"Telefone público";6;NULL
+1083;"Estrutura arqueada";2;NULL
+1084;"Guarda volumes";1;NULL
+1085;Terminal;29;NULL
+1086;Acrílico;27;NULL
+1087;"Estrutura de concreto";54;NULL
+1088;Letreiro;12;NULL
+1089;Baixo-relevo;4;NULL
+1090;Alto-relevo;4;NULL
+1091;Blocos;4;NULL
+1092;Esquadrias;3;NULL
+1093;"Laje aparente";5;NULL
+1094;"Caixão perdido";2;NULL
+1095;Logo;1;NULL
+1096;Estufa;1;NULL
+1097;Horta;1;NULL
+1098;"Tanque de areia";3;NULL
+1099;"Placa informativa";4;NULL
+1100;"Desenho de chão";3;NULL
+1101;Caldeira;1;NULL
+1102;Churrasqueira;1;NULL
+1103;"Quadra de basquete";4;NULL
+1104;Lombada;1;NULL
+1105;Bebedouro;2;NULL
+1106;Trilha;2;NULL
+1107;Esculta;3;NULL
+1108;Residências;5;NULL
+1109;Estrutura.;1;NULL
+1110;Fenestração;2;NULL
+1111;Trussardi;3;NULL
+1112;"Av. São João";3;NULL
+1113;"Av. Ipiranga";2;NULL
+1114;"Hotel Excelsior";2;NULL
+1115;"Cine Ipiranga";2;NULL
+1116;"Alameda Barão de Limeira";2;NULL
+1117;"Edifício residencial";2;NULL
+1118;"Gregori Warchavichik";1;NULL
+1119;"Rua Martins Fontes";2;NULL
+1120;"Edifício Margarida";2;NULL
+1121;"Gregori Warchavchik";3;NULL
+1122;"Edifício Montreal";2;NULL
+1123;"Rua Cásper Libero";2;NULL
+1124;"Avenida Ipiranga";2;NULL
+1125;"Rua Quintino Bocaiuva";2;NULL
+1126;"Edifício Triângulo";2;NULL
+1127;"Rua José Bonifácio";2;NULL
+1128;"Rua Direita";2;NULL
+1129;arena;2;NULL
+1130;obras;2;NULL
+1131;casarão;1;NULL
+1132;oposição;1;NULL
+1133;sobreposição;1;NULL
+1134;UFSCar;15;NULL
+1135;"São Carlos";12;NULL
+1136;Campus;9;NULL
+1137;"Pré Fabricado";2;NULL
+1138;"Universidade Federal de São Carlos";6;NULL
+1139;Oficina;1;NULL
+1140;"Festival Contato";11;NULL
+1141;UFSC;5;NULL
+1142;"Campus Universitário";4;NULL
+1143;Contraventamento;2;NULL
+1144;Reciclagem;1;NULL
+1145;"Telha translúcida";1;NULL
+1146;"Tilt Shift";1;NULL
+1147;"Edifício Novo";1;NULL
+1148;Miniatura;1;NULL
+1149;Pré-moldado;1;NULL
+1150;filtro;5;NULL
+1151;lo-fi;2;NULL
+1152;universidade;6;NULL
+1153;Instagram;5;NULL
+1154;"Tijolo a vista";1;NULL
+1155;"Telha calhetão";1;NULL
+1156;Nashville;1;NULL
+1157;inkwell;1;NULL
+1158;laranja;3;NULL
+1159;mayfair;1;NULL
+1160;"mosaico cerâmico";1;NULL
+1161;"Brise metálico";1;NULL
+1162;Brasil;1;NULL
+1163;detalhe;3;NULL
+1164;penha;3;NULL
+1165;"arquitetura religiosa";18;NULL
+1166;mac;1;NULL
+1167;"palácio da agricultura";1;NULL
+1168;"ramos de azevedo";3;NULL
+1169;luz;8;NULL
+1170;pinacoteca;3;NULL
+1171;"palácio das indústrias";2;NULL
+1172;"Palacete Bolonha
+Eclético Belém Pará Brasil";0;NULL
+1173;"Parde curva";1;NULL
+1174;Calçado;2;NULL
+1175;Colégio;2;NULL
+1176;"Muro de arrimo";11;NULL
+1177;"Pátio de manobra";1;NULL
+1178;Tapeçaria;1;NULL
+1179;Armadura;2;NULL
+1180;"Torre de controle";1;NULL
+1181;Sapata;1;NULL
+1182;Fundação;1;NULL
+1183;Enxamel;1;NULL
+1184;"Portão de correr";1;NULL
+1185;"Porta dias folhas";0;NULL
+1186;trapiche;2;NULL
+1187;templo;1;NULL
+1188;depósito;1;NULL
+1189;térrea;3;NULL
+1190;alpendre;2;NULL
+1191;Vergueiro;1;NULL
+1192;"Centro Cultural de São Paulo";1;NULL
+1193;CCSP;2;NULL
+1194;Paraíso;1;NULL
+1195;Palha;21;NULL
+1196;"Viga de madeira";2;NULL
+1197;Fazenda;12;NULL
+1198;"Edificação rural";7;NULL
+1199;Cemitério;1;NULL
+1200;"Cobertura de palha";1;NULL
+1201;Churrasqueiras;1;NULL
+1202;Bebedouros;4;NULL
+1203;Muralha;1;NULL
+1204;"Estrutura metélica";1;NULL
+1205;Lanchonete;2;NULL
+1206;"Ferro Vegetação";2;NULL
+1207;Trem;1;NULL
+1208;"Gramado Telefone público";1;NULL
+1209;"Córrego Parque";1;NULL
+1210;"Pira de fogo";3;NULL
+1211;"Desnível Parque";2;NULL
+1212;Pedalinho;3;NULL
+1213;"Quadra de vôlei";1;NULL
+1214;Orquidário;1;NULL
+1215;Paralalapípedo;1;NULL
+1216;"Vegetação. Madeira";1;NULL
+1217;"Tacoa Arquitetos";12;NULL
+1218;"concreto armado aparente";11;NULL
+1219;"arquitetura luso-brasileira";23;NULL
+1220;"casas comerciais";2;NULL
+1221;beirais;2;NULL
+1222;paralelepípedos;4;NULL
+1223;"telha capa e canal";11;NULL
+1224;cimalha;5;NULL
+1225;"tore sineira";2;NULL
+1226;almofadas;1;NULL
+1227;"pé de moleque";1;NULL
+1228;"calçamento pé de moleque";2;NULL
+1229;portada;2;NULL
+1230;"cobertura de metal e vidro";1;NULL
+1231;rusticado;1;NULL
+1232;"pátio coberto";1;NULL
+1233;"aço corten";1;NULL
+1234;Tamanduateí;1;NULL
+1235;"Avenida do Estado";1;NULL
+1236;"Dom Pedro";1;NULL
+1237;FAU;4;NULL
+1238;FAUdurante;1;NULL
+1239;FAUUSP;4;NULL
+1240;FAUreforma;3;NULL
+1241;FAUdepois;2;NULL
+1242;"arcos ogivais";2;NULL
+1243;matriz;2;NULL
+1244;"Mato Grosso";2;NULL
+1245;1970;1;NULL
+1246;FAET;2;NULL
+1247;Centro-Oeste;3;NULL
+1248;"Universidade Federal do Mato Grosso";1;NULL
+1249;"Canon EOS Rebel T5i";1;NULL
+1250;"Faculdade de Arquitetura Engenharia e Tecnologia";1;NULL
+1251;"Martinez Corrêa";8;NULL
+1252;Teto;2;NULL
+1253;"Sessão Áurea";0;NULL
+1254;"Paulo Mendes da Rocha";2;NULL
+1255;MT;2;NULL
+1256;MatoGrosso;2;NULL
+1257;cinza;5;NULL
+1258;pb;1;NULL
+1259;à;0;NULL
+1260;;4;NULL
+1261;oficina2015;3;NULL
+1262;postal;0;NULL
+1263;imperial;0;NULL
+1264;do;1;NULL
+1265;garanhuns;1;NULL
+1266;estação;1;NULL
+1267;ferroviária;1;NULL
+1268;inglesa;1;NULL
+1269;itu;1;NULL
+1270;toscano;1;NULL
+1271;convento;1;NULL
+1272;barillari;0;NULL
+1273;metálica;0;NULL
+1274;"laje jardim";0;NULL
+1275;venezianas;0;NULL
+1276;iluminação;4;NULL
+1277;decoração;0;NULL
+1278;serralheria;0;NULL
+1279;modulação;0;NULL
+1280;pendulo;0;NULL
+1281;alavanca;0;NULL
+1282;peso;0;NULL
+1283;basculante;0;NULL
+1284;caixilhos;0;NULL
+1285;paris;1;NULL
+1286;"vilanova artigas";1;NULL
+1287;memorial;1;NULL
+1288;"américa latina";1;NULL
+1289;"brasil arquitetura";1;NULL
+1290;oca;1;NULL
+1291;portas;1;NULL
+1292;berlim;1;NULL
+1293;pampulha;1;NULL
+1294;"museu paulista";2;NULL
+1295;"museu do ipiranga";2;NULL
+1296;"belo horizonte";0;NULL
+1297;"hotel brasil";2;NULL
+1298;orla;1;NULL
+1299;beira-mar;1;NULL
+1300;lua;1;NULL
+1301;"sesc pompéia";1;NULL
+1302;"lina bo bardi";1;NULL
+1303;#arquitetura;1;NULL
+1304;#casaantiga;1;NULL
+1305;#taipa;1;NULL
+1306;#arquiteturabrasileira;1;NULL
+1307;*arquiteturabrasileira;2;NULL
+1308;*taipa;1;NULL
+1309;*arquitetura;1;NULL
+1310;bote-fé;1;NULL
+1311;nave;1;NULL
+1312;pnse;1;NULL
+1313;"ns da esperança";1;NULL
+1314;plantas;1;NULL
+1315;deputados;3;NULL
+1316;anexxo;1;NULL
+1317;iii;2;NULL
+1318;anexo;1;NULL
+1319;ovo;1;NULL
+1320;ninho;1;NULL
+1321;pomba;1;NULL
+1322;"anexo ii";1;NULL
+1323;trabalhadores;1;NULL
+1324;pgr;1;NULL
+1325;procuradoria;1;NULL
+1326;geral;1;NULL
+1327;bh;4;NULL
+1328;"parque guinle";1;NULL
+1329;unilivre;1;NULL
+1330;curitiba;1;NULL
+1331;"jaime lerner";1;NULL
+1332;"domingos bongestabs";1;NULL
+1333;"alvaro siza";1;NULL
+1334;"alfredo ceschiatti";2;NULL
+1335;"dante croce";1;NULL
+1336;"joaquim cardoso";0;NULL
+1337;stf;2;NULL
+1338;supremo;2;NULL
+1339;"três poderes";2;NULL
+1340;themis;1;NULL
+1341;iustitia;1;NULL
+1342;prudência;1;NULL
+1343;fortitude;1;NULL
+1344;temperança;1;NULL
+1345;mitologia;1;NULL
+1346;"deusa grega";1;NULL
+1347;"mitologia romana";1;NULL
+1348;caquinhos;1;NULL
+1349;ábaco;0;Acervo
+1350;abadia;0;Acervo
+1351;abegoaria;0;Acervo
+1352;abertura;233;Acervo
+1353;"abertura zenital";282;Acervo
+1354;abóbada;184;Acervo
+1355;"abóbada de berço";14;Acervo
+1356;abraçadeira;0;Acervo
+1357;abside;0;Acervo
+1358;acéquia;0;Acervo
+1359;aço;232;Acervo
+1360;"aço inoxidável ";0;Acervo
+1361;acrotério;3;Acervo
+1362;adobe;7;Acervo
+1363;adro;13;Acervo
+1364;"aeroporto ";1;Acervo
+1365;"agência bancária";29;Acervo
+1366;"agência de viagens";0;Acervo
+1367;aglomerado;0;Acervo
+1368;alabastro;0;Acervo
+1369;alambrado;11;Acervo
+1370;alçapão;0;Acervo
+1371;alfândega;0;Acervo
+1372;algibe;0;Acervo
+1373;alojamento;42;Acervo
+1374;alpendre;15;Acervo
+1375;altar;42;Acervo
+1376;"alto relevo";7;Acervo
+1377;"alumínio ";11;Acervo
+1378;"alvenaria ";587;Acervo
+1379;"amianto ";0;Acervo
+1380;andaime;27;Acervo
+1381;"anel de concreto ";1;Acervo
+1382;aprisco;0;Acervo
+1383;aquecedor;0;Acervo
+1384;"ar condicionado";3;Acervo
+1385;arcada;44;Acervo
+1386;arco;209;Acervo
+1387;"arco abatido";31;Acervo
+1388;"arco ogival";4;Acervo
+1389;"arco pleno";19;Acervo
+1390;"área de serviço";1;Acervo
+1391;areia;10;Acervo
+1392;argamassa;26;Acervo
+1393;"argamassa armada";19;Acervo
+1394;argila;0;Acervo
+1395;armadura;1;Acervo
+1396;"armadura metálica";19;Acervo
+1397;arquibancada;47;Acervo
+1398;arquitrave;1;Acervo
+1399;arsenal;0;Acervo
+1400;atelier;9;Acervo
+1401;ático;0;Acervo
+1402;átrio;0;Acervo
+1403;auditório;37;Acervo
+1404;azulejo;53;Acervo
+1405;"baixo relevo";0;Acervo
+1406;balaustrada;24;Acervo
+1407;balaústre;5;Acervo
+1408;balcão;22;Acervo
+1409;baldrame;0;Acervo
+1410;bambu;14;Acervo
+1411;"banca de jornal";2;Acervo
+1412;bancada;4;Acervo
+1413;"banco ";101;Acervo
+1414;bandeira;22;Acervo
+1415;banheiro;5;Acervo
+1416;bar;14;Acervo
+1417;barda;0;Acervo
+1418;"barra de contenção";0;Acervo
+1419;barraco;0;Acervo
+1420;barragem;0;Acervo
+1421;barro;6;Acervo
+1422;"barro cozido ";1;Acervo
+1423;basílica;5;Acervo
+1424;"beiral ";204;Acervo
+1425;"biblioteca ";72;Acervo
+1426;"bloco de concreto ";106;Acervo
+1427;"bloco de pedra";12;Acervo
+1428;"bloco de vidro ";9;Acervo
+1429;"bloco intertravado";40;Acervo
+1430;borracha;0;Acervo
+1431;brise;226;Acervo
+1432;"brita ";0;Acervo
+1433;bronze;8;Acervo
+1434;"cachorro ";12;Acervo
+1435;caibro;51;Acervo
+1436;"caixa d'água";0;Acervo
+1437;caixilho;298;Acervo
+1438;cal;14;Acervo
+1439;"cal preta";0;Acervo
+1440;"cal terçada ";0;Acervo
+1441;calçada;69;Acervo
+1442;calcário;0;Acervo
+1443;calha;17;Acervo
+1444;câmara;12;Acervo
+1445;camping;0;Acervo
+1446;"campo de futebol ";8;Acervo
+1447;"canal ";2;Acervo
+1448;"canal de drenagem";2;Acervo
+1449;"canteiro de obras";379;Acervo
+1450;capela;55;Acervo
+1451;capela-mor;3;Acervo
+1452;capitel;6;Acervo
+1453;cariátide;0;Acervo
+1454;carpete;2;Acervo
+1455;cascalho;0;Acervo
+1456;catedral;55;Acervo
+1457;cemitério;1;Acervo
+1458;"centro cívico";56;Acervo
+1459;"centro cultural";149;Acervo
+1460;"centro de convenções";39;Acervo
+1461;"centro de saúde";3;Acervo
+1462;cerâmica;378;Acervo
+1463;cerca;4;Acervo
+1464;"cerca viva";0;Acervo
+1465;chaminé;40;Acervo
+1466;cimbramento;15;Acervo
+1467;cimento;10;Acervo
+1468;cinema;37;Acervo
+1469;clarabóia;39;Acervo
+1470;clínica;0;Acervo
+1471;clube;331;Acervo
+1472;cobertura;493;Acervo
+1473;"cobogó ";104;Acervo
+1474;"colégio ";1;Acervo
+1475;coluna;140;Acervo
+1476;colunata;14;Acervo
+1477;comercial;111;Acervo
+1478;comunicação;0;Acervo
+1479;concreto;2084;Acervo
+1480;"concreto aparente";1390;Acervo
+1481;"concreto armado";866;Acervo
+1482;"concreto pintado";146;Acervo
+1483;"concreto queimado";0;Acervo
+1484;conduíte;0;Acervo
+1485;confeitaria;0;Acervo
+1486;"conjunto habitacional";119;Acervo
+1487;contraverga;0;Acervo
+1488;coreto;1;Acervo
+1489;cornija;3;Acervo
+1490;corredor;120;Acervo
+1491;córrego;24;Acervo
+1492;corrimão;46;Acervo
+1493;cortiça;0;Acervo
+1494;cortiço;0;Acervo
+1495;cozinha;22;Acervo
+1496;creche;24;Acervo
+1497;cumeeira;0;Acervo
+1498;cúpula;46;Acervo
+1499;deck;16;Acervo
+1500;degrau;30;Acervo
+1501;desnível;20;Acervo
+1502;divisória;7;Acervo
+1503;domus;46;Acervo
+1504;dormitório;20;Acervo
+1505;drywall;0;Acervo
+1506;"duto de ar";1;Acervo
+1507;educacional;490;Acervo
+1508;"elemento vazado ";52;Acervo
+1509;"elevador ";20;Acervo
+1510;embaixada;0;Acervo
+1511;empena;309;Acervo
+1512;encosta;1;Acervo
+1513;enxaimel;0;Acervo
+1514;epóxi;0;Acervo
+1515;escada;216;Acervo
+1516;"escada caracol";10;Acervo
+1517;"escada de mão";0;Acervo
+1518;"escada rolante";0;Acervo
+1519;escadaria;36;Acervo
+1520;escadaria;0;Acervo
+1521;escola;590;Acervo
+1522;escora;52;Acervo
+1523;escritório;31;Acervo
+1524;"escultura ";77;Acervo
+1525;espelho;2;Acervo
+1526;"espelho d'água";0;Acervo
+1527;esportivo;374;Acervo
+1528;esquadria;314;Acervo
+1529;esquina;44;Acervo
+1530;estaca;0;Acervo
+1531;estaca;0;Acervo
+1532;"estação de trem";190;Acervo
+1533;"estação rodoviária";564;Acervo
+1534;estacionamento;22;Acervo
+1535;esteio;0;Acervo
+1536;estrada;1;Acervo
+1537;"estrutura em balanço";79;Acervo
+1538;"estúdio ";19;Acervo
+1539;estufa;0;Acervo
+1540;exaustor;0;Acervo
+1541;exposição;40;Acervo
+1542;fábrica;125;Acervo
+1543;fachada;1528;Acervo
+1544;"fachada cega";22;Acervo
+1545;"fachada de vidro ";273;Acervo
+1546;faculdade;438;Acervo
+1547;ferro;98;Acervo
+1548;fibrocimento;11;Acervo
+1549;fonte;19;Acervo
+1550;forma;28;Acervo
+1551;forro;21;Acervo
+1552;"forro nervurado";2;Acervo
+1553;friso;24;Acervo
+1554;frontão;49;Acervo
+1555;galeria;22;Acervo
+1556;galpão;61;Acervo
+1557;garagem;60;Acervo
+1558;gárgula;19;Acervo
+1559;gesso;2;Acervo
+1560;ginásio;123;Acervo
+1561;grade;32;Acervo
+1562;granilite;0;Acervo
+1563;granito;1;Acervo
+1564;"guarda corpo";267;Acervo
+1565;habitação;325;Acervo
+1566;hall;10;Acervo
+1567;hangar;0;Acervo
+1568;haste;0;Acervo
+1569;hipódromo;0;Acervo
+1570;holofote;9;Acervo
+1571;"hospital ";73;Acervo
+1572;hotel;37;Acervo
+1573;igreja;325;Acervo
+1574;industrial;56;Acervo
+1575;"janela ";347;Acervo
+1576;"janela basculante";144;Acervo
+1577;"janela contrapeso";10;Acervo
+1578;"janela de correr";21;Acervo
+1579;"janela guilhotinada";55;Acervo
+1580;"janela pivotante";4;Acervo
+1581;"janelas duas folhas";14;Acervo
+1582;jardim;368;Acervo
+1583;laboratório;111;Acervo
+1584;ladrilho;7;Acervo
+1585;lago;13;Acervo
+1586;lagoa;1;Acervo
+1587;laje;440;Acervo
+1588;"laje nervurada";123;Acervo
+1589;lajota;12;Acervo
+1590;lanchonete;5;Acervo
+1591;"lanternim ";6;Acervo
+1592;lareira;9;Acervo
+1593;largo;27;Acervo
+1594;latrina;0;Acervo
+1595;lavanderia;1;Acervo
+1596;"linha férrea";23;Acervo
+1597;loja;19;Acervo
+1598;lona;0;Acervo
+1599;luminária;50;Acervo
+1600;madeira;449;Acervo
+1601;"madeira compensada";0;Acervo
+1602;"mão francesa";0;Acervo
+1603;maquinário;3;Acervo
+1604;mar;4;Acervo
+1605;"mares de morros ";0;Acervo
+1606;mármore;42;Acervo
+1607;"marquise ";187;Acervo
+1608;"massa corrida";1;Acervo
+1609;mastro;3;Acervo
+1610;"mausoléu ";7;Acervo
+1611;mercado;12;Acervo
+1612;mesquita;0;Acervo
+1613;"mezanino ";69;Acervo
+1614;ministério;22;Acervo
+1615;mirante;7;Acervo
+1616;mobiliário;146;Acervo
+1617;montante;24;Acervo
+1618;monumento;13;Acervo
+1619;"mosaico ";16;Acervo
+1620;mural;15;Acervo
+1621;mureta;47;Acervo
+1622;"muro ";90;Acervo
+1623;"muro de arrimo ";17;Acervo
+1624;"museu ";188;Acervo
+1625;muxarabi;23;Acervo
+1626;óculo;23;Acervo
+1627;orfanato;0;Acervo
+1628;ornamento;160;Acervo
+1629;painel;152;Acervo
+1630;palacete;16;Acervo
+1631;palha;22;Acervo
+1632;"papel de parede";0;Acervo
+1633;paralelepípedo;38;Acervo
+1634;parede;80;Acervo
+1635;"parede curva";156;Acervo
+1636;parque;85;Acervo
+1637;passarela;147;Acervo
+1638;pastilha;103;Acervo
+1639;patamar;26;Acervo
+1640;pátio;122;Acervo
+1641;"pátio de manobra";1;Acervo
+1642;"pau a pique";6;Acervo
+1643;pavilhão;29;Acervo
+1644;pedra;296;Acervo
+1645;peitoril;11;Acervo
+1646;pergolado;26;Acervo
+1647;pilar;1271;Acervo
+1648;pilarete;24;Acervo
+1649;pilastra;11;Acervo
+1650;piloti;80;Acervo
+1651;pingadeira;15;Acervo
+1652;piscina;88;Acervo
+1653;piso;9;Acervo
+1654;"placa ";9;Acervo
+1655;"placa pré moldada";52;Acervo
+1656;planetário;7;Acervo
+1657;planície;0;Acervo
+1658;"plano inclinado";40;Acervo
+1659;plástico;0;Acervo
+1660;plataforma;37;Acervo
+1661;platibanda;38;Acervo
+1662;ponte;83;Acervo
+1663;porta;128;Acervo
+1664;"porta de correr";39;Acervo
+1665;"porta de duas folhas";17;Acervo
+1666;portão;47;Acervo
+1667;"portão de correr";1;Acervo
+1668;pórtico;167;Acervo
+1669;portinhola;0;Acervo
+1670;poste;33;Acervo
+1671;"posto de gasolina";7;Acervo
+1672;pousada;0;Acervo
+1673;praça;182;Acervo
+1674;praia;21;Acervo
+1675;prefeitura;8;Acervo
+1676;pvc;0;Acervo
+1677;quadra;33;Acervo
+1678;"quadra poliesportiva";31;Acervo
+1679;rampa;289;Acervo
+1680;represa;3;Acervo
+1681;reservatório;0;Acervo
+1682;residência;961;Acervo
+1683;resort;0;Acervo
+1684;restaurante;45;Acervo
+1685;rio;41;Acervo
+1686;"ripa ";53;Acervo
+1687;rodovia;0;Acervo
+1688;rosácea;1;Acervo
+1689;rua;172;Acervo
+1690;rufo;2;Acervo
+1691;sacada;56;Acervo
+1692;saguão;3;Acervo
+1693;saibro;0;Acervo
+1694;sala;15;Acervo
+1695;"sala de estar";63;Acervo
+1696;"sala de reunião";0;Acervo
+1697;"salão  ";27;Acervo
+1698;"sapata corrida";0;Acervo
+1699;secretaria;5;Acervo
+1700;senzala;9;Acervo
+1701;shaft;0;Acervo
+1702;shed;21;Acervo
+1703;silo;12;Acervo
+1704;sinagoga;2;Acervo
+1705;sindicato;137;Acervo
+1706;superquadra;3;Acervo
+1707;tabique;0;Acervo
+1708;tábua;2;Acervo
+1709;"taipa de mão";1;Acervo
+1710;"taipa de pilão";11;Acervo
+1711;"taipa de sopapo";1;Acervo
+1712;tapume;0;Acervo
+1713;teatro;65;Acervo
+1714;tecido;0;Acervo
+1715;telha;234;Acervo
+1716;telha;0;Acervo
+1717;telhado;319;Acervo
+1718;"telhado duas águas";81;Acervo
+1719;"telhado invertido";1;Acervo
+1720;"telhado quatro águas";32;Acervo
+1721;"telhado uma água";11;Acervo
+1722;templo;10;Acervo
+1723;tenda;2;Acervo
+1724;terça;2;Acervo
+1725;terraço;75;Acervo
+1726;"terraço jardim";8;Acervo
+1727;terreiro;3;Acervo
+1728;tesoura;48;Acervo
+1729;"tesoura metálica";0;Acervo
+1730;"tijolo de barro";433;Acervo
+1731;tinta;0;Acervo
+1732;tirante;40;Acervo
+1733;toldo;8;Acervo
+1734;torre;114;Acervo
+1735;treliça;84;Acervo
+1736;tribunal;3;Acervo
+1737;trilho;0;Acervo
+1738;túmulo;1;Acervo
+1739;umbral;0;Acervo
+1740;usina;0;Acervo
+1741;"usina hidrelétrica";12;Acervo
+1742;vale;26;Acervo
+1743;vão;169;Acervo
+1744;varanda;39;Acervo
+1745;veneziana;22;Acervo
+1746;verga;11;Acervo
+1747;vergalhão;36;Acervo
+1748;verniz;0;Acervo
+1749;viaduto;49;Acervo
+1750;vidro;417;Acervo
+1751;viela;10;Acervo
+1752;viga;621;Acervo
+1753;vinil;0;Acervo
+1754;vitral;25;Acervo
+1755;vitrine;0;Acervo
+1756;voluta;20;Acervo
+1757;"escada helicoidal";1;NULL
+1758;observatório;1;NULL
+1759;"espelho dágua";2;NULL
+1760;campanário;5;NULL
+1761;retábulo;1;NULL
+1762;shopping;0;NULL
+1763;minas;1;NULL
+1764;igrejas;1;NULL
+1765;"patrimônio histórico";1;NULL
+1766;brasão;1;NULL
+1767;"igreja são bonifácio";0;NULL
+1768;espaco573;173;NULL
+1769;"vila maria zélia";36;NULL
+1770;"vila operária";59;NULL
+1771;#espaco573;172;NULL
+1772;#portas;0;NULL
+1773;#escoladosmeninos;0;NULL
+1774;#armazém;0;NULL
+1775;#grupoxixdeteatro;0;NULL
+1776;#domingueira;0;NULL
+1777;#hysteria;0;NULL
+1778;#igreja;0;NULL
+1779;#escoladasmeninas;0;NULL
+1780;#vilamariazélia;0;NULL
+1781;#saladeaula;0;NULL
+1782;escoladosmeninos;2;NULL
+1783;vilamariazélia;1;NULL
+1784;domingueira;18;NULL
+1785;grupoxixdeteatro;2;NULL
+1786;hysteria;1;NULL
+1787;escoladasmeninas;1;NULL
+1788;"escola das meninas";6;NULL
+1789;"escola dos meninos";3;NULL
+1790;arvores;1;NULL
+1791;vila;7;NULL
+1792;#teste;0;NULL
+1793;"feira de rua";6;NULL
+1794;barraca;8;NULL
+1795;"espaco 573";0;NULL
+1796;#feira;67;NULL
+1797;pêssego;1;NULL
+1798;alface;1;NULL
+1799;feirante;1;NULL
+1800;"barraca de alfaces";1;NULL
+1801;regador;1;NULL
+1802;feirantes;1;NULL
+1803;"rua transversal";1;NULL
+1804;caminhão;1;NULL
+1805;"sacola de compras";1;NULL
+1806;"entrada metrô";1;NULL
+1807;"metrô praça da árvore";1;NULL
+1808;"carrinho de compras";1;NULL
+1809;banana;1;NULL
+1810;caixa;1;NULL
+1811;lixo;1;NULL
+1812;tomate;1;NULL
+1813;"barraca de folhas";1;NULL
+1814;abandono;7;NULL
+1815;perus;8;NULL
+1816;abandonada;4;NULL
+1817;#abandono;2;NULL
+1818;"feira da fruta";1;NULL
+1819;"só não tinha jaca";1;NULL
+1820;entreedificios;20;NULL
+1821;novamérica;2;NULL
+1822;"santo amaro";1;NULL
+1823;victorcivita;11;NULL
+1824;#victorcivita;11;NULL
+1825;ruínas;16;NULL
+1826;vivisp;0;NULL
+1827;lúdico;5;NULL
+1828;"espaço público";0;NULL
+1829;mci;0;NULL
+1830;basurama;0;NULL
+1831;"a cidade é para brincar";0;NULL
+1832;#arcosdojanio;24;NULL
+1833;#avenida23demaio;24;NULL
+1834;#graffiti;24;NULL
+1835;#espaco537;3;NULL
+1836;#viaexpressa;23;NULL
+1837;#ponte;13;NULL
+1838;"vila operaria maria zelia";14;NULL
+1839;entreedificio;4;NULL
+1840;#casadopovo;13;NULL
+1841;#rua;1;NULL
+1842;lousa;1;NULL
+1843;"data imprecisa";0;NULL
+1844;#dentro;4;NULL
+1845;#fora;4;NULL
+1846;#pessoas;3;NULL
+1847;#janela;4;NULL
+1848;#entrada;2;NULL
+1849;#oficina;1;NULL
+1850;#grupo;1;NULL
+1851;#política;1;NULL
+1852;#experimental;1;NULL
+1853;#ruína;2;NULL
+1854;#transição;1;NULL
+1855;tenalha;1;NULL
+1856;ime2014;1;NULL
+1857;teste16102015-album;0;NULL
+1858;#viradacientifica2015;7;NULL
+1859;diagonal;1;NULL
+1860;inclinação;1;NULL
+1861;tangerina;1;NULL
+1862;#casademolida;8;NULL
+1863;#casaabandonada;8;NULL
+1864;#terraco;1;NULL
+1865;#mirante;1;NULL
+1866;#paisagem;1;NULL
+1867;#telhaquebrada;1;NULL
+1868;#musgoverde;1;NULL
+1869;#cba;1;NULL
+1870;comunidade;0;NULL
+1871;"novamerica office park";1;NULL
+1872;casal;1;NULL
+1873;skyline;1;NULL
+1874;pessoas;1;NULL
+1875;"vila madalena";1;NULL
+1876;grama;2;NULL
+1877;piquenique;1;NULL
+1878;#vivisp;6;NULL
+1879;escorregador;1;NULL
+1880;crianças;1;NULL
+1881;"pedro moreira ribeiro";4;NULL
+1882;fenestrações;3;NULL
+1883;portal;11;Livre
+1884;almofada;20;Livre
+1885;ombreira;5;Livre
+1886;"verga ornada";1;Livre
+1887;*educação;1;NULL
+1888;*espaçopublico;1;NULL
+1889;*arquiteturaescolar;1;NULL
+1890;*acessibilidade;1;NULL
+1891;*creche;1;NULL
+1892;*arquiteturacontemporanea;1;NULL
+1893;"período colonial";3;NULL
+1894;teste_31102015;0;NULL
+1895;pré-moldado;52;Livre
+1896;"estrutura de concreto";63;Livre
+1897;institucional;64;Livre
+1898;reitoria;22;Livre
+1899;"iluminação natural";8;Livre
+1900;instituto;54;Livre
+1901;"rampa suspensa";1;Livre
+1902;"espelho dágua";101;Livre
+1903;"piso de borracha";6;Livre
+1904;"vaso pendente";2;Livre
+1905;administrativo;29;Livre
+1906;transporte;38;Livre
+1907;"vão livre";25;Livre
+1908;pilotis;43;Livre
+1909;"#arcosdalapa #rio";1;Livre
+1910;brasil;9;Livre
+1911;pampulha;15;Livre
+1912;"minas gerais";31;Livre
+1913;religiao;16;Livre
+1914;modernismo;258;Livre
+1915;"belo horizonte";11;Livre
+1916;niemeyer;70;Livre
+1917;bw;2;Livre
+1918;#representar2015;76;Livre
+1919;edifício;185;Livre
+1920;centro;23;Livre
+1921;"ribeirão preto";71;Livre
+1922;lâminas;1;Livre
+1923;"palacete josé caetano borges";1;Livre
+1924;"catedral metropolitana";3;Livre
+1925;uberaba;40;Livre
+1926;representar2015;4;Livre
+1927;deriva;44;Livre
+1928;"igreja santa rita";1;Livre
+1929;uniube;4;Livre
+1930;"paço municipal major eustáquio";1;Livre
+1931;paisagismo;26;Livre
+1932;campus;129;Livre
+1933;universidade;215;Livre
+1934;"estrutura metálica";18;Livre
+1935;grelha;1;Livre
+1936;colméia;1;Livre
+1937;geometria;5;Livre
+1938;luz;17;Livre
+1939;sombra;3;Livre
+1940;formas;1;Livre
+1941;linhas;1;Livre
+1942;teto;11;Livre
+1943;redonda;1;Livre
+1944;"pilar redondo";1;Livre
+1945;#traçadourbano;1;Livre
+1946;"#representar2015 universidade campus uniube pontodefuga";0;Livre
+1947;patrimônio;28;Livre
+1948;#madeira;2;Livre
+1949;#escada;2;Livre
+1950;sesc;60;Livre
+1951;retrofit;1;Livre
+1952;#ocupação;3;Livre
+1953;#janela;3;Livre
+1954;#saopaulo;3;Livre
+1955;#passagemliterária;2;Livre
+1956;#consolação;5;Livre
+1957;#ecologic;2;Livre
+1958;#prainhabranca;6;Livre
+1959;#caminhos;2;Livre
+1960;#comunidade;1;Livre
+1961;"#representar2015 #ecologic #prainhabranca #madeira #pedras";1;Livre
+1962;arquitetura;67;Livre
+1963;constraste;1;Livre
+1964;contemporaneo;25;Livre
+1965;"zaha hadid";1;Livre
+1966;roma;4;Livre
+1967;maxxi;1;Livre
+1968;estrutura;57;Livre
+1969;"caixa dágua";100;Livre
+1970;#mataatlântica;5;Livre
+1971;#ruínas;1;Livre
+1972;#patrimônio;1;Livre
+1973;#ruína;0;Livre
+1974;#ocupações;1;Livre
+1975;#revitalizar;2;Livre
+1976;"oscar niemeyer";16;Livre
+1977;olho;1;Livre
+1978;curitiba;21;Livre
+1979;eclético;17;Livre
+1980;#camping;1;Livre
+1981;#hostel;0;Livre
+1982;#restaurar;0;Livre
+1983;hostel;2;Livre
+1984;restauraçao;5;Livre
+1985;castelo;6;Livre
+1986;workshop;2;Livre
+1987;"lina bo bardi";22;Livre
+1988;"triangulo mineiro";9;Livre
+1989;uberlândia;17;Livre
+1990;tijolinho;9;Livre
+1991;círculo;9;Livre
+1992;cerrado;9;Livre
+1993;bilbioteca;8;Livre
+1994;ufu;8;Livre
+1995;"paulo zimbres";8;Livre
+1996;gêmeas;8;Livre
+1997;"prainha branca";1;Livre
+1998;ocupação;1;Livre
+1999;#bw;4;Livre
+2000;vegetação;24;Livre
+2001;temporário;2;Livre
+2002;fronteira;2;Livre
+2003;limite;5;Livre
+2004;interface;1;Livre
+2005;verde;2;Livre
+2006;pedestre;5;Livre
+2007;"rua de lazer";2;Livre
+2008;ônibus;1;Livre
+2009;ciclovia;5;Livre
+2010;"espaço público";23;Livre
+2011;"praça interna";2;Livre
+2012;polícia;1;Livre
+2013;acesso;18;Livre
+2014;faixa;2;Livre
+2015;#arquitetura;5;Livre
+2016;#espelhodagua;1;Livre
+2017;#paisagismo;2;Livre
+2018;#fechamentos;1;Livre
+2019;#planos;1;Livre
+2020;#contraste;1;Livre
+2021;#conforto;1;Livre
+2022;#ambiente;1;Livre
+2023;conexão;1;Livre
+2024;verticalidade;1;Livre
+2025;architecture;1;Livre
+2026;minhocão;44;Livre
+2027;elevado;38;Livre
+2028;"via expressa";1;Livre
+2029;avenida;67;Livre
+2030;"são joão";1;Livre
+2031;"são paulo";111;Livre
+2032;urbano;3;Livre
+2033;"paisagem urbana";4;Livre
+2034;copan;5;Livre
+2035;"preto e branco";2;Livre
+2036;"altino arantes";3;Livre
+2037;banespa;3;Livre
+2038;"torre do banespa";1;Livre
+2039;"viaduto santa ifigênia";1;Livre
+2040;"santa ifigênia";1;Livre
+2041;"banco do brasil";1;Livre
+2042;cidade;29;Livre
+2043;"praça do correio";1;Livre
+2044;martinelli;7;Livre
+2045;"edificio martinelli";1;Livre
+2046;sescpompeia;2;Livre
+2047;linabobardi;5;Livre
+2048;brutalismo;169;Livre
+2049;novoevelho;2;Livre
+2050;historia;12;Livre
+2051;#plano;1;Livre
+2052;#vidro;1;Livre
+2053;#fechamento;1;Livre
+2054;tijolo;67;Livre
+2055;à;1;Livre
+2056;vista;18;Livre
+2057;teste;1;Livre
+2058;09122015;0;Livre
+2059;casario;7;Livre
+2060;ruína;23;Livre
+2061;sobrado;53;Livre
+2062;postal;39;Livre
+2063;público;26;Livre
+2064;cadeia;1;Livre
+2065;prisão;1;Livre
+2066;detenção;1;Livre
+2067;militar;10;Livre
+2068;religioso;93;Livre
+2069;grafismo;2;Livre
+2070;contraste;3;Livre
+2071;sobreposição;13;Livre
+2072;pinázio;0;Livre
+2073;rótula;0;Livre
+2074;doca;1;Livre
+2075;relógio;12;Livre
+2076;pináculo;28;Livre
+2077;cruzeiro;7;Livre
+2078;fronstispício;0;Livre
+2079;"pilar adosado";0;Livre
+2080;guarnição;5;Livre
+2081;"pilar adossado";3;Livre
+2082;"janela duas folhas";3;Livre
+2083;"janela com rótula";0;Livre
+2084;"janela de pinázios";0;Livre
+2085;"porta duas folhas";3;Livre
+2086;"azulejo poruguês";1;Livre
+2087;"janela com pinázio";0;Livre
+2088;"janela com duas folhas";0;Livre
+2089;altar-mor;13;Livre
+2090;"coluna adossada";16;Livre
+2091;frontispício;11;Livre
+2092;"porta almofadada";0;Livre
+2093;"abóboda de berço";1;Livre
+2094;"janela com pinásio";0;Livre
+2095;"porta com almofadas";3;Livre
+2096;brasão;2;Livre
+2097;campanário;11;Livre
+2098;frontispíco;3;Livre
+2099;frankgehry;1;Livre
+2100;porão;2;Livre
+2101;misto;1;Livre
+2102;"ouro preto";12;Livre
+2103;casa;626;Livre
+2104;colonial;25;Livre
+2105;"cidade histórica";4;Livre
+2106;"elevado costa e silva";6;Livre
+2107;"arquitetura ecletica";4;Livre
+2108;"arquitetura paulista";10;Livre
+2109;"sesc pompeia";14;Livre
+2110;"lina bobardi";2;Livre
+2111;lina;35;Livre
+2112;"cidade administrativa";1;Livre
+2113;inhotim;1;Livre
+2114;"museu arte contemporânea";1;Livre
+2115;cobre;1;Livre
+2116;portada;16;Livre
+2117;moldura;2;Livre
+2118;cantaria;9;Livre
+2119;postigo;1;Livre
+2120;"frontão fracionado";1;Livre
+2121;"porta de almofadas";1;Livre
+2122;entablamento;5;Livre
+2123;"portada de almofadas";1;Livre
+2124;"edificio italia";1;Livre
+2125;bandeiras;1;Livre
+2126;"centro de sp";4;Livre
+2127;haddad;1;Livre
+2128;sp;44;Livre
+2129;consolação;1;Livre
+2130;louvre;1;Livre
+2131;"sao luis";1;Livre
+2132;pastilhas;3;Livre
+2133;pirituba;1;Livre
+2134;"zona oeste";1;Livre
+2135;"óculo cegado";1;Livre
+2136;pedra-sabão;2;Livre
+2137;medalhão;1;Livre
+2138;"entablamento interrompido";2;Livre
+2139;"lazer de sp";3;Livre
+2140;"domingo em sp";3;Livre
+2141;ocupa;3;Livre
+2142;pompeia;34;Livre
+2143;"casa das caldeiras";1;Livre
+2144;matarazzo;1;Livre
+2145;"palestra italia";1;Livre
+2146;"torre sineira";15;Livre
+2147;cimalha;1;Livre
+2148;"esfera flamejante";1;Livre
+2149;itaipu;9;Livre
+2150;púlpito;12;Livre
+2151;camarim;0;Livre
+2152;ratábulo;1;Livre
+2153;coroamento;0;Livre
+2154;brasilia;88;Livre
+2155;raw;4;Livre
+2156;igrejinha;2;Livre
+2157;"asa sul";3;Livre
+2158;"plano piloto";40;Livre
+2159;"athos bulcão";3;Livre
+2160;"super quadra";1;Livre
+2161;"quadra modelo";1;Livre
+2162;"modernismo brasileiro";1;Livre
+2163;niemyer;1;Livre
+2164;"marianne peretti";5;Livre
+2165;"mulheres brasileiras";5;Livre
+2166;"lucio costa";4;Livre
+2167;"eixo monumental";2;Livre
+2168;fau;58;Livre
+2169;"fau unb";5;Livre
+2170;icc;5;Livre
+2171;unb;16;Livre
+2172;lelé;14;Livre
+2173;"dom bosco";12;Livre
+2174;sobrepoicao;2;Livre
+2175;panoramica;2;Livre
+2176;"vr panorama";2;Livre
+2177;"concha acustica";12;Livre
+2178;panteao;6;Livre
+2179;"arthur nogueira";2;Livre
+2180;"interiorer sao paulo";2;Livre
+2181;ferrovia;23;Livre
+2182;"estrada de ferro";5;Livre
+2183;paulista;4;Livre
+2184;"ferrovia paulista";3;Livre
+2185;"interior de sao paulo";3;Livre
+2186;energia;16;Livre
+2187;eletricidade;2;Livre
+2188;orquidario;7;Livre
+2189;"praia grande";9;Livre
+2190;"litoral paulista";7;Livre
+2191;"por do sol";10;Livre
+2192;industria;33;Livre
+2193;mackenzie;13;Livre
+2194;reforma;4;Livre
+2195;construção;188;Livre
+2196;faumack;2;Livre
+2197;alphaville;6;Livre
+2198;"nossa senhora do rosario";17;Livre
+2199;negros;17;Livre
+2200;escravos;22;Livre
+2201;"lazer em sp";28;Livre
+2202;"lazer sp";9;Livre
+2203;embu;5;Livre
+2204;artes;10;Livre
+2205;"praça da liberdade";6;Livre
+2206;japao;5;Livre
+2207;"cultura japonesa";5;Livre
+2208;colonia;33;Livre
+2209;portugal;28;Livre
+2210;minas;48;Livre
+2211;ouro;38;Livre
+2212;"hélio oiticica";5;Livre
+2213;"museu do ipiranga";12;Livre
+2214;ipiranga;12;Livre
+2215;independencia;12;Livre
+2216;imigrantes;5;Livre
+2217;italianos;5;Livre
+2218;hospedaria;5;Livre
+2219;lapa;1;Livre
+2220;bairro;9;Livre
+2221;distrito;9;Livre
+2222;"operação urbana";1;Livre
+2223;"rio de janeiro";14;Livre
+2224;urbanismo;27;Livre
+2225;urbanização;24;Livre
+2226;ibirapuera;5;Livre
+2227;"brasil arquitetura";1;Livre
+2228;"conjunto nacional";1;Livre
+2229;"jardim botânico";129;Livre
+2230;beijódromo;3;Livre
+2231;"buenos aires";4;Livre
+2232;"congreso de la nación argentina";4;Livre
+2233;"congreso de la nación";4;Livre
+2234;"congresso da nação argentina";4;Livre
+2235;argentina;4;Livre
+2236;"o pensador";1;Livre
+2237;rodin;1;Livre
+2238;"praça lorea";1;Livre
+2239;"colonia del sacramento";8;Livre
+2240;uruguai;8;Livre
+2241;gato;3;Livre
+2242;tempo;8;Livre
+2243;"arquitetura espanhola";7;Livre
+2244;"arquitetura portuguesa";7;Livre
+2245;"centro histórico";37;Livre
+2246;merlão;0;Livre
+2247;"aba corrida";0;Livre
+2248;compoteira;0;Livre
+2249;dossel;5;Livre
+2250;talha;31;Livre
+2251;lambrequim;1;Livre
+2252;"água furtada";5;Livre
+2253;bndeira;0;Livre
+2254;"casa de cultura";9;Livre
+2255;gradil;4;Livre
+2256;bicicletário;3;Livre
+2257;mobilidade;4;Livre
+2258;balneário;115;Livre
+2259;#cine;2;Livre
+2260;#preexistencia;2;Livre
+2261;#mube;1;Livre
+2262;#paulomendesdarocha;1;Livre
+2263;#uberaba;2;Livre
+2264;#grandcine;1;Livre
+2265;#cinemetropole;1;Livre
+2266;#minasgerais;1;Livre
+2267;#curitiba;2;Livre
+2268;#vertical;2;Livre
+2269;#parque;1;Livre
+2270;#capela;1;Livre
+2271;projeto;736;Livre
+2272;implantação;18;Livre
+2273;"portada com almofadas";3;Livre
+2274;nave;4;Livre
+2275;ornato;0;Livre
+2276;"capela lateral";1;Livre
+2277;prebistério;0;Livre
+2278;planta;80;Livre
+2279;maquete;662;Livre
+2280;porta-varanda;0;Livre
+2281;sineira;0;Livre
+2282;cartela;0;Livre
+2283;nicho;13;Livre
+2284;agulha;0;Livre
+2285;"bandeira fixa";0;Livre
+2286;porta-sacada;8;Livre
+2287;coro;7;Livre
+2288;pintura;17;Livre
+2289;"pedra de arrecife";0;Livre
+2290;armoriado;0;Livre
+2291;móvel;5;Livre
+2292;"forro artesoado";2;Livre
+2293;flecha;1;Livre
+2294;batistério;2;Livre
+2295;claustro;9;Livre
+2296;"arco em asa de cesto";1;Livre
+2297;"abóbada de canhão";1;Livre
+2298;retábulo;4;Livre
+2299;"janela de guilhotina";1;Livre
+2300;pinásio;1;Livre
+2301;"janela de duas folhas";3;Livre
+2302;"coroamento bulboso";6;Livre
+2303;arenito;4;Livre
+2304;marfim;1;Livre
+2305;pia;2;Livre
+2306;croqui;39;Livre
+2307;desenho;188;Livre
+2308;"altar lateral";7;Livre
+2309;valinhos;2;Livre
+2310;figo;2;Livre
+2311;"interior sp";2;Livre
+2312;"arquitetura religiosa";9;Livre
+2313;cecap;11;Livre
+2314;madeira-mármore;1;Livre
+2315;"abóbada de nervura";1;Livre
+2316;"igreja do bom jesus";0;Livre
+2317;estátua;8;Livre
+2318;pódio;1;Livre
+2319;"coluna jônica";1;Livre
+2320;"pedra lavrada";1;Livre
+2321;porta-janela;3;Livre
+2322;convento;5;Livre
+2323;guranição;1;Livre
+2324;"altar mor";0;Livre
+2325;baluarte;2;Livre
+2326;talude;15;Livre
+2327;"mármore ojô";2;Livre
+2328;guarita;3;Livre
+2329;"janela de púlpito";11;Livre
+2330;bacia;1;Livre
+2331;"sobrado colonial";10;Livre
+2332;"casa térrea";5;Livre
+2333;"janela de eixo vertical";4;Livre
+2334;camarinha;2;Livre
+2335;"janela de rótula";1;Livre
+2336;serra;4;Livre
+2337;"estrutura em aço";16;Livre
+2338;ecletismo;51;Livre
+2339;textura;5;Livre
+2340;islãmico;1;Livre
+2341;paróquia;3;Livre
+2342;romanico;4;Livre
+2343;mosteiro;13;Livre
+2344;gótico;4;Livre
+2345;hebreu;1;Livre
+2346;bizantino;1;Livre
+2347;orla;3;Livre
+2348;"beira mar";1;Livre
+2349;"balcão corrido";1;Livre
+2350;janelas;15;Livre
+2351;"azulejo português";2;Livre
+2352;igreja~;1;Livre
+2353;belohorizonte;1;Livre
+2354;passeio2016;5;Livre
+2355;fauusp;4;Livre
+2356;#passeio2016;1;Livre
+2357;#euquetirei;1;Livre
+2358;pordosol;1;Livre
+2359;estaiada;1;Livre
+2360;"ponte octávio frias de oliveira";1;Livre
+2361;"centro de ciências";20;Livre
+2362;pré-fabricado;51;Livre
+2363;fórum;19;Livre
+2364;engenho;13;Livre
+2365;"sala de aula";21;Livre
+2366;skyline;8;Livre
+2367;árvore;4;Livre
+2368;corte;43;Livre
+2369;"viga gerber";7;Livre
+2370;contraventamento;8;Livre
+2371;"iluminação zenital";166;Livre
+2372;"parede circular";9;Livre
+2373;fronstipício;1;Livre
+2374;oscar;2;Livre
+2375;modernista;3;Livre
+2376;usp;100;Livre
+2377;e1;1;Livre
+2378;"são carlos";1;Livre
+2379;"cachoeira ba";1;Livre
+2380;bahia;4;Livre
+2381;"recôncavo baiano";1;Livre
+2382;"arquitetura colonial";14;Livre
+2383;casca;24;Livre
+2384;senado;9;Livre
+2385;congresso;7;Livre
+2386;"torre de circulação";1;Livre
+2387;memorial;15;Livre
+2388;"mosaico português";44;Livre
+2389;circulação;28;Livre
+2390;travamento;1;Livre
+2391;"estrutura de aço";1;Livre
+2392;agência;5;Livre
+2393;"ponto de ônibus";23;Livre
+2394;paço;13;Livre
+2395;por-do-sol;0;Livre
+2396;edificios;5;Livre
+2397;"conominio solar de amigos";2;Livre
+2398;"capela nossa senhora aparecida";3;Livre
+2399;shopping;1;Livre
+2400;catraca;1;Livre
+2401;"favela vertical";3;Livre
+2402;sacristia;1;Livre
+2403;"condomínio solar de amigos";4;Livre
+2404;capelas;13;Livre
+2405;"condomínios fechados";7;Livre
+2406;"condomínio nossa senhora aparecida";1;Livre
+2407;piscinas;2;Livre
+2408;"edifícios residenciais";3;Livre
+2409;"escultores brasileiros";0;Livre
+2410;armazém;13;Livre
+2411;cultural;70;Livre
+2412;"ato religioso";1;Livre
+2413;costume;1;Livre
+2414;"arquitetura prisional";1;Livre
+2415;gruta;2;Livre
+2416;jardins;1;Livre
+2417;cachoeira;4;Livre
+2418;tietê;4;Livre
+2419;"espaço livre";2;Livre
+2420;"telhado em duas águas";1;Livre
+2421;"margem dágua";1;Livre
+2422;refeitório;3;Livre
+2423;residencial;37;Livre
+2424;cafeteria;1;Livre
+2425;"detalhes artísticos";6;Livre
+2426;mão;3;Livre
+2427;depredação;1;Livre
+2428;"escultura tumular";2;Livre
+2429;"arquitetura hospitalar";5;Livre
+2430;metrô;41;Livre
+2431;"estação metroviária";1;Livre
+2432;"transporte urbano";1;Livre
+2433;"casa de vidro";5;Livre
+2434;tubulação;12;Livre
+2435;jardineira;6;Livre
+2436;"estrutura de madeira";5;Livre
+2437;"pedra mineira";2;Livre
+2438;playground;4;Livre
+2439;vila;14;Livre
+2440;"vila operária";15;Livre
+2441;espaco573;1;Livre
+2442;pinacoteca;26;Livre
+2443;"liceu de artes e ofícios";16;Livre
+2444;arte;25;Livre
+2445;restauro;37;Livre
+2446;"terminal de ônibus";4;Livre
+2447;"transporte público";23;Livre
+2448;"grandes estruturas";23;Livre
+2449;"art deco";18;Livre
+2450;"porta giratória";1;Livre
+2451;esquadrias;1;Livre
+2452;"pano de vidro";34;Livre
+2453;"portão duas folhas";2;Livre
+2454;"arco angrelado";1;Livre
+2455;sanatório;4;Livre
+2456;chafariz;6;Livre
+2457;"vista aérea";8;Livre
+2458;"igreja matriz";3;Livre
+2459;orelhão;2;Livre
+2460;#seminarios2016;78;Livre
+2461;#tijolo;1;Livre
+2462;seminarios2016;16;Livre
+2463;oca;1;Livre
+2464;parqueibirapuera;1;Livre
+2465;#brasíliainfoco;1;Livre
+2466;bh;9;Livre
+2467;vidral;1;Livre
+2468;"#seminarios2016 #uberaba";0;Livre
+2469;"#seminarios2016 #ura #catedral";1;Livre
+2470;"#seminarios2016 #estaçao #zelandia";1;Livre
+2471;grandcine;1;Livre
+2472;#seminario2016;1;Livre
+2473;#seminarios216;1;Livre
+2474;prédios;2;Livre
+2475;água;19;Livre
+2476;rancho;2;Livre
+2477;tablado;2;Livre
+2478;#inhotim;3;Livre
+2479;#brumadinho;1;Livre
+2480;mg;3;Livre
+2481;#ouropreto;10;Livre
+2482;#mg;2;Livre
+2483;#uniube;3;Livre
+2484;"arquitetura e céu";2;Livre
+2485;"edifício niemeyer";1;Livre
+2486;"arquitetura gótica";1;Livre
+2487;"igreja barroca";1;Livre
+2488;aleijadinho;7;Livre
+2489;"seminarios 2016";12;Livre
+2490;"arquitetura barroca";17;Livre
+2491;detalhes;14;Livre
+2492;ornamentação;1;Livre
+2493;paraty;1;Livre
+2494;cores;4;Livre
+2495;repetição;1;Livre
+2496;prédio;24;Livre
+2497;#arquiteturaeurbanismo;1;Livre
+2498;#bh;1;Livre
+2499;#semfiltro;1;Livre
+2500;1919;2;Livre
+2501;cafe;4;Livre
+2502;itumbiara;2;Livre
+2503;customização;1;Livre
+2504;#neve;1;Livre
+2505;#azul;1;Livre
+2506;#branco;1;Livre
+2507;#montanha;1;Livre
+2508;#chile;2;Livre
+2509;#panosdevidro;1;Livre
+2510;#ventilacao;1;Livre
+2511;#recuo;1;Livre
+2512;#contemporaneo;1;Livre
+2513;palmeiras;1;Livre
+2514;#simple;1;Livre
+2515;noturna;2;Livre
+2516;"estação ferroviária";1;Livre
+2517;estação;2;Livre
+2518;trem;1;Livre
+2519;"granito rosa";1;Livre
+2520;festividade;1;Livre
+2521;detalhe;28;Livre
+2522;interior;47;Livre
+2523;"vista geral";1;Livre
+2524;"porto alegre";33;Livre
+2525;"capital gaucha";31;Livre
+2526;"praça montevideo";3;Livre
+2527;"influencia portuguesa";3;Livre
+2528;"hotel majestic";7;Livre
+2529;"mario quintana";7;Livre
+2530;sagrado;9;Livre
+2531;panorama;2;Livre
+2532;politica;2;Livre
+2533;"praça matriz";8;Livre
+2534;indigena;8;Livre
+2535;jesuitas;7;Livre
+2536;matriz;7;Livre
+2537;transito;2;Livre
+2538;automoveis;1;Livre
+2539;"engenharia de transito";1;Livre
+2540;morros;1;Livre
+2541;holambra;3;Livre
+2542;holanda;3;Livre
+2543;imigração;6;Livre
+2544;pedreira;3;Livre
+2545;heliponto;2;Livre
+2546;luminoso;1;Livre
+2547;feira;4;Livre
+2548;#pampulhachurch;1;Livre
+2549;#barrocomineiro;1;Livre
+2550;"telha de vidro";6;Livre
+2551;quartel;9;Livre
+2552;"construção esportiva";17;Livre
+2553;"base militar";14;Livre
+2554;"base de lançamento";14;Livre
+2555;canaleta;4;Livre
+2556;drenagem;1;Livre
+2557;"escultura em baixo relevo";1;Livre
+2558;guarda-corpo;16;Livre
+2559;"forro de madeira";13;Livre
+2560;"bloco cerâmico";32;Livre
+2561;"painel cerâmico";54;Livre
+2562;"pré-fabricado cerâmico";22;Livre
+2563;"campus aeroporto";1;Livre
+2564;terreno;13;Livre
+2565;"sistema construtivo modular";8;Livre
+2566;mutirão;1;Livre
+2567;praças;4;Livre
+2568;"espaços públicos";1;Livre
+2569;"cidade universitária";8;Livre
+2570;brinquedo;1;Livre
+2571;retiro;9;Livre
+2572;"chapa de aço";1;Livre
+2573;"centro turístico";1;Livre
+2574;"centro empresarial";5;Livre
+2575;domos;2;Livre
+2576;"pátio interno";5;Livre
+2577;"cidade universiária";1;Livre
+2578;"arquitetura moderna";94;Livre
+2579;"vazio central";3;Livre
+2580;"alvenaria aparente";3;Livre
+2581;apoio;6;Livre
+2582;articulação;1;Livre
+2583;volumetria;3;Livre
+2584;porto;3;Livre
+2585;cais;1;Livre
+2586;barcos;7;Livre
+2587;embasamento;1;Livre
+2588;"rodoviárias brasileiras";3;Livre
+2589;"escola paulista";15;Livre
+2590;palacio;5;Livre
+2591;"foto noturna";3;Livre
+2592;asd;2;Livre
+2593;lkj;0;Livre
+2594;lkjh;1;Livre
+2595;volume;2;Livre
+2596;venezianas;1;Livre
+2597;amarelo;78;Livre
+2598;vermelho;84;Livre
+2599;segnini;90;Livre
+2600;barretto;90;Livre
+2601;caixilhos;1;Livre
+2602;balanço;4;Livre
+2603;residências;0;Livre
+2604;decoração;1;Livre
+2605;serralheria;77;Livre
+2606;pendulo;0;Livre
+2607;alavanca;0;Livre
+2608;peso;0;Livre
+2609;basculante;0;Livre
+2610;modulação;24;Livre
+2611;iluminação;4;Livre
+2612;barillari;5;Livre
+2613;"laje jardim";1;Livre
+2614;metálica;3;Livre
+2615;"sessão áurea";1;Livre
+2616;"martinez corrêa";2;Livre
+2617;"mogi das cruzes";3;Livre
+2618;"igreja católica";2;Livre
+2619;cascaldi;2;Livre
+2620;artigas;16;Livre
+2621;"fau usp";2;Livre
+2622;neogótico;14;Livre
+2623;"conjunto residencial";3;Livre
+2624;gramado;5;Livre
+2625;"parque urbano";4;Livre
+2626;caminho;4;Livre
+2627;"viga vazada";3;Livre
+2628;"villa lobos";6;Livre
+2629;esférico;2;Livre
+2630;"art nouveau";35;Livre
+2631;"porto maravilha";5;Livre
+2632;"zona portuária";4;Livre
+2633;"painéis fotovoltaicos";2;Livre
+2634;mtst;4;Livre
+2635;"construção colaborativa";1;Livre
+2636;"estrutura esférica";1;Livre
+2637;translúcido;1;Livre
+2638;anfiteatro;4;Livre
+2639;"mosaico  português";4;Livre
+2640;"cúpula plissada";11;Livre
+2641;"paço municipal";1;Livre
+2642;"moisaco português";12;Livre
+2643;"piso epóxi";6;Livre
+2644;túnel;3;Livre
+2645;totem;4;Livre
+2646;"arco de ângulo reto";5;Livre
+2647;"piso cimentício";6;Livre
+2648;"abóbada abatida";2;Livre
+2649;crqoui;2;Livre
+2650;terminal;2;Livre
+2651;perspectiva;9;Livre
+2652;"placa solar";2;Livre
+2653;igrejas;19;Livre
+2654;estádios;1;Livre
+2655;jk;6;Livre
+2656;monumentos;2;Livre
+2657;"universidade de brasília";4;Livre
+2658;catetinho;2;Livre
+2659;traçado;3;Livre
+2660;"praça cívica";8;Livre
+2661;"piso de madeira";21;Livre
+2662;"cobertura de vidro";3;Livre
+2663;"telhado de vidro";12;Livre
+2664;expositor;15;Livre
+2665;"cabo de aço";1;Livre
+2666;"aço corten";3;Livre
+2667;financeiro;10;Livre
+2668;"aço patinável";1;Livre
+2669;associação;1;Livre
+2670;"viga transversal";1;Livre
+2671;letreiro;16;Livre
+2672;#fauusp;4;Livre
+2673;"campus universitário";34;Livre
+2674;quarto;8;Livre
+2675;intervenção;10;Livre
+2676;ruínas;27;Livre
+2677;"muro de contenção";3;Livre
+2678;"desenho industrial";1;Livre
+2679;"telha de madeira";12;Livre
+2680;"alvenaria estrutural";6;Livre
+2681;declive;4;Livre
+2682;entalhe;5;Livre
+2683;"porta de madeira";4;Livre
+2684;taipa;13;Livre
+2685;"pedra sabão";3;Livre
+2686;ladeira;9;Livre
+2687;barco;9;Livre
+2688;vela;4;Livre
+2689;pelourinho;3;Livre
+2690;torneira;1;Livre
+2691;batente;2;Livre
+2692;"feira de artesanato";0;Livre
+2693;2015;4;Livre
+2694;iphone;9;Livre
+2695;08/2015;5;Livre
+2696;ccbb;2;Livre
+2697;mondrian;2;Livre
+2698;belvedere;1;Livre
+2699;forte;3;Livre
+2700;muralha;1;Livre
+2701;viveiro;1;Livre
+2702;obelisco;3;Livre
+2703;tubulão;5;Livre
+2704;música;1;Livre
+2705;"arte sacra";0;Livre
+2706;nártex;3;Livre
+2707;pedrisco;3;Livre
+2708;representação;1;Livre
+2709;"desenho técnico";16;Livre
+2710;"ijair cunha";5;Livre
+2711;"são josé do rio preto";3;Livre
+2712;glacy;2;Livre
+2713;bueno;2;Livre
+2714;reparo;17;Livre
+2715;mesa;5;Livre
+2716;domo;26;Livre
+2717;maquetaria;1;Livre
+2718;oficina;3;Livre
+2719;entrada;16;Livre
+2720;subsolo;1;Livre
+2721;térreo;3;Livre
+2722;"planta baixa";27;Livre
+2723;santander;1;Livre
+2724;"rio grande do sul";1;Livre
+2725;"arquitetura bancária";4;Livre
+2726;externo;52;Livre
+2727;plantas;26;Livre
+2728;"desenhos técnicos";5;Livre
+2729;guaiba;1;Livre
+2730;"sala de jantar";10;Livre
+2731;living;4;Livre
+2732;"porta pivotante";1;Livre
+2733;"sala de almoço";1;Livre
+2734;casa~;1;Livre
+2735;"cobertura plana";2;Livre
+2736;lazer;200;Livre
+2737;elevação;8;Livre
+2738;persianas;1;Livre
+2739;"faria lima";1;Livre
+2740;"padrão corporativo";1;Livre
+2741;sede;2;Livre
+2742;empresa;1;Livre
+2743;cidades;16;Livre
+2744;"pão  de açúcar";1;Livre
+2745;#caminhadasufsm;15;Livre
+2746;caminhadasufsm;5;Livre
+2747;ufsm;1;Livre
+2748;mariana;1;Livre
+2749;"igreja são francisco de assis";1;Livre
+2750;mesas;3;Livre
+2751;madrid;2;Livre
+2752;"calle gran via";1;Livre
+2753;"gran via";1;Livre
+2754;"circulo de belas artes";1;Livre
+2755;"salão de baile";1;Livre
+2756;"antonio palacios";1;Livre
+2757;letras;1;Livre
+2758;fflch;1;Livre
+2759;amapá;22;Livre
+2760;"circulo bellas artes";1;Livre
+2761;"calle alcalá";1;Livre
+2762;recorte;1;Livre
+2763;lâmina;15;Livre
+2764;"janela em fita";51;Livre
+2765;esporte;31;Livre
+2766;catenária;2;Livre
+2767;vestiário;16;Livre
+2768;"renovação urbana";52;Livre
+2769;estádio;72;Livre
+2770;"templos religiosos";2;Livre
+2771;neo-gótico;2;Livre
+2772;"patrimônio histórico";3;Livre
+2773;"santa rita";3;Livre
+2774;cristo;2;Livre
+2775;corcovado;3;Livre
+2776;rj;18;Livre
+2777;"cidade maravilhosa";3;Livre
+2778;apartamento;33;Livre
+2779;berçário;1;Livre
+2780;"jardim interno";1;Livre
+2781;"tijolo cerâmico";6;Livre
+2782;gabarito;2;Livre
+2783;programa;25;Livre
+2784;paineiras;1;Livre
+2785;pixo;5;Livre
+2786;coliseo;1;Livre
+2787;italia;1;Livre
+2788;trampolim;6;Livre
+2789;"cássio pinheiro gonçalves";2;Livre
+2790;bratke;2;Livre
+2791;coletor;2;Livre
+2792;eternit;1;Livre
+2793;"orlando barbosa de freitas";1;Livre
+2794;"caixa d´água";3;Livre
+2795;gonçalves;1;Livre
+2796;cunha;1;Livre
+2797;zanettini;2;Livre
+2798;arrimo;1;Livre
+2799;topografia;1;Livre
+2800;curva;1;Livre
+2801;estábulo;1;Livre
+2802;"arquitetura militar";1;Livre
+2803;"edifício misto";8;Livre
+2804;"rua interna";1;Livre
+2805;conjunto;1;Livre
+2806;circular;2;Livre
+2807;arranha-céu;7;Livre
+2808;fundação;2;Livre
+2809;escoragem;1;Livre
+2810;gleba;12;Livre
+2811;casarão;22;Livre
+2812;estantes;6;Livre
+2813;"iluminação indireta";2;Livre
+2814;livros;3;Livre
+2815;afresco;2;Livre
+2816;higienópolis;6;Livre
+2817;lanagro;38;Livre
+2818;encanamento;1;Livre
+2819;lampadas;1;Livre
+2820;dutos;8;Livre
+2821;vídeo;4;Livre
+2822;arquigrafia;2;Livre
+2823;"pedro moreira ribeiro";1;Livre
+2824;fenestrações;1;Livre
+2825;"uso misto";49;Livre
+2826;"teto inclinado";2;Livre
+2827;foyer;3;Livre
+2828;proscênio;1;Livre
+2829;palco;1;Livre
+2830;loteamento;7;Livre
+2831;reurbanização;44;Livre
+2832;perfumaria;4;Livre
+2833;"prédio em lâmina";24;Livre
+2834;"bloco residencial";31;Livre
+2835;"janela em fita~";1;Livre
+2836;"centro de são paulo";5;Livre
+2837;boat;0;Livre
+2838;"new orleans";0;Livre
+2839;" la";0;Livre
+2840;"mississipi river";0;Livre
+2841;river;0;Livre
+2842;la;0;Livre
+2843;buildings;0;Livre
+2844;"city of new orleans";0;Livre
+2845;macapá;10;Livre
+2846;"rede sarah";10;Livre
+2847;amazônia;18;Livre
+2848;anteprojeto;13;Livre
+2849;jordão;3;Livre
+2850;soutello;1;Livre
+2851;pupo;1;Livre
+2852;canteiro;52;Livre
+2853;"canteiro central";1;Livre
+2854;pacaembú;8;Livre
+2855;cor;90;Livre
+2856;módulos;1;Livre
+2857;"edifício em lâmina";22;Livre
+2858;passeio;2;Livre
+2859;"pedra portuguesa";5;Livre
+2860;colunas;2;Livre
+2861;masp;3;Livre
+2862;"edifício em lãmina~";1;Livre
+2863;freguesia;1;Livre
+2864;"estrutura aparente";2;Livre
+2865;armário;4;Livre
+2866;"planta em cruz";1;Livre
+2867;"planta cruciforme";1;Livre
+2868;"blocos conjugados";1;Livre
+2869;"escada de emergência";1;Livre
+2870;"#sao paulo";6;Livre
+2871;#centro;2;Livre
+2872;#destruicao;1;Livre
+2873;#demolida;1;Livre
+2874;#pixo;1;Livre
+2875;"#serra negra";1;Livre
+2876;"#olho de lagartixa";1;Livre
+2877;#luz;1;Livre
+2878;#estacaotrem;1;Livre
+2879;#miami;2;Livre
+2880;#jundiai;1;Livre
+2881;#cemitério;1;Livre
+2882;"#vila indiana";1;Livre
+2883;#moradia;1;Livre
+2884;#eca;2;Livre
+2885;#usp;2;Livre
+2886;#cbd;1;Livre
+2887;ambiente;17;Livre
+2888;baia;2;Livre
+2889;"arquiteto augusto sommacal";2;Livre
+2890;"empena cega";3;Livre
+2891;"janela de canto";1;Livre
+2892;"piso cerâmico";9;Livre
+2893;"casca de concreto";18;Livre
+2894;"pilar inclinado";8;Livre
+2895;"plataforma de embarque";3;Livre
+2896;#aut573;6;Livre
+2897;festa;1;Livre
+2898;meuquarto;15;Livre
+2899;573;153;Livre
+2900;#meuquarto;102;Livre
+2901;#573;399;Livre
+2902;#573plataforma;69;Livre
+2903;#573plataformaguilherme;12;Livre
+2904;573plataforma;0;Livre
+2905;573plataformagustavo;0;Livre
+2906;carro;37;Livre
+2907;573plataformas;0;Livre
+2908;573plataformasgustavo;0;Livre
+2909;#753;0;Livre
+2910;#573plataformaana;10;Livre
+2911;aut573;6;Livre
+2912;bunker;1;Livre
+2913;#573plataformaheloisa;10;Livre
+2914;#sé;8;Livre
+2915;#metrô;13;Livre
+2916;#paraíso;2;Livre
+2917;#573plataformaluiz;10;Livre
+2918;bardaria;25;Livre
+2919;#santosimigrantes;2;Livre
+2920;#altodoipiranga;1;Livre
+2921;#trianonmasp;1;Livre
+2922;#bardaria;11;Livre
+2923;#573plataformagobatti;15;Livre
+2924;"#muros #573";0;Livre
+2925;errancia;72;Livre
+2926;#sobrasurbanas;15;Livre
+2927;#túnel;2;Livre
+2928;#rotatória;2;Livre
+2929;#praça;2;Livre
+2930;573muros;39;Livre
+2931;#573muros;0;Livre
+2932;#573platafomagustavo;1;Livre
+2933;#573plataformagustavo;11;Livre
+2934;#carro;20;Livre
+2935;vazioprojetado;30;Livre
+2936;maspetcbr;6;Livre
+2937;sobrasurbanas;1;Livre
+2938;protesto;8;Livre
+2939;praçadasartes;6;Livre
+2940;#errancia;7;Livre
+2941;erranica;1;Livre
+2942;concurso;5;Livre
+2943;mapa;2;Livre
+2944;zenital;2;Livre
+2945;alameda;1;Livre
+2946;jóquei;1;Livre
+2947;"laboratorio cbd";1;Livre
+2948;"galeria do rock";2;Livre
+2949;circunferência;0;Livre
+2950;metal;4;Livre
+2951;geométrico;0;Livre
+2952;"vista interna";1;Livre
+2953;sinuoso;1;Livre
+2954;"nova entrada da biblioteca";2;Livre
+2955;"parque dom pedro ii";1;Livre
+2956;"terminal parque dom pedro";1;Livre
+2957;"universidade de são paulo";1;Livre
+2958;eca;2;Livre
+2959;"nosa senhora dos homens pretos";1;Livre
+2960;bananeira;1;Livre
+2961;casas;35;Livre
+2962;"biblioteca da eca";2;Livre
+2963;"saguão eca";2;Livre
+2964;estudantes;2;Livre
+2965;"festa estudantil";1;Livre
+2966;peruada;1;Livre
+2967;"faculdade de direito";1;Livre
+2968;"largo do paissandú";11;Livre
+2969;"prédio central da eca";1;Livre
+2970;"casa de campo";1;Livre
+2971;americana-sp;1;Livre
+2972;americana;1;Livre
+2973;"casa penteado";1;Livre
+2974;;1;Livre
+2975;barroco;3;Livre
+2976;"caixa de vidro";1;Livre
+2977;\tcasa;1;Livre
+2978;aclive;11;Livre
+2979;"laje plana";9;Livre
+2980;"laje protendida";4;Livre
+2981;"edifícios públicos";1;Livre
+2982;taco;3;Livre
+2983;guichê;1;Livre
+2984;luminotécnica;1;Livre
+2985;quadro;1;Livre
+2986;poltrona;2;Livre
+2987;triângulo;4;Livre
+2988;"meio piso";2;Livre
+2989;"porta janela";1;Livre
+2990;quintal;3;Livre
+2991;"centro de recreação";0;Livre
+2992;"centro esportivo";94;Livre
+2993;"centro recreativo";151;Livre
+2994;"colônia de férias";154;Livre
+2995;"centro recrearivo";1;Livre
+2996;contato;1;Livre
+2997;facahda;1;Livre
+2998;florianópolis;23;Livre
+2999;"costão do santinho";1;Livre
+3000;"museu ao ar livre";1;Livre
+3001;"janela vertical";8;Livre
+3002;marcenaria;77;Livre
+3003;"alvenaria portante";11;Livre
+3004;"estrutura em concreto";4;Livre
+3005;persiana;1;Livre
+3006;"david libeskind";3;Livre
+3007;"avenida paulista";5;Livre
+3008;building;3;Livre
+3009;fofocódromo;2;Livre
+3010;"jardim suspenso";1;Livre
+3011;"parede de tijolinhos";1;Livre
+3012;arena;7;Livre
+3013;"banco de concreto";1;Livre
+3014;"quarto de casal";1;Livre
+3015;"janela alta";1;Livre
+3016;"caxias do sul-rs";1;Livre
+3017;"patrimônio arquitetônico";2;Livre
+3018;"arquitetura moderna - recife";1;Livre
+3019;"arquitetura moderna são paulo";1;Livre
+3020;logotipo;1;Livre
+3021;iab/sp;7;Livre
+3022;greve;1;Livre
+3023;"janela guilhotina";1;Livre
+3024;"telha cerâmica";2;Livre
+3025;"porta dias folhas";1;Livre
+3026;estante;1;Livre
+3027;"parede inclinada";3;Livre
+3028;"vila penteado";17;Livre
+3029;"art  nouveau";1;Livre
+3030;"cadeira katinsky";1;Livre
+3031;"cadeira paulistana";1;Livre
+3032;"casa dos triângulos";1;Livre
+3033;"prédio institucional";7;Livre
+3034;"pastilha cerâmica";3;Livre
+3035;"estilo bandeirista";3;Livre
+3036;butantã;4;Livre
+3037;tombamento;3;Livre
+3038;carandiru;7;Livre
+3039;"área verde";8;Livre
+3040;"cultura nipônica";1;Livre
+3041;"kengo kuma";1;Livre
+3042;pina;6;Livre
+3043;pinaluz;6;Livre
+3044;conservação;6;Livre
+3045;cotidiano;14;Livre
+3046;cenabeijo;1;Livre
+3047;"rebolo francisco";1;Livre
+3048;"gruber mário";1;Livre
+3049;tombado;3;Livre
+3050;artdecó;4;Livre
+3051;neorromânico;6;Livre
+3052;lustre;6;Livre
+3053;mercadocantareira;1;Livre
+3054;mercadão;1;Livre
+3055;ecléticos;1;Livre
+3056;"lemos cerqueira";2;Livre
+3057;"prédio histórico";2;Livre
+3058;"centro comercial";2;Livre
+3059;galerias;2;Livre
+3060;"centro de cultura";1;Livre
+3061;horizontalidade;3;Livre
+3062;acervo;3;Livre
+3063;árvores;8;Livre
+3064;prataria;3;Livre
+3065;porcelana;3;Livre
+3066;"arte sacra do século xviii";3;Livre
+3067;tapeçaria;3;Livre
+3068;quadros;1;Livre
+3069;"arquitetura do renascimento";16;Livre
+3070;portas;6;Livre
+3071;"contraste urbano";1;Livre
+3072;"catolicismo romano";11;Livre
+3073;"circulação de pedestres";1;Livre
+3074;ruas;6;Livre
+3075;revitalização;1;Livre
+3076;rampas;1;Livre
+3077;cachorródromo;1;Livre
+3078;"áreas de lazer";1;Livre
+3079;"arquitetura contemporânea";1;Livre
+3080;"complexo cultural";1;Livre
+3081;"arquitetura clássica";1;Livre
+3082;tijolos;18;Livre
+3083;"feira livre";4;Livre
+3084;"arborização urbana";1;Livre
+3085;"edifício moderno";1;Livre
+3086;"brise soleil";1;Livre
+3087;interiores;9;Livre
+3088;"#warchavchik #santa #cruz #modernismo #casa";1;Livre
+3089;"#contraste #centro #sp #antigo #novo";1;Livre
+3090;warchavchik;4;Livre
+3091;jaraguá;1;Livre
+3092;cano;3;Livre
+3093;cidadela;6;Livre
+3094;"painel pré-fabricado";2;Livre
+3095;"templo zu lai";1;Livre
+3096;budismo;1;Livre
+3097;"casa modernista";1;Livre
+3098;"rua santa cruz";1;Livre
+3099;vancouver;1;Livre
+3100;kitsilano;1;Livre
+3101;fotografias;1;Livre
+3102;"cores e tom";0;Livre
+3103;"cor e tom";1;Livre
+3104;"arquitetura e urbanismo";1;Livre
+3105;arq;1;Livre
+3106;urb;1;Livre
+3107;"casas históricas";3;Livre
+3108;espécies;12;Livre
+3109;animais;13;Livre
+3110;semfiltro;12;Livre
+3111;"cidade jardim";1;Livre
+3112;telhas;2;Livre
+3113;"hans broos";215;Livre
+3114;blumenau;102;Livre
+3115;"igreja evangélica luterana";0;Livre
+3116;"igreja martin luther";9;Livre
+3117;itajaí;8;Livre
+3118;zócalos;1;Livre
+3119;guatapé;1;Livre
+3120;colômbia;1;Livre
+3121;"plaza de los zócalos";0;Livre
+3122;chile;1;Livre
+3123;valparaíso;1;Livre
+3124;museus;6;Livre
+3125;"espaço expositivo";3;Livre
+3126;"arquitetura moderna em bauru";1;Livre
+3127;"fernando ferreira de pinho";1;Livre
+3128;"ediício múltiplo uso vila real";0;Livre
+3129;"edifício em bauru";1;Livre
+3130;"museu de arte do rio";1;Livre
+3131;"praça mauá";1;Livre
+3132;"palacete d joão vi";1;Livre
+3133;estudo;3;Livre
+3134;"edifício curvilíneo";1;Livre
+3135;"banco sumitomo";1;Livre
+3136;"cidade natureza";1;Livre
+3137;taxis;0;Livre
+3138;"#brasil #sp #iguape #colonial #historia #azul #arquitetura #urbanismo #arqeurb #arquilove";1;Livre
+3139;ibitinga;12;Livre
+3140;"siegbert zanettini";3;Livre
+3141;"#arquitectura #hormigón #hormigónvisto";1;Livre
+3142;mon;1;Livre
+3143;abandonado;9;Livre
+3144;"wilton paes de almeida";1;Livre
+3145;"roger zmkhol";1;Livre
+3146;1961;1;Livre
+3147;"terminal rodoviário";9;Livre
+3148;brazil;1;Livre
+3149;"vilanova artigas";5;Livre
+3150;jaú;3;Livre
+3151;vigas;1;Livre
+3152;picacoteca;1;Livre
+3153;belém;1;Livre
+3154;histórico;6;Livre
+3155;"24 de maio";1;Livre
+3156;#newyork;1;Livre
+3157;#hoboken;1;Livre
+3158;#skyline;3;Livre
+3159;#empirestate;1;Livre
+3160;banespão;1;Livre
+3161;"edifício altino arantes";1;Livre
+3162;"praça das artes";1;Livre
+3163;"marcelo ferraz";1;Livre
+3164;#highway;1;Livre
+3165;#fortaleza;1;Livre
+3166;#praia;1;Livre
+3167;#pordosol;1;Livre
+3168;sãopaulo;2;Livre
+3169;fiesp;1;Livre
+3170;ceu;1;Livre
+3171;louveira;1;Livre
+3172;ims;1;Livre
+3173;lero;0;Livre
+3174;lerolero;105;Livre
+3175;"sesc 24 de maio";9;Livre
+3176;"estação de metrô";1;Livre
+3177;"arquitetura e natureza";1;Livre
+3178;"placa urbana";1;Livre
+3179;"fradique coutinho";1;Livre
+3180;penha;1;Livre
+3181;confinamento;6;Livre
+3182;simetria;4;Livre
+3183;canil;2;Livre
+3184;gatil;3;Livre
+3185;zoonoses;1;Livre
+3186;"centro de zoonoses";2;Livre
+3187;escala;1;Livre
+3188;lerofauusp;101;Livre
+3189;lero_sesc24demaio;37;Livre
+3190;anhangabaú;2;Livre
+3191;ifigênia;1;Livre
+3192;perdizes;5;Livre
+3193;millan;10;Livre
+3194;delboux;8;Livre
+3195;"primeiro pavimento";1;Livre
+3196;armários;2;Livre
+3197;cadeira;2;Livre
+3198;prateleira;1;Livre
+3199;diamantina;4;Livre
+3200;1988;7;Livre
+3201;1977;3;Livre
+3202;comércio;5;Livre
+3203;carros;3;Livre
+3204;fusca;1;Livre
+3205;sêrro;2;Livre
+3206;fuscas;1;Livre
+3207;pedras;4;Livre
+3208;maranhão;9;Livre
+3209;arros;1;Livre
+3210;"rua do giz";2;Livre
+3211;1989;1;Livre
+3212;"são luiz";0;Livre
+3213;varandas;1;Livre
+3214;amazonas;4;Livre
+3215;manaus;3;Livre
+3216;1978;4;Livre
+3217;propagando;1;Livre
+3218;pessoas;4;Livre
+3219;sobrados;3;Livre
+3220;pará;13;Livre
+3221;bebém;1;Livre
+3222;ancoradouro;1;Livre
+3223;palafita;2;Livre
+3224;telhados;1;Livre
+3225;coberturas;1;Livre
+3226;"rua do sol";1;Livre
+3227;ceará;2;Livre
+3228;fortaleza;2;Livre
+3229;meirelles;1;Livre
+3230;coqueiro;1;Livre
+3231;1984;1;Livre
+3232;"josé de alencar";1;Livre
+3233;juazeiro;1;Livre
+3234;calçadão;3;Livre
+3235;1986;3;Livre
+3236;alcântara;6;Livre
+3237;fachadas;1;Livre
+3238;jacaré;1;Livre
+3239;"rua grande";1;Livre
+3240;"condomínio residencial";2;Livre
+3241;"edifício residencial";2;Livre
+3242;"centro histórico de joão pessoa";1;Livre
+3243;"parahyba palace hotel";1;Livre
+3244;"ponto de cem réis";0;Livre
+3245;"vidal de negreiros";1;Livre
+3246;lero_sescpompeia;36;Livre
+3247;natal;1;Livre
+3248;lemos;1;Livre
+3249;macedo;3;Livre
+3250;"joão pessoa";2;Livre
+3251;pernambuco;2;Livre
+3252;olinda;5;Livre
+3253;litoral;3;Livre
+3254;misericórdia;2;Livre
+3255;recife;3;Livre
+3256;nacional;14;Livre
+3257;neoclássico;2;Livre
+3258;lero_fauusp;4;Livre
+3259;lero_koch;31;Livre
+3260;vinhedo;48;Livre
+3261;rodoviária;122;Livre
+3262;"paulo mendes da rocha";19;Livre
+3263;"mmbb arquitetos";3;Livre
+3264;república;5;Livre
+3265;"praça do relógio";1;Livre
+3266;grafite;5;Livre
+3267;fotografia;2;Livre
+3268;adm;1;Livre
+3269;fea;7;Livre
+3270;"escola de comunicação e artes";1;Livre
+3271;estátuas;1;Livre
+3272;brasiliana;1;Livre
+3273;paisagem;4;Livre
+3274;livraria;3;Livre
+3275;natureza;3;Livre
+3276;#fau;3;Livre
+3277;#arqeurb;1;Livre
+3278;#cdi;1;Livre
+3279;#centrodedifusaointernacional;1;Livre
+3280;#fea;0;Livre
+3281;cdi;1;Livre
+3282;"#usp #arquiteturausp #cidadeuniversitaria";1;Livre
+3283;"arquitetura moderna brasileira";15;Livre
+3284;infraestrutura;8;Livre
+3285;concerto;1;Livre
+3286;"teto móvel";1;Livre
+3287;rococó;3;Livre
+3288;ataíde;2;Livre
+3289;anjos;1;Livre
+3290;"cruz patriarcal";1;Livre
+3291;"cruz de lorena";1;Livre
+3292;profetas;3;Livre
+3293;congonhas;2;Livre
+3294;isaías;2;Livre
+3295;jeremias;2;Livre
+3296;matosinhos;1;Livre
+3297;plantarum;127;Livre
+3298;"harri lorenzi";127;Livre
+3299;"salão caramelo";1;Livre
+3300;buraco;1;Livre
+3301;camuflado;4;Livre
+3302;raízes;0;Livre
+3303;murutucu;19;Livre
+3304;escondido;3;Livre
+3305;galhos;8;Livre
+3306;muros;1;Livre
+3307;trepadeira;1;Livre
+3308;raiz;14;Livre
+3309;camuflagem;5;Livre
+3310;folhas;4;Livre
+3311;pasagem;1;Livre
+3312;galho;3;Livre
+3313;folhagem;3;Livre
+3314;pasagm;1;Livre
+3315;passagem;3;Livre
+3316;demolição;2;Livre
+3317;mata;2;Livre
+3318;trinca;1;Livre
+3319;rachadura;1;Livre
+3320;planos;1;Livre
+3321;"luz e sombra";1;Livre
+3322;passage;1;Livre
+3323;vagetação;1;Livre
+3324;vegatação;1;Livre
+3325;posição;2;Livre
+3326;resquícios;1;Livre
+3327;conflito;1;Livre
+3328;espaço;1;Livre
+3329;murucutu;1;Livre
+3330;degradado;1;Livre
+3331;estrutural;5;Livre
+3332;detalhamento;9;Livre
+3333;plante;1;Livre
+3334;paredes;1;Livre
+3335;estruturas;1;Livre
+3336;deetalhamento;1;Livre
+3337;construtivo;1;Livre
+3338;fixar;1;Livre
+3339;vernacular;25;Livre
+3340;popular;52;Livre
+3341;tronco;8;Livre
+3342;marabá;14;Livre
+3343;margem;1;Livre
+3344;vedação;8;Livre
+3345;trançada;1;Livre
+3346;unidades;3;Livre
+3347;tronto;1;Livre
+3348;mulher;1;Livre
+3349;valeta;2;Livre
+3350;terra;2;Livre
+3351;vilarejo;3;Livre
+3352;crianças;3;Livre
+3353;central;1;Livre
+3354;alinhamento;1;Livre
+3355;escoamento;1;Livre
+3356;frontal;1;Livre
+3357;unidade;1;Livre
+3358;criança;2;Livre
+3359;fundo;1;Livre
+3360;barril;2;Livre
+3361;frente;4;Livre
+3362;jaridm;1;Livre
+3363;flores;1;Livre
+3364;trançado;1;Livre
+3365;"rua de terra";1;Livre
+3366;varal;2;Livre
+3367;roupa;1;Livre
+3368;maraá;1;Livre
+3369;sistema;9;Livre
+3370;folha;1;Livre
+3371;bicicleta;1;Livre
+3372;trilha;1;Livre
+3373;bola;1;Livre
+3374;"toalha de mesa";1;Livre
+3375;chapéu;2;Livre
+3376;forno;1;Livre
+3377;lenha;3;Livre
+3378;utensílios;2;Livre
+3379;equipamentos;1;Livre
+3380;panela;3;Livre
+3381;pendurar;1;Livre
+3382;fogão;3;Livre
+3383;panelas;1;Livre
+3384;tanque;1;Livre
+3385;balde;1;Livre
+3386;"área molhada";1;Livre
+3387;gás;1;Livre
+3388;"fogão a lenha";1;Livre
+3389;latão;1;Livre
+3390;sítio;24;Livre
+3391;levantamento;4;Livre
+3392;"padre inácio";1;Livre
+3393;uso;1;Livre
+3394;"vista frontal";1;Livre
+3395;lateral;4;Livre
+3396;bananeiras;1;Livre
+3397;quina;2;Livre
+3398;recuo;1;Livre
+3399;acabamento;1;Livre
+3400;tratamento;1;Livre
+3401;palnta;1;Livre
+3402;arcos;6;Livre
+3403;antigo;3;Livre
+3404;print;0;Livre
+3405;fazenda;30;Livre
+3406;sopé;5;Livre
+3407;itu;23;Livre
+3408;"fazenda paraizo";16;Livre
+3409;localização;2;Livre
+3410;cercado;3;Livre
+3411;rural;15;Livre
+3412;pasto;3;Livre
+3413;rotatória;1;Livre
+3414;relevo;1;Livre
+3415;jenela;1;Livre
+3416;fechamento;2;Livre
+3417;águas;1;Livre
+3418;cortume;1;Livre
+3419;couro;1;Livre
+3420;"roda dágua";9;Livre
+3421;roda;8;Livre
+3422;abastecimento;1;Livre
+3423;movimento;3;Livre
+3424;eixos;1;Livre
+3425;interno;1;Livre
+3426;parafuso;3;Livre
+3427;rodar;1;Livre
+3428;"rada dágua";1;Livre
+3429;encaixe;5;Livre
+3430;fixação;2;Livre
+3431;união;1;Livre
+3432;"detalhe construtivo";4;Livre
+3433;parafusos;3;Livre
+3434;rotação;5;Livre
+3435;eixo;4;Livre
+3436;"roda d água";1;Livre
+3437;"detalhes construtivo";1;Livre
+3438;engrangem;1;Livre
+3439;moenda;4;Livre
+3440;"casa da moenda";4;Livre
+3441;entulho;1;Livre
+3442;interiror;1;Livre
+3443;"pátio de entrada";1;Livre
+3444;principal;2;Livre
+3445;entorno;1;Livre
+3446;vigamento;2;Livre
+3447;cocheira;1;Livre
+3448;cavalos;1;Livre
+3449;suspenso;1;Livre
+3450;"arquitetura popular";46;Livre
+3451;"sistema construtivo";2;Livre
+3452;norte;1;Livre
+3453;bandeirista;5;Livre
+3454;cotia;2;Livre
+3455;iphan;1;Livre
+3456;"contra verga";1;Livre
+3457;"casa bandeirista";3;Livre
+3458;"casa popular";1;Livre
+3459;"vista externa";1;Livre
+3460;observador;1;Livre
+3461;vestimenta;1;Livre
+3462;"casa rural";1;Livre
+3463;homem;1;Livre
+3464;esculpido;1;Livre
+3465;canto;1;Livre
+3466;são-paulo;11;Livre
+3467;usp-leste;3;Livre
+3468;tibau;1;Livre
+3469;"escola estadual leonor rendesi";1;Livre
+3470;"escola estadual vila boturussu";1;Livre
+3471;"cidades turísticas";11;Livre
+3472;"circuito das águas";5;Livre
+3473;"estância hidromineral";5;Livre
+3474;topiaria;4;Livre
+3475;"museu de arte";6;Livre
+3476;cruz;2;Livre
+3477;"cidades brasileiras";1;Livre
+3478;chácara;1;Livre
+3479;"escola normal";17;Livre
+3480;"casa caetano de campos";4;Livre
+3481;"ramos de azevedo";5;Livre
+3482;"domiziano rossi";4;Livre
+3483;"praça da república";4;Livre
+3484;sol;0;Livre
+3485;fic;1;Livre
+3486;ufg;1;Livre
+3487;"#francodarocha #sp #trem #cptm";1;Livre
+3488;fiação;1;Livre
+3489;"edifícios executivos";1;Livre
+3490;esgrafito;1;Livre
+3491;#katinsky;16;Livre
+3492;#ruyohtake;16;Livre
+3493;#isacmarcelino;18;Livre
+3494;"templo de salomão";1;Livre
+3495;brás;1;Livre
+3496;#perfil;0;Livre
+3497;#macsp;2;Livre
+3498;#cesarsartorelli;1;Livre
+3499;arqueologia;0;Livre
+3500;design;0;Livre
+3501;"bom retiro";9;Livre
+3502;"vila mariana";3;Livre
+3503;avendia;1;Livre
+3504;sacra;1;Livre
+3505;altares;4;Livre
+3506;"frank gehry";6;Livre
+3507;graffiti;1;Livre
+3508;azulejos;2;Livre
+3509;cef;1;Livre
+3510;tocantis;1;Livre
+3511;"edifício para educação e pesquisa";1;Livre
+3512;"arquitetura sacra";4;Livre
+3513;auditórios;1;Livre
+3514;"eero saarinen";1;Livre
+3515;"kresge auditorium";1;Livre
+3516;noturnas;1;Livre
+3517;laboratórios;1;Livre
+3518;"energia nuclear";1;Livre
+3519;galpões;1;Livre
+3520;depósitos;1;Livre
+3521;wharehouses;1;Livre
+3522;colagem;3;Livre
+3523;"23 de maio";0;Livre
+3524;"av 23 de maio";1;Livre
+3525;"rua marselhesa";1;Livre
+3526;"rua pedro de toledo";1;Livre
+3527;"vila clementino";1;Livre
+3528;"farol da barra";1;Livre
+3529;salvador;3;Livre
+3530;turismo;6;Livre
+3531;"atração turística";1;Livre
+3532;"arquitetura brasileira";7;Livre
+3533;moderna;5;Livre
+3534;severiano;5;Livre
+3535;preservação;3;Livre
+3536;tecnologia;3;Livre
+3537;favela;1;Livre
+3538;aviões;1;Livre
+3539;ita;1;Livre
+3540;engenharia;1;Livre
+3541;aeronáutica;1;Livre
+3542;dcta;1;Livre
+3543;pirâmide;4;Livre
+3544;ametista;4;Livre
+3545;"pico do jaraguá";3;Livre
+3546;metrópoles;1;Livre
+3547;"áreas verdes";1;Livre
+3548;#pesqueira;1;Livre
+3549;#pernambuco;1;Livre
+3550;#agrestepernambucano;1;Livre
+3551;#castelosdostorres;0;Livre
+3552;#castelodostorres;1;Livre
+3553;"tinta acrílica";1;Livre
+3554;spray;1;Livre
+3555;estêncil;1;Livre
+3556;"arte urbana";3;Livre
+3557;"casa de dona yayá";1;Livre
+3558;"espaço urbano";1;Livre
+3559;chão;1;Livre
+3560;theatro;1;Livre
+3561;"ópera de paris";1;Livre
+3562;coretos;1;Livre
+3563;escolas;1;Livre
+3564;mirantes;2;Livre
+3565;ladeiras;1;Livre
+3566;esculturas;1;Livre
+3567;"vista do alto";2;Livre
+3568;fotógrafo;1;Livre
+3569;publicidade;0;Livre
+3570;publicitário;0;Livre
+3571;"história de são paulo";0;Livre
+3572;"entusiasta da arquitetura";0;Livre
+3573;"claudia fernanda";3;Livre
+3574;"vela vista";3;Livre
+3575;astronomia;3;Livre
+3576;ciência;3;Livre
+3577;observatório;1;Livre
+3578;orbe;2;Livre
+3579;planeta;2;Livre
+3580;"meio ambiente";1;Livre
+3581;raio;1;Livre
+3582;trovão;1;Livre
+3583;condomínio;1;Livre
+3584;"prédios residenciais";1;Livre
+3585;chuva;1;Livre
+3586;tempestade;1;Livre
+3587;seixas;1;Livre
+3588;itamaraty;0;Livre
+3589;"arte mural";6;Livre
+3590;"arte latino americana";6;Livre
+3591;muralismo;1;Livre
+3592;"muralismo latino americano";1;Livre
+3593;"david alfaros siqueiros";2;Livre
+3594;"ejercicio plastico";2;Livre
+3595;"galerias pacifico";3;Livre
+3596;"aslan y ezcurra";3;Livre
+3597;"antonio berni";3;Livre
+3598;"juan carlos castagnino";3;Livre
+3599;"lino enea spilimbergo";3;Livre
+3600;"manuel colmeiro.";3;Livre
+3601;"demétrio urrúcha";3;Livre
+3602;"bon marche";3;Livre
+3603;"taller torres garcia";2;Livre
+3604;"hospital st bois";2;Livre
+3605;"pabellón martirené";2;Livre
+3606;"torre de telecomunicaciones antel montevideu";2;Livre
+3607;"incendio mam rio 1978";2;Livre
+3608;"carlos paéz vilaró";2;Livre
+3609;"hilton hotel";1;Livre
+3610;"sao paulo.";2;Livre
+3611;"hotel delphin guarujá";1;Livre
+3612;retrato;0;Livre
+3613;aut0512;28;Livre
+3614;casagerassi;26;Livre
+3615;gerassi;2;Livre
+3616;desenhoarquitetonico;2;Livre
+3617;"aut0512 casagerassi";0;Livre
+3618;#aut0512;26;Livre
+3619;#casagerassi;26;Livre
+3620;"casa gerassi";6;Livre
+3621;sombras;1;Livre
+3622;modelo;1;Livre
+3623;papel;1;Livre
+3624;"patrimônio popular";1;Livre
+3625;neocolonial;1;Livre
+3626;"água funda";1;Livre
+3627;"zona sudeste";1;Livre
+3628;telesp;2;Livre
+3629;cruzamento;0;Livre
+3630;"vila buarque";6;Livre
+3631;"icht 2023 - são paulo";67;Livre
+3632;"equipamento público";1;Livre
+3633;base;3;Livre
+3634;"miolo de quadra";4;Livre
+3635;"edifício prudência";2;Livre
+3636;"santa cecília";3;Livre
+3637;"icht 2023 - recife";36;Livre
+3638;fechamentos;15;Livre
+3639;icht;4;Livre
+3640;#icht2023;18;Livre
+3641;"alto jose do pinho";6;Livre
+3642;"sesc casa amarela";6;Livre
+3643;"casa amarela";6;Livre
+3644;"compaz governador eduardo campos";6;Livre
+3645;ihct;2;Livre
+3646;#lithopuntura;1;Livre
+3647;bienal;4;Livre
+3648;branco;3;Livre
+3649;neoconcreto;3;Livre
+3650;#arquiteturaquilombola;29;Livre
+3651;#quilombo;29;Livre
+3652;#espaçosnegros;29;Livre
+3653;#arquiteturasnegras;29;Livre
+3654;#coletivomalungo;29;Livre
+3655;ardósia;1;Livre
+3656;#agricultura;2;Livre
+3657;"arquitetura escolar";1;Livre
+3658;"colégios salesianos";1;Livre
+3659;"anos 70";1;Livre
+3660;"revestimentos cerâmicos";1;Livre
+3661;"modernidade paulistana";1;Livre
+3662;"anos 60";0;Livre
+3663;"casa do povo";0;Livre
+3664;ciclofaixa;1;Livre
+3665;"acesso interno";1;Livre
+3666;"casa geminada";1;Livre
+3667;caminhar/inventariar;13;Livre
+3668;caminhar/inventariar_01;13;Livre
+3669;estudiocedaelpaso;13;Livre
+3670;caminhada;13;Livre
+3671;ruderais;1;Livre
+3672;exterior;1;Livre
+3673;#escultura;1;Livre
+3674;"casa de pedra";1;Livre
+3675;verona;1;Livre
+3676;guarujá;1;Livre
+3677;"edificação em altura";2;Livre
+3678;portinari;2;Livre
+3679;"#monumento #usp #história #culturamaterial";1;Livre
+3680;pontes;2;Livre
+3681;"pontes pênseis";2;Livre
+3682;lojas;2;Livre
+3683;bares;1;Livre
+3684;"barracas de praia";2;Livre
+3685;restaurantes;1;Livre
+3686;"carlos millan";7;Livre
+3687;"roberto millan";7;Livre
+3688;"modern architecture";6;Livre
+3689;oscarniemeyer;6;Livre
+3690;brasiliadf;6;Livre
+3691;df;6;Livre
+3692;cepeusp;4;Livre
+3693;icfapesp;1;Livre
+3694;#estrutura;1;Livre
+3695;#cobertura;1;Livre
+3696;"edificio clermont";5;Livre
+3697;formaespaço;5;Livre
+3698;rafadandrea;5;Livre
+3699;brutalista;5;Livre
+3700;"edificio modular";5;Livre
+3701;"ruy ohtake";6;Livre
+3702;#rite2024;45;Livre
+3703;comunidade;14;Livre
+3704;"são remo";36;Livre
+3705;manjericão;1;Livre
+3706;kombi;1;Livre
+3707;"raízes aéreas";2;Livre
+3708;"tijolo aparente";5;Livre
+3709;antena;1;Livre
+3710;roupas;1;Livre
+3711;"instalação elétrica";8;Livre
+3712;animal;1;Livre
+3713;autoconstrução;6;Livre
+3714;abelha;1;Livre
+3715;deslizamento;1;Livre
+3716;"arquitetura esportiva";0;Livre
+3717;"ícaro de castro mello";0;Livre
+3718;arquigrafias;10;Livre
+3719;#arquigrafias;9;Livre
+3720;cuaso;1;Livre
+3721;"ruas da são remo";1;Livre
+3722;"casa do butantã";1;Livre
+3723;"casa do bandeirante";1;Livre
+3724;sefardita;45;Livre
+3725;"sítio do padre inácio";1;Livre
+3726;amuleto;1;Livre
+3727;"capela sítio santo antônio";0;Livre
+3728;"são roque";0;Livre
+3729;auh0238;5;Livre
+3730;auh238;14;Livre
+3731;"prédio público";0;Livre
+3732;cau/sp;0;Livre
+3733;"farol santander";1;Livre
+3734;#auh238;1;Livre
+3735;centrohistórico;1;Livre
+3736;"fau maranhão";1;Livre
+3737;"fau usp higienópolis";1;Livre
+3738;"vista interna fau maranhão";1;Livre
+3739;cau;1;Livre
+3740;"auh 0236";1;Livre
+3741;"auh 238";1;Livre
+3742;se;1;Livre
+3743;zumbi;1;Livre
+3744;"bolsa de valores";1;Livre
+3745;"praça antônio prado";1;Livre
+3746;disputa;1;Livre
+3747;"igreja nossa senhora do rosário dos homens pretos";1;Livre
+3748;b3;1;Livre
+3749;cepe;2;Livre
+3750;ciclismo;0;Livre
+3751;corrida;1;Livre
+3752;atletismo;4;Livre
+3753;névoa;0;Livre
+3754;aquecimento;0;Livre
+3755;velódromo;0;Livre
+3756;premiação;0;Livre
+3757;atletas;0;Livre
+3758;crusp;0;Livre
+3759;futebol;1;Livre
+3760;"#sãoremo #rite2024 #madeira #calçada";1;Livre
+3761;natação;0;Livre
+3762;salto;1;Livre
+3763;obra;0;Livre
+3764;"#madeira #rite2024 #calçada";1;Livre
+3765;"álvaro guião";4;Livre
+3766;guião;13;Livre
+3767;"dr álvaro guião";9;Livre
+3768;"museu pró memória de são carlos";21;Livre
+3769;"estação da fepasa";21;Livre
+3770;"le corbusier";1;Livre
+3771;frança;1;Livre
+3772;erechim;6;Livre
+3773;campo;1;Livre
+3774;moradia;1;Livre
+3775;"expedição marrana";43;Livre
+3776;sertão;43;Livre
+3777;barroco-mestiço;18;Livre
+3778;ornamentos;3;Livre
+3779;vazio;5;Livre
+3780;remo;2;Livre
+3781;navegação;2;Livre
+3782;#sesc;5;Livre
+3783;#sescpompeia;5;Livre
+3784;#artigas;2;Livre
+3785;#pompeia;2;Livre
+3786;#linabobardi;2;Livre
+3787;#greve;1;Livre
+3788;buzinote;1;Livre
+3789;competição;1;Livre
+3790;aberto;4;Livre
+3791;sanitário;1;Livre
+3792;banho;1;Livre
+3793;limpeza;1;Livre
+3794;coberto;2;Livre
+3795;inova;1;Livre
+3796;"triangle center of sao paulo";1;Livre
+3797;"centro triangular";1;Livre
+3798;pef;0;Livre
+3799;"casa das rosas";1;Livre
+3800;"catedral metropolitana de são paulo";1;Livre
+3801;"catedral da sé";1;Livre
+3802;"estação da luz";1;Livre
+3803;osasco;13;Livre
+3804;católico;4;Livre
+3805;vaso;1;Livre
+3806;sino;1;Livre
+3807;sinalização;1;Livre
+3808;"avenida guararapes";1;Livre
+3809;moderno;1;Livre
+3810;"av. paulista";2;Livre
+3811;"königsberger vannucchi";2;Livre
+3812;mmbb;6;Livre
+3813;faud;2;Livre
+3814;#2025;1;Livre
+3815;adinkra;21;Livre
+3816;bixiga;21;Livre
+3817;"arquitetura afrocentrada";21;Livre
+3818;sankofa;21;Livre
+3819;"história da arquitetura afrocentrada";21;Livre
+3820;"#fauusp #arquitetura #vilanovaartigas";1;Livre
+3821;#design;1;Livre
+3822;visita;50;Livre
+3823;"sala são paulo";44;Livre
+3824;opera;44;Livre
+3825;clássico;85;Livre
+3826;"sala de concertos";44;Livre
+3827;dops;19;Livre
+3828;paranapiacaba;22;Livre
+3829;antiga;2;Livre
+3830;clássica;2;Livre
+3831;simples;1;Livre
+3832;mooca;1;Livre
+3833;p&b;1;Livre
+3834;"taipa de sebe";1;Livre
+3835;"pequena vila";1;Livre
+3836;palafitas;1;Livre
+3837;"ilha de marajó";1;Livre
+3838;"são sebastião da boa vista";1;Livre
+3839;gaveta;1;Livre
+3840;"presidente altino";1;Livre
+3841;"escola de artes césar antonio salvi";1;Livre
+3842;"dom quixote";1;Livre
+3843;aut512;3;Livre

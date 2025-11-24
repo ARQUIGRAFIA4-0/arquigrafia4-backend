@@ -36,7 +36,7 @@ class VRACAgent extends Model
         ];
     }
 
-    // relationships
+    // relations
 
     public function images(): BelongsToMany
     {

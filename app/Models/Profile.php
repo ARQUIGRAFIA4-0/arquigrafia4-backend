@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\VRACore\VRACSubject;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Profile extends Model
 {
@@ -54,5 +56,10 @@ class Profile extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function subjects(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACSubject::class, 'profile_subject', 'profile_id', 'subject_id');
     }
 }

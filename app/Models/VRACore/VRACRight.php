@@ -41,6 +41,7 @@ class VRACRight extends Model
 
     // static methods
 
+    // outdated
     public static function createWithConditions($ownerName, string $commercial = 'no', string $editable = 'no')
     {
         $rightString = 'by';
@@ -61,12 +62,4 @@ class VRACRight extends Model
         return $right;
     }
 
-/*
-CC BY livre desde q creditem original https://creativecommons.org/licenses/by/4.0 Atribuição
-CC BY-SA livre desde q creditem original e mudanças sigam mesma licença https://creativecommons.org/licenses/by-sa/4.0 Atribuição-CompartilhaIgual
-CC BY-ND distribuível desde q creditem original e sem alterações https://creativecommons.org/licenses/by-nd/4.0 Atribuição-SemDerivações
-CC BY-NC NÃO comercial e editável, NÃO precisa seguir mesma licença https://creativecommons.org/licenses/by-nc/4.0 Atribuição-NãoComercial
-CC BY-NC-SA NÃO comercial e editável, precisa seguir mesma licença https://creativecommons.org/licenses/by-nc-sa/4.0 Atribuição-NãoComercial-CompartilhaIgual
-CC BY-NC-ND NÃO comercial e  NÃO editável https://creativecommons.org/licenses/by-nc-nd/4.0 Atribuição-SemDerivações-SemDerivados
-*/
 }
