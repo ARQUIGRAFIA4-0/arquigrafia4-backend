@@ -19,6 +19,7 @@ class VRACImage extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'sizes',
         'collective_id',
         'legacy_id',
         'ref_id',
@@ -32,6 +33,7 @@ class VRACImage extends Model
         return [
             'id' => 'string',
             'user_id' => 'string',
+            'sizes' => 'array',
             'collective_id' => 'string',
             'legacy_id' => 'integer',
             'ref_id' => 'string',
@@ -42,24 +44,40 @@ class VRACImage extends Model
     }
 
     // methods
-    public function basePath()
+    protected string $baseDir = 'images/iiif';
+    public function path(string $type = 'base', string $mode = 'relative', array $options = []): ?string
     {
-        return storage_path('app/public/images/iiif/' . $this->id);
-    }
+        // Build the relative path first
+        switch ($type) {
+            case 'base':
+                $relative = "{$this->baseDir}/{$this->id}";
+                break;
 
-    public function originalPath()
-    {
-        return storage_path('app/public/images/iiif/' . $this->id . '/full/max/0/default.jpg');
-    }
+            case 'original':
+                $relative = "{$this->baseDir}/{$this->id}/full/max/0/default.jpg";
+                break;
 
-    public function squarePath()
-    {
-        return storage_path('app/public/images/iiif/' . $this->id . '/full/1024,/0/default.jpg');
-    }
+            case 'thumb':
+                $width = $this->sizes["thumb"]["width"];
+                $height = $this->sizes["thumb"]["height"];
+                $relative = "{$this->baseDir}/{$this->id}/full/{$width},{$height}/0/default.jpg";
+                break;
 
-    public function thumbnailPath()
-    {
-        return storage_path('app/public/images/iiif/' . $this->id . '/full/200,/0/default.jpg');
+            case 'info':
+                $relative = "{$this->baseDir}/{$this->id}/info.json";
+                break;
+
+            default:
+                return null;
+        }
+
+        // Transform depending on mode
+        return match ($mode) {
+            'relative' => $relative,
+            'absolute' => storage_path("app/public/{$relative}"),
+            'url' => asset(str_replace('images/', '', $relative)), // iiif/... instead of images/iiif
+            default => $relative,
+        };
     }
 
     // List of all relations
@@ -68,7 +86,7 @@ class VRACImage extends Model
         'culturalContexts',
         'dates',
         'descriptions',
-        'title',
+        'titles',
         'techniques',
         'workTypes',
         'materials',
