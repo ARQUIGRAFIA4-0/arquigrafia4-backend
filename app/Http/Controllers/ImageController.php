@@ -30,17 +30,16 @@ class ImageController extends Controller
     public function store(StoreImageRequest $request)
     {
         $image = new VRACImage();
-
         $image->user_id = $request->input('user_id');
         $image->collective_id = $request->input('collective_id');
         $image->save();
 
-    // load original into vips from uploaded buffer and capture original dimensions
-    $uploaded = VipsImage::newFromBuffer($request->file('image')->getContent(), '', ['access' => 'sequential']);
-    $origWidth = $uploaded->width ?? null;
-    $origHeight = $uploaded->height ?? null;
-    $converted = $uploaded->writeToBuffer('.jpg');
-    Storage::disk('public')->put($image->path('original'), $converted);
+        // load original into vips from uploaded buffer and capture original dimensions
+        $uploaded = VipsImage::newFromBuffer($request->file('image')->getContent(), '', ['access' => 'sequential']);
+        $origWidth = $uploaded->width ?? null;
+        $origHeight = $uploaded->height ?? null;
+        $converted = $uploaded->writeToBuffer('.jpg');
+        Storage::disk('public')->put($image->path('original'), $converted);
 
         $title = new VRACTitle();
         $title->label = $request->input('title');   
@@ -55,28 +54,6 @@ class ImageController extends Controller
         $right->rights_holder = $request->input('owner_name');
         $right->save();
         $image->rights()->sync($right->id);
-
-        // Create derivatives and capture their sizes
-        $thumbInfo = $this->createDerivative($image, 300);
-        $midInfo = $this->createDerivative($image, 1024);
-
-        // Store sizes as JSON structure: original, mid, thumb
-        $image->sizes = [
-            'original' => [
-                'width' => $origWidth,
-                'height' => $origHeight,
-            ],
-            'mid' => [
-                'width' => $midInfo['width'] ?? null,
-                'height' => $midInfo['height'] ?? null,
-            ],
-            'thumb' => [
-                'width' => $thumbInfo['width'] ?? null,
-                'height' => $thumbInfo['height'] ?? null,
-            ],
-        ];
-
-        $image->save();
 
         $photographerRole = VRACAgentRole::getPhotographer();
         $agentPhotographer = VRACAgent::firstOrCreate([
@@ -115,8 +92,26 @@ class ImageController extends Controller
             $image->dates()->sync($date->id);
         }
 
-        $this->createDerivative($image, 200);
-        $this->createDerivative($image, 1024);
+        // Create derivatives and capture their sizes
+        $thumbInfo = $this->createDerivative($image, 300);
+        $midInfo = $this->createDerivative($image, 1024);
+        // Store sizes as JSON structure: original, mid, thumb
+        $image->sizes = [
+            'original' => [
+                'width' => $origWidth,
+                'height' => $origHeight,
+            ],
+            'mid' => [
+                'width' => $midInfo['width'] ?? null,
+                'height' => $midInfo['height'] ?? null,
+            ],
+            'thumb' => [
+                'width' => $thumbInfo['width'] ?? null,
+                'height' => $thumbInfo['height'] ?? null,
+            ],
+        ];
+        $image->save();
+
         TileImage::dispatch($image);
 
         return new ImageResource($image);
@@ -200,8 +195,8 @@ class ImageController extends Controller
         $width = $thumbnail->width;
         $height = $thumbnail->height;
 
-    // relative IIIF-style path for the derivative (storage relative under images/iiif/{id})
-    $relPath = $image->path('thumb', 'relative', ['width' => $width, 'height' => $height]);
+        // relative IIIF-style path for the derivative (storage relative under images/iiif/{id})
+        $relPath = $image->path('thumb', 'relative', ['width' => $width, 'height' => $height]);
 
         $destination = $image->path('thumb', 'absolute', ['width' => $width, 'height' => $height]);
         if (! file_exists(dirname($destination))) {
