@@ -2,8 +2,11 @@
 
 namespace App\Models\VRACore;
 
+use App\Models\Location;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,8 +18,13 @@ class VRACImage extends Model
 
     protected $fillable = [
         'id',
+        'user_id',
+        'sizes',
+        'collective_id',
+        'legacy_id',
         'ref_id',
         'source',
+        'processed_at',
         'deleted_at',
     ];
 
@@ -24,19 +32,61 @@ class VRACImage extends Model
     {
         return [
             'id' => 'string',
+            'user_id' => 'string',
+            'sizes' => 'array',
+            'collective_id' => 'string',
+            'legacy_id' => 'integer',
             'ref_id' => 'string',
             'source' => 'string',
+            'processed_at' => 'timestamp',
             'deleted_at' => 'timestamp',
         ];
     }
 
-    // List of all relationships
+    // methods
+    protected string $baseDir = 'images/iiif';
+    public function path(string $type = 'base', string $mode = 'relative', array $options = []): ?string
+    {
+        // Build the relative path first
+        switch ($type) {
+            case 'base':
+                $relative = "{$this->baseDir}/{$this->id}";
+                break;
+
+            case 'original':
+                $relative = "{$this->baseDir}/{$this->id}/full/max/0/default.jpg";
+                break;
+
+            case 'thumb':
+                $width = $this->sizes["thumb"]["width"];
+                $height = $this->sizes["thumb"]["height"];
+                $relative = "{$this->baseDir}/{$this->id}/full/{$width},{$height}/0/default.jpg";
+                break;
+
+            case 'info':
+                $relative = "{$this->baseDir}/{$this->id}/info.json";
+                break;
+
+            default:
+                return null;
+        }
+
+        // Transform depending on mode
+        return match ($mode) {
+            'relative' => $relative,
+            'absolute' => storage_path("app/public/{$relative}"),
+            'url' => asset(str_replace('images/', '', $relative)), // iiif/... instead of images/iiif
+            default => $relative,
+        };
+    }
+
+    // List of all relations
     public const RELATIONS = [
         'agents',
         'culturalContexts',
         'dates',
         'descriptions',
-        'title',
+        'titles',
         'techniques',
         'workTypes',
         'materials',
@@ -50,7 +100,11 @@ class VRACImage extends Model
         'locations'
     ];
 
-    // relationships
+    // relations
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function agents(): BelongsToMany
     {
@@ -72,10 +126,9 @@ class VRACImage extends Model
         return $this->belongsToMany(VRACDescription::class, 'description_image', 'image_id', 'description_id');
     }
 
-    // para o nosso caso, title será no singular pois a image sempre só terá 1 title, e vice-versa
-    public function title(): BelongsToMany
+    public function titles(): BelongsToMany
     {
-        return $this->belongsToMany(VRACTitle::class, 'image_title', 'image_id', 'title_id')->take(1);
+        return $this->belongsToMany(VRACTitle::class, 'image_title', 'image_id', 'title_id');
     }
 
     public function techniques(): BelongsToMany
@@ -130,6 +183,6 @@ class VRACImage extends Model
 
     public function locations(): BelongsToMany
     {
-        return $this->belongsToMany(VRACLocation::class, 'location_image', 'image_id', 'location_id');
+        return $this->belongsToMany(Location::class, 'image_location', 'image_id', 'location_id');
     }
 }

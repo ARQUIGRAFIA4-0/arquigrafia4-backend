@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\IIIFManifestController;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/iiif/{id}/manifest', [IIIFManifestController::class, 'getManifest'])->name('iiif.manifest');
+use App\Http\Controllers\IIIFManifestController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+/// IIIF
+Route::get('/iiif/{id}/manifest', [IIIFManifestController::class, 'getManifest'])->name('iiif.manifest');
