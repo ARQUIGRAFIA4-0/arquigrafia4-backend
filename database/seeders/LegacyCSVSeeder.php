@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\VRACore\VRACImage;
+use App\Models\Location;
 use App\Models\VRACore\VRACTitle;
 use App\Models\VRACore\VRACDescription;
 use App\Models\VRACore\VRACDate;
@@ -161,6 +162,28 @@ class LegacyCSVSeeder extends Seeder
                     );
 
                     $image->agents()->syncWithoutDetaching($agent->id);
+                }
+
+                // Location: look for latitude, longitude and complete address in the CSV
+                $lat = trim($data['latitude'] ?? '');
+                $lng = trim($data['longitude'] ?? '');
+                $label = trim($data['complete_address'] ?? '');
+
+                if ($lat !== null && $lng !== null) {
+                    // upsert by coordinates; set label if provided
+                    $location = Location::firstOrCreate(
+                        [
+                            'latitude' => (float) $lat,
+                            'longitude' => (float) $lng,
+                        ],
+                        [
+                            'label' => $label,
+                            'id' => (string) Str::uuid()
+                        ]
+                    );
+
+                    // attach to image via the Location model relation (uses image_location pivot)
+                    $location->images()->syncWithoutDetaching($image->id);
                 }
             });
 
