@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('vrac_style_periods', function (Blueprint $table) {
-            $table->string('vocab')->nullable();
+            $table->string('vocab')->nullable()->after('label');
         });
     }
 
