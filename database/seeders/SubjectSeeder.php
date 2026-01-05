@@ -14,6 +14,6 @@ class SubjectSeeder extends Seeder
      */
     public function run(): void
     {
-        Excel::import(new SubjectsImport, storage_path('seeds/tags_to_subject.csv'));
+        Excel::import(new SubjectsImport, storage_path('seeds/subjects_from_vcaa.csv'));
     }
 }

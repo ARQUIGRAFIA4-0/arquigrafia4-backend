@@ -2,11 +2,11 @@
 
 namespace App\Imports;
 
-use App\Models\VRACore\VRACSubject;
+use App\Models\VRACore\VRACWorkType;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class SubjectsImport implements ToModel, WithHeadingRow
+class WorkTypesImport implements ToModel, WithHeadingRow
 {
     /**
     * @param array $row
@@ -15,14 +15,13 @@ class SubjectsImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        if (!isset($row['term']) || !isset($row['id'])) {
+        if (!isset($row['label']) || !isset($row['id'])) {
             return null;
         }
 
-        $subject = new VRACSubject([
+        $subject = new VRACWorkType([
             'id' => $row['id'],
-            'term' => $row['term'],
-            'type' => 'otherTopic',
+            'label' => $row['label'],
             'vocab' => $row['vocab'],
             'ref_id' => $row['ref_id'],
         ]);

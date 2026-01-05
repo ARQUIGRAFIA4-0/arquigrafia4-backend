@@ -25,7 +25,7 @@ class VRACMaterial extends Model
         return [
             'id' => 'string',
             'label' => 'string',
-            'type' => 'array',
+            'type' => 'string',
             'vocab' => 'string',
             'ref_id' => 'string',
         ];
