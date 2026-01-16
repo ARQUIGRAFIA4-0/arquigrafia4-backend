@@ -36,7 +36,7 @@ class LegacyCSVSeeder extends Seeder
 
         // Preload subjects into a normalized map for fast lookup
         $subjectIndex = [];
-        Vocabulary::chunk(500, function ($rows) use (&$subjectIndex) {
+        VRACSubject::chunk(500, function ($rows) use (&$subjectIndex) {
             foreach ($rows as $r) {
                 $subjectIndex[$r->term] = $r; //$this->normalize($r->term)
             }
