@@ -17,6 +17,8 @@ use App\Models\VRACore\VRACRight;
 use App\Models\VRACore\VRACAgent;
 use App\Models\VRACore\VRACAgentRole;
 use App\Models\VRACore\VRACContributorName;
+use App\Models\VRACore\VRACTechnique;
+use App\Models\Vocabulary;
 
 class LegacyCSVSeeder extends Seeder
 {
@@ -34,7 +36,7 @@ class LegacyCSVSeeder extends Seeder
 
         // Preload subjects into a normalized map for fast lookup
         $subjectIndex = [];
-        VRACSubject::chunk(500, function ($rows) use (&$subjectIndex) {
+        Vocabulary::chunk(500, function ($rows) use (&$subjectIndex) {
             foreach ($rows as $r) {
                 $subjectIndex[$this->normalize($r->term)] = $r;
             }
@@ -50,10 +52,29 @@ class LegacyCSVSeeder extends Seeder
         $header = null;
         $rowCount = 0;
 
+        // Count total rows for progress bar
+        $totalRows = count(file($csvPath)) - 1; // Subtract 1 for the header row
+
+        // Initialize progress bar
+        $progressBar = $this->command->getOutput()->createProgressBar($totalRows);
+        $progressBar->start();
+
         while (($row = fgetcsv($handle)) !== false) {
             if (! $header) {
                 $header = $row;
+                $expectedColumnCount = count($header);
                 continue;
+            }
+            if (count($row) !== $expectedColumnCount) {
+                // Log the error and skip the bad row
+                $this->command->warn("\nSkipping row {$rowCount}: Column count mismatch.");
+                $this->command->warn("Expected {$expectedColumnCount} columns, got " . count($row) . ".");
+                // Optionally, show the raw data that caused the issue
+                // $this->command->warn("Row Data: ".json_encode($row));
+
+                $progressBar->advance();
+                $rowCount++;
+                continue; // Skip processing this row
             }
 
             $data = array_combine($header, $row);
@@ -61,17 +82,33 @@ class LegacyCSVSeeder extends Seeder
                 continue;
             }
 
+            // Replace all "NULL" strings with actual null values
+            array_walk($data, function (&$value) {
+                $value = strtoupper($value) === 'NULL' ? null : $value;
+            });
+
             DB::transaction(function () use ($data, &$subjectIndex, $photographerRole) {
                 // Image
                 $imageId = trim($data['VRA_UUID']);
-                if (! $imageId) {
+                $userUuid = trim($data['user_uuid']);
+                if (! $imageId || ! $userUuid) {
                     return;
                 }
 
-                $image = VRACImage::firstOrCreate(
-                    ['id' => $imageId],
-                    ['ref_id' => null, 'source' => 'legacy']
-                );
+                $image = VRACImage::withTrashed()->firstOrNew(['id' => $imageId]);
+                // $image = VRACImage::updateOrCreate(
+                //     ['id' => $imageId],
+                //     ['user_id' => $userUuid,],
+
+                // );
+
+                // Update timestamps if the record already exists
+                $image->update([
+                    'user_id' => $userUuid,
+                    'created_at' => $this->parseTimestamp($data['created_at'] ?? now()),
+                    'updated_at' => $this->parseTimestamp($data['updated_at'] ?? now()),
+                    'deleted_at' => $this->parseTimestamp($data['deleted_at'] ?? null),
+                ]);
 
                 // Title
                 $titleText = trim($data['VRA_Title'] ?? '');
@@ -115,18 +152,27 @@ class LegacyCSVSeeder extends Seeder
                 }
 
                 // Subjects (comma separated)
-                $subjectsRaw = trim($data['VRA_Subjects'] ?? '');
+                $subjectsRaw = trim($data['tags'] ?? '');
                 if ($subjectsRaw !== '') {
                     $terms = array_filter(array_map('trim', explode(',', $subjectsRaw)));
                     foreach ($terms as $term) {
                         $norm = $this->normalize($term);
                         if (isset($subjectIndex[$norm])) {
-                            $sub = $subjectIndex[$norm];
+                            $sub = VRACSubject::firstOrCreate(
+                                [
+                                    'term' => $term
+                                ],
+                                [
+                                    'id' => (string) Str::uuid(),
+                                    'vocab' => 'VCAA'
+                                ]
+                            );
                         } else {
-                            $sub = VRACSubject::create([
-                                'id' => (string) Str::uuid(),
+                            $sub = VRACSubject::firstOrCreate([
                                 'term' => $term,
-                                'vocab' => 'Arquigrafia',
+                            ], [
+                                'id' => (string) Str::uuid(),
+                                'vocab' => 'Arquigrafia'
                             ]);
                             $subjectIndex[$norm] = $sub;
                         }
@@ -135,19 +181,25 @@ class LegacyCSVSeeder extends Seeder
                 }
 
                 // Rights (VRA_Right contains existing VRACRight id)
-                $rightId = trim($data['VRA_Right'] ?? '');
-                if ($rightId !== '') {
+                $license = trim($data['VRA_Right'] ?? '');
+                if ($license !== '') {
                     // ensure it exists - if not, skip
-                    $right = VRACRight::find($rightId);
-                    if ($right) {
-                        $image->rights()->syncWithoutDetaching($right->id);
-                    }
+                    $right = VRACRight::firstOrCreate(
+                        ['href' => VRACRight::getLicenseMap()[$license] ?? null],
+                        [
+                            'text' => '',
+                            'id' => (string) Str::uuid(),
+                            'type' => 'other',
+                            'rights_holder' => '',
+                        ]
+                    );
+                    $image->rights()->syncWithoutDetaching($right->id);
                 }
 
                 // Agent - VRA_Agent contains user id
                 $imageContributor = trim($data['VRA_ImageContributor'] ?? '');
                 if ($imageContributor !== '') {
-                    
+
                     $contrib = VRACContributorName::firstOrCreate(
                         ['name' => $imageContributor],
                         ['id' => (string) Str::uuid(), 'type' => 'personal']
@@ -185,14 +237,32 @@ class LegacyCSVSeeder extends Seeder
                     // attach to image via the Location model relation (uses image_location pivot)
                     $location->images()->syncWithoutDetaching($image->id);
                 }
+
+                // Technique: upsert and link "Imagem digital" with vocab "VCAA" and ref_id 4269
+                $technique = VRACTechnique::firstOrCreate(
+                    [
+                        'label' => 'Imagem digital',
+                        'vocab' => 'VCAA',
+                        'ref_id' => '4269',
+                    ],
+                    [
+                        'id' => (string) Str::uuid()
+                    ]
+                );
+
+                $image->techniques()->syncWithoutDetaching($technique->id);
             });
 
+            // Advance the progress bar after processing each row
+            $progressBar->advance();
             $rowCount++;
         }
 
         fclose($handle);
 
-        $this->command->info("Imported/processed {$rowCount} rows from CSV.");
+        // Finish the progress bar
+        $progressBar->finish();
+        $this->command->info("\nImported/processed {$rowCount} rows from CSV.");
     }
 
     private function normalize(string $value): string
@@ -201,5 +271,27 @@ class LegacyCSVSeeder extends Seeder
         $norm = iconv('UTF-8', 'ASCII//TRANSLIT', $value);
         $norm = preg_replace('/[^A-Za-z0-9]/', '', $norm);
         return strtolower($norm);
+    }
+
+    /**
+     * Parse a timestamp string into a Carbon instance or return null.
+     *
+     * @param string|null $timestamp
+     * @return \Carbon\Carbon|string|null
+     */
+    private function parseTimestamp(?string $timestamp)
+    {
+        if (empty($timestamp)) {
+            return null;
+        }
+
+        try {
+            // Parse the timestamp into a Carbon instance
+            return \Carbon\Carbon::parse($timestamp);
+        } catch (\Exception $e) {
+            // Log the error and return null if parsing fails
+            $this->command->warn("Invalid timestamp format: {$timestamp}");
+            return null;
+        }
     }
 }

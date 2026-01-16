@@ -38,7 +38,7 @@ class VRACRight extends Model
     {
         return $this->belongsToMany(VRACImage::class, 'image_right', 'right_id', 'image_id');
     }
-
+    
     // static methods
 
     // outdated
@@ -60,6 +60,18 @@ class VRACRight extends Model
         ]);
 
         return $right;
+    }
+
+    public static function getLicenseMap(): array
+    {
+        return [
+            'CC BY' => 'https://creativecommons.org/licenses/by/4.0/deed.pt-br',
+            'CC BY-SA' => 'https://creativecommons.org/licenses/by-sa/4.0/deed.pt-br',
+            'CC BY-ND' => 'https://creativecommons.org/licenses/by-nd/4.0/deed.pt-br',
+            'CC BY-NC' => 'https://creativecommons.org/licenses/by-nc/4.0/deed.pt-br',
+            'CC BY-NC-SA' => 'https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt-br',
+            'CC BY-NC-ND' => 'https://creativecommons.org/licenses/by-nc-nd/4.0/deed.pt-br',
+        ];
     }
 
 }
