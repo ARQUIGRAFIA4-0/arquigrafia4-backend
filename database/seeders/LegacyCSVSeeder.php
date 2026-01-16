@@ -38,7 +38,7 @@ class LegacyCSVSeeder extends Seeder
         $subjectIndex = [];
         Vocabulary::chunk(500, function ($rows) use (&$subjectIndex) {
             foreach ($rows as $r) {
-                $subjectIndex[$this->normalize($r->term)] = $r;
+                $subjectIndex[$r->term] = $r; //$this->normalize($r->term)
             }
         });
 
@@ -96,11 +96,11 @@ class LegacyCSVSeeder extends Seeder
                 }
 
                 $image = VRACImage::withTrashed()->firstOrNew(['id' => $imageId]);
-                // $image = VRACImage::updateOrCreate(
-                //     ['id' => $imageId],
-                //     ['user_id' => $userUuid,],
+                $image = VRACImage::updateOrCreate(
+                    ['id' => $imageId],
+                    ['user_id' => $userUuid,],
 
-                // );
+                );
 
                 // Update timestamps if the record already exists
                 $image->update([
@@ -156,7 +156,7 @@ class LegacyCSVSeeder extends Seeder
                 if ($subjectsRaw !== '') {
                     $terms = array_filter(array_map('trim', explode(',', $subjectsRaw)));
                     foreach ($terms as $term) {
-                        $norm = $this->normalize($term);
+                        $norm = $term; //$this->normalize($term);
                         if (isset($subjectIndex[$norm])) {
                             $sub = VRACSubject::firstOrCreate(
                                 [
