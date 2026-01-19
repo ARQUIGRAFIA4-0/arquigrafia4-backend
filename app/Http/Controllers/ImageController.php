@@ -119,6 +119,24 @@ class ImageController extends Controller
 
     public function show(VRACImage $image)
     {
+        $image->load([
+                'agents',
+                'culturalContexts',
+                'dates',
+                'descriptions',
+                'titles',
+                'techniques',
+                'workTypes',
+                'materials',
+                'stylePeriods',
+                'measurements',
+                'stateEditions',
+                'sources',
+                'rights',
+                'inscriptions',
+                'subjects',
+                'locations'
+            ]);
         return new ImageResource($image);
     }
 
