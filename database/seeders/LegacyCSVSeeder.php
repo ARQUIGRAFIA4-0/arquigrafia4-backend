@@ -96,16 +96,14 @@ class LegacyCSVSeeder extends Seeder
                 }
 
                 $image = VRACImage::withTrashed()->firstOrNew(['id' => $imageId]);
-                $image = VRACImage::updateOrCreate(
-                    ['id' => $imageId],
-                    [
-                        'user_id' => $userUuid,
-                        'created_at' => $this->parseTimestamp($data['created_at'] ?? now()),
-                        'updated_at' => $this->parseTimestamp($data['updated_at'] ?? now()),
-                        'deleted_at' => $this->parseTimestamp($data['deleted_at'] ?? null),
-                    ],
-
-                );
+                $image->fill([
+                    'user_id' => $userUuid,
+                    'created_at' => $this->parseTimestamp($data['created_at'] ?? now()),
+                    'updated_at' => $this->parseTimestamp($data['updated_at'] ?? now()),
+                    'deleted_at' => $this->parseTimestamp($data['deleted_at'] ?? null),
+                    'legacy_id' => trim($data['id']),
+                ]);
+                $image->save();
 
                 // Title
                 $titleText = trim($data['VRA_Title'] ?? '');
