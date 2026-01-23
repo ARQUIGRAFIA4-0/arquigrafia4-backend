@@ -20,7 +20,7 @@ use Illuminate\Support\Str;
 
 class ImageController extends Controller
 {
-    private int $pageSize = 30;
+    private int $pageSize = 50;
 
     public function index()
     {
