@@ -20,9 +20,13 @@ use Illuminate\Support\Str;
 
 class ImageController extends Controller
 {
+    private int $pageSize = 30;
+
     public function index()
     {
-        $images = VRACImage::all();
+        // criar um query builder
+        // tem q ter uma opção de resultado aleatório ou não
+        $images = VRACImage::paginate($this->pageSize);
 
         return ImageResource::collection($images);
     }
