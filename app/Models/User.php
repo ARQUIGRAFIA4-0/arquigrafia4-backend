@@ -28,7 +28,10 @@ class User extends Authenticatable
         'email',
         'email_verified_at',
         'password',
+        'legacy_id',
         'avatar_path',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -52,6 +55,7 @@ class User extends Authenticatable
             'email' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'legacy_id' => 'integer',
             'avatar_path' => 'string',
             'deleted_at' => 'datetime',
         ];

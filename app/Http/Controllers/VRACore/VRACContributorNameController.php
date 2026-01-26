@@ -81,4 +81,13 @@ class VRACContributorNameController extends Controller
             'name' => $cName,
         ]);
     }
+
+    public function getByUserId(string $userId)
+    {
+        $cName = VRACContributorName::where('user_id', $userId)->first();
+
+        return response()->json([
+            'name' => $cName,
+        ]);
+    }
 }
