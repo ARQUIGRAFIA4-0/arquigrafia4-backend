@@ -23,7 +23,7 @@ class TileImage implements ShouldQueue
     public function handle(): void
     {
         try {
-            $image = Vips\Image::newFromFile($this->image->originalAbsolutePath(), ['access' => 'sequential']);
+            $image = Vips\Image::newFromFile($this->image->path('original','absolute'), ['access' => 'sequential']);
             $image->dzsave($this->image->path('base', 'absolute'), [ // baseAbsolutePath()
                 'layout' => 'iiif3',
                 'id' => 'http://dev.arquigrafia.org/iiif'
