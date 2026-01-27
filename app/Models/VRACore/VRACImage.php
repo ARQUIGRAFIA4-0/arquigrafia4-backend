@@ -58,8 +58,8 @@ class VRACImage extends Model
                 break;
 
             case 'thumb':
-                $width = $this->sizes["thumb"]["width"];
-                $height = $this->sizes["thumb"]["height"];
+                $width = $this->sizes["thumb"]["width"] ?? $options["width"];
+                $height = $this->sizes["thumb"]["height"] ?? $options["height"];
                 $relative = "{$this->baseDir}/{$this->id}/full/{$width},{$height}/0/default.jpg";
                 break;
 
