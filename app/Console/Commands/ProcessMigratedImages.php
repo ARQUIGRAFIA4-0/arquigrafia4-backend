@@ -78,7 +78,7 @@ class ProcessMigratedImages extends Command
         $mid = VipsImage::thumbnail($image->path('original', 'absolute'), 1024);
         $midWidth = $mid->width;
         $midHeight = $mid->height;
-        $midDest = $image->path('thumb', 'absolute', ['width' => $midWidth, 'height' => $midHeight]);
+        $midDest = $image->path('mid', 'absolute', ['width' => $midWidth, 'height' => $midHeight]);
         if (!file_exists(dirname($midDest))) {
             mkdir(dirname($midDest), 0755, true);
         }
