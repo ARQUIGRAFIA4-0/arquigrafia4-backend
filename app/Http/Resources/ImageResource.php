@@ -14,6 +14,14 @@ class ImageResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+
+        if ($this->sizes) {
+            $data['thumb_url'] = "iiif/{$this->id}/full/{$this->sizes['thumb']['width']},{$this->sizes['thumb']['height']}/0/default.jpg";
+            $data['mid_url'] = "iiif/{$this->id}/full/{$this->sizes['mid']['width']},{$this->sizes['mid']['height']}/0/default.jpg";
+            $data['full_url'] = "iiif/{$this->id}/full/max/0/default.jpg";
+        }
+
+        return $data;
     }
 }
