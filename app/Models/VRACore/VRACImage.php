@@ -14,6 +14,8 @@ class VRACImage extends Model
 {
     use HasUuids, SoftDeletes;
 
+    protected string $baseDir = 'images/iiif';
+
     protected $table = 'vrac_images';
 
     protected $fillable = [
@@ -44,7 +46,6 @@ class VRACImage extends Model
     }
 
     // methods
-    protected string $baseDir = 'images/iiif';
     public function path(string $type = 'base', string $mode = 'relative', array $options = []): ?string
     {
         // Build the relative path first
@@ -103,7 +104,7 @@ class VRACImage extends Model
         'rights',
         'inscriptions',
         'subjects',
-        'locations'
+        'locations',
     ];
 
     // relations

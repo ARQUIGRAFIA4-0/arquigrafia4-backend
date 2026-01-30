@@ -15,6 +15,7 @@ use App\Models\VRACore\VRACDescription;
 use App\Models\VRACore\VRACImage;
 use App\Models\VRACore\VRACRight;
 use App\Models\VRACore\VRACTitle;
+use Illuminate\Http\Request;
 use Jcupitt\Vips\Image as VipsImage;
 use Illuminate\Support\Str;
 
@@ -208,6 +209,15 @@ class ImageController extends Controller
         $image->delete();
         
         return new ImageResource($image);
+    }
+
+    public function downloadFull(Request $request, string $id)
+    {
+        $image = VRACImage::find($id);
+
+        $path = $image->path('original', 'absolute');
+
+        return response()->download($path, 'imagem-' . $id);
     }
 
     private function createDerivative(VRACImage $image, int $size = 300): array
