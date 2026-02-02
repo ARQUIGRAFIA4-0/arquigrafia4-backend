@@ -27,7 +27,10 @@ class ImageController extends Controller
     {
         // criar um query builder
         // tem q ter uma opção de resultado aleatório ou não
-        $images = VRACImage::paginate($this->pageSize);
+        $images = VRACImage::with([
+            'subjects',
+            'dates',
+        ])->paginate($this->pageSize);
 
         return ImageResource::collection($images);
     }
@@ -125,7 +128,8 @@ class ImageController extends Controller
     public function show(VRACImage $image)
     {
         $image->load([
-                'agents',
+                'agents.contributorName',
+                'user',
                 'culturalContexts',
                 'dates',
                 'descriptions',
