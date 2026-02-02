@@ -30,6 +30,7 @@ class ImageController extends Controller
         $images = VRACImage::with([
             'subjects',
             'dates',
+            'titles',
         ])->paginate($this->pageSize);
 
         return ImageResource::collection($images);
