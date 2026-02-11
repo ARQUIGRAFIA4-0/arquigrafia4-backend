@@ -56,20 +56,21 @@ class ImageController extends Controller
         $title->save();
         $image->titles()->sync($title->id);
 
-        $right = new VRACRight();
-        $right->text = Str::upper($request->input('right_text'));
-        $right->type = 'copyrighted';
-        $right->href = 'https://creativecommons.org/licenses/' . Str::lower($request->input('right_text')) . '/4.0';
-        $right->rights_holder = $request->input('owner_name');
-        $right->save();
-        $image->rights()->sync($right->id);
-
         $photographerRole = VRACAgentRole::getPhotographer();
         $agentPhotographer = VRACAgent::firstOrCreate([
             'role_id' => $photographerRole->id,
             'contributor_name_id' => $request->input('photographer'),
         ]);
+        $agentPhotographer->load('contributorName');
         $image->agents()->sync($agentPhotographer->id);
+
+        $right = new VRACRight();
+        $right->text = Str::upper($request->input('license'));
+        $right->type = 'copyrighted';
+        $right->href = 'https://creativecommons.org/licenses/' . Str::lower($request->input('license')) . '/4.0';
+        $right->rights_holder = $agentPhotographer->contributorName->name;
+        $right->save();
+        $image->rights()->sync($right->id);
 
         $image->subjects()->sync($request->input('subjects'));
 
@@ -165,19 +166,20 @@ class ImageController extends Controller
         $title->type = 'other';
         $title->save();
 
-        $right = $image->rights()->first();
-        $right->text = Str::upper($request->input('right_text'));
-        $right->type = 'copyrighted';
-        $right->href = 'https://creativecommons.org/licenses/' . Str::lower($request->input('right_text')) . '/4.0';
-        $right->rights_holder = $request->input('owner_name');
-        $right->save();
-
         $photographerRole = VRACAgentRole::getPhotographer();
         $agentPhotographer = VRACAgent::firstOrCreate([
             'role_id' => $photographerRole->id,
             'contributor_name_id' => $request->input('photographer'),
         ]);
+        $agentPhotographer->load('contributorName');
         $image->agents()->sync($agentPhotographer->id);
+
+        $right = $image->rights()->first();
+        $right->text = Str::upper($request->input('license'));
+        $right->type = 'copyrighted';
+        $right->href = 'https://creativecommons.org/licenses/' . Str::lower($request->input('license')) . '/4.0';
+        $right->rights_holder = $agentPhotographer->contributorName->name;
+        $right->save();
 
         $image->subjects()->sync($request->input('subjects'));
 
