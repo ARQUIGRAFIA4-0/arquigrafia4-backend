@@ -25,13 +25,11 @@ class ImageController extends Controller
 
     public function index()
     {
-        // criar um query builder
-        // tem q ter uma opção de resultado aleatório ou não
         $images = VRACImage::with([
             'subjects',
             'dates',
             'titles',
-        ])->paginate($this->pageSize);
+        ])->inRandomOrder()->paginate($this->pageSize);
 
         return ImageResource::collection($images);
     }
