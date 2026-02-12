@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Image\SearchImageRequest;
 use App\Http\Requests\Image\StoreImageRequest;
 use App\Http\Requests\Image\UpdateImageRequest;
 use App\Http\Resources\ImageResource;
+use App\Services\ImageSearchService;
 use Illuminate\Support\Facades\Storage;
 use App\Jobs\TileImage;
 use App\Models\Location;
@@ -23,13 +25,17 @@ class ImageController extends Controller
 {
     private int $pageSize = 50;
 
-    public function index()
+    public function index(SearchImageRequest $request, ImageSearchService $searchService)
     {
-        $images = VRACImage::with([
-            'subjects',
-            'dates',
-            'titles',
-        ])->inRandomOrder()->paginate($this->pageSize);
+        $query = VRACImage::query();
+
+        $searchService->apply($query, $request->validated());
+
+        $images = $query->with([
+            'subjects:id,term',
+            'dates:id,type,earliest_date,latest_date,circa_earliest_date,circa_latest_date',
+            'titles:id,label,type',
+        ])->inRandomOrder()->paginate($request->integer('per_page', $this->pageSize));
 
         return ImageResource::collection($images);
     }
