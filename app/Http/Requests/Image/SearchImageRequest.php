@@ -25,7 +25,6 @@ class SearchImageRequest extends FormRequest
             'sort_by' => 'nullable|string|in:created_at,title,date',
             'sort_order' => 'nullable|string|in:asc,desc',
             'per_page' => 'nullable|integer|min:1|max:100',
-            'random' => 'nullable|boolean',
         ];
     }
 }

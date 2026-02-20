@@ -17,9 +17,9 @@ class ImageSearchService
             ->when($filters['date_to'] ?? null, fn (Builder $q, string $to) => $this->filterByDateTo($q, $to))
             ->when($filters['user_id'] ?? null, fn (Builder $q, string $userId) => $q->where('user_id', $userId))
             ->when(
-                $filters['random'] ?? false,
-                fn (Builder $q) => $q->inRandomOrder(),
+                isset($filters['sort_by']),
                 fn (Builder $q) => $this->applySorting($q, $filters),
+                fn (Builder $q) => $q->inRandomOrder(),
             );
     }
 
