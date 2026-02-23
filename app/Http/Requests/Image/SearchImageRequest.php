@@ -14,6 +14,7 @@ class SearchImageRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'q' => 'nullable|string|max:255',
             'title' => 'nullable|string|max:255',
             'contributor' => 'nullable|string|max:255',
             'subject' => 'nullable|array',

@@ -9,6 +9,7 @@ class ImageSearchService
     public function apply(Builder $query, array $filters): Builder
     {
         return $query
+            ->when($filters['q'] ?? null, fn (Builder $q, string $search) => $this->filterByFullText($q, $search))
             ->when($filters['title'] ?? null, fn (Builder $q, string $title) => $this->filterByTitle($q, $title))
             ->when($filters['contributor'] ?? null, fn (Builder $q, string $contributor) => $this->filterByContributor($q, $contributor))
             ->when($filters['subject'] ?? null, fn (Builder $q, array $ids) => $this->filterBySubjectIds($q, $ids))
@@ -64,6 +65,21 @@ class ImageSearchService
     {
         return $query->whereHas('dates', function (Builder $q) use ($to) {
             $q->where('latest_date', '<=', $to);
+        });
+    }
+
+    protected function filterByFullText(Builder $query, string $search): Builder
+    {
+        return $query->where(function (Builder $q) use ($search) {
+            $q->whereHas('titles', fn (Builder $q) =>
+                    $q->whereRaw('MATCH(label) AGAINST(? IN BOOLEAN MODE)', [$search]))
+              ->orWhereHas('subjects', fn (Builder $q) =>
+                    $q->whereRaw('MATCH(term) AGAINST(? IN BOOLEAN MODE)', [$search]))
+              ->orWhereHas('descriptions', fn (Builder $q) =>
+                    $q->whereRaw('MATCH(text) AGAINST(? IN BOOLEAN MODE)', [$search]))
+              ->orWhereHas('agents', fn (Builder $q) =>
+                    $q->whereHas('contributorName', fn (Builder $q2) =>
+                        $q2->whereRaw('MATCH(name) AGAINST(? IN BOOLEAN MODE)', [$search])));
         });
     }
 
