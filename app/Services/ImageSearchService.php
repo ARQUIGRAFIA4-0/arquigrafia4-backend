@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class ImageSearchService
 {
@@ -70,17 +71,34 @@ class ImageSearchService
 
     protected function filterByFullText(Builder $query, string $search): Builder
     {
-        return $query->where(function (Builder $q) use ($search) {
-            $q->whereHas('titles', fn (Builder $q) =>
-                    $q->whereRaw('MATCH(label) AGAINST(? IN BOOLEAN MODE)', [$search]))
-              ->orWhereHas('subjects', fn (Builder $q) =>
-                    $q->whereRaw('MATCH(term) AGAINST(? IN BOOLEAN MODE)', [$search]))
-              ->orWhereHas('descriptions', fn (Builder $q) =>
-                    $q->whereRaw('MATCH(text) AGAINST(? IN BOOLEAN MODE)', [$search]))
-              ->orWhereHas('agents', fn (Builder $q) =>
-                    $q->whereHas('contributorName', fn (Builder $q2) =>
-                        $q2->whereRaw('MATCH(name) AGAINST(? IN BOOLEAN MODE)', [$search])));
-        });
+        $titleIds = DB::table('image_title')
+            ->select('image_title.image_id')
+            ->join('vrac_titles', 'image_title.title_id', '=', 'vrac_titles.id')
+            ->whereRaw('MATCH(vrac_titles.label) AGAINST(? IN BOOLEAN MODE)', [$search]);
+
+        $subjectIds = DB::table('image_subject')
+            ->select('image_subject.image_id')
+            ->join('vrac_subjects', 'image_subject.subject_id', '=', 'vrac_subjects.id')
+            ->whereRaw('MATCH(vrac_subjects.term) AGAINST(? IN BOOLEAN MODE)', [$search]);
+
+        $descriptionIds = DB::table('description_image')
+            ->select('description_image.image_id')
+            ->join('vrac_descriptions', 'description_image.description_id', '=', 'vrac_descriptions.id')
+            ->whereRaw('MATCH(vrac_descriptions.text) AGAINST(? IN BOOLEAN MODE)', [$search]);
+
+        $contributorIds = DB::table('agent_image')
+            ->select('agent_image.image_id')
+            ->join('vrac_agents', 'agent_image.agent_id', '=', 'vrac_agents.id')
+            ->join('vrac_contributor_names', 'vrac_agents.contributor_name_id', '=', 'vrac_contributor_names.id')
+            ->whereRaw('MATCH(vrac_contributor_names.name) AGAINST(? IN BOOLEAN MODE)', [$search]);
+
+        $matchingIds = $titleIds
+            ->union($subjectIds)
+            ->union($descriptionIds)
+            ->union($contributorIds)
+            ->pluck('image_id');
+
+        return $query->whereIn('vrac_images.id', $matchingIds);
     }
 
     protected function applySorting(Builder $query, array $filters): Builder
