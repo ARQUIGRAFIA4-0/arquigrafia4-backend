@@ -14,7 +14,7 @@ class ImageSearchService
             ->when($filters['title'] ?? null, fn (Builder $q, string $title) => $this->filterByTitle($q, $title))
             ->when($filters['contributor'] ?? null, fn (Builder $q, string $contributor) => $this->filterByContributor($q, $contributor))
             ->when($filters['subject'] ?? null, fn (Builder $q, array $ids) => $this->filterBySubjectIds($q, $ids))
-            ->when($filters['subject_term'] ?? null, fn (Builder $q, string $term) => $this->filterBySubjectTerm($q, $term))
+            ->when($filters['subject_term'] ?? null, fn (Builder $q, array $terms) => $this->filterBySubjectTerm($q, $terms))
             ->when($filters['date_from'] ?? null, fn (Builder $q, string $from) => $this->filterByDateFrom($q, $from))
             ->when($filters['date_to'] ?? null, fn (Builder $q, string $to) => $this->filterByDateTo($q, $to))
             ->when($filters['user_id'] ?? null, fn (Builder $q, string $userId) => $q->where('user_id', $userId))
@@ -48,10 +48,14 @@ class ImageSearchService
         });
     }
 
-    protected function filterBySubjectTerm(Builder $query, string $term): Builder
+    protected function filterBySubjectTerm(Builder $query, array $terms): Builder
     {
-        return $query->whereHas('subjects', function (Builder $q) use ($term) {
-            $q->where('term', 'LIKE', '%' . $term . '%');
+        return $query->whereHas('subjects', function (Builder $q) use ($terms) {
+            $q->where(function (Builder $q2) use ($terms) {
+                foreach ($terms as $term) {
+                    $q2->orWhere('term', 'LIKE', '%' . $term . '%');
+                }
+            });
         });
     }
 
