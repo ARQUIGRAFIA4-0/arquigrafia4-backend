@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangePasswordResetRequest;
+use App\Http\Requests\VerifyPasswordResetRequest;
 use App\Models\AccountVerificationToken;
 use App\Models\PasswordResetToken;
 use App\Models\User;
@@ -10,7 +12,6 @@ use App\Notifications\PasswordResetRequested;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 use Laravel\Passport\RefreshTokenRepository;
 use Laravel\Passport\TokenRepository;
 
@@ -97,30 +98,26 @@ class AuthController extends Controller
         ]);
     }
 
-    public function verifyPasswordReset(Request $request)
+    public function verifyPasswordReset(VerifyPasswordResetRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email|exists:users,email',
-            'password' => ['nullable', 'max:250', Password::min(8)],
-            'code' => 'required|string|size:6',
-        ]);
-
-        $token = PasswordResetToken::where('email', $request->input('email'))->first();
-        if (!$token) {
+        $message = $this->passwordResetTokenValidation($request->input('email'), $request->input('code'));
+        if ($message) {
             return response()->json([
-                'message' => 'Sem código de recuperação',
-            ], 400);
-        }
-        
-        if ($token->created_at->diffInMinutes(now()) > 15) {
-            return response()->json([
-                'message' => 'Código de recuperação expirado',
+                'message' => $message,
             ], 400);
         }
 
-        if ($token->token != $request->input('code')) {
+        return response()->json([
+            'message' => "OK",
+        ], 200);
+    }
+
+    public function changePasswordReset(ChangePasswordResetRequest $request)
+    {
+        $message = $this->passwordResetTokenValidation($request->input('email'), $request->input('code'));
+        if ($message) {
             return response()->json([
-                'message' => 'Código de recuperação inválido',
+                'message' => $message,
             ], 400);
         }
 
@@ -130,7 +127,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => "OK",
-        ]);
+        ], 200);
     }
 
     public function me()
@@ -157,5 +154,25 @@ class AuthController extends Controller
         return response()->json([
             'message' => "OK",
         ]);
+    }
+
+    private function passwordResetTokenValidation($email, $code)
+    {
+        $message = null;
+
+        $token = PasswordResetToken::where('email', $email)->first();
+        if (!$token) {
+            $message = 'Sem código de recuperação';
+        }
+        
+        if ($token->created_at->diffInMinutes(now()) > 15) {
+            $message = 'Código de recuperação expirado';
+        }
+
+        if ($token->token != $code) {
+            $message = 'Código de recuperação inválido';
+        }
+
+        return $message;
     }
 }

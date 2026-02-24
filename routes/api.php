@@ -48,6 +48,8 @@ Route::middleware('throttle:6,1')->group(function () {
         ->middleware(['guest'])->name('password.email');
     Route::post('/verify-password-reset', [AuthController::class, 'verifyPasswordReset'])
         ->middleware(['guest'])->name('password.verify');
+    Route::post('/change-password-reset', [AuthController::class, 'changePasswordReset'])
+        ->middleware(['guest'])->name('password.reset');
 });
 
 // VRACore
