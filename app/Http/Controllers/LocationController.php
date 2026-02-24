@@ -21,7 +21,10 @@ class LocationController extends Controller
 
             foreach ($images as $image) {
                 $title = $image->titles->first()?->label;
-                $thumbUrl = $image->path('thumb', 'url');
+                $sizes = $image->sizes;
+                $thumbUrl = ($sizes['thumb']['width'] ?? null) !== null
+                    ? $image->path('thumb', 'url')
+                    : null;
 
                 foreach ($image->locations as $loc) {
                     if ($loc->latitude === null || $loc->longitude === null) {
