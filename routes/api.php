@@ -24,11 +24,13 @@ use App\Http\Controllers\VRACore\VRACTextRefController;
 use App\Http\Controllers\VRACore\VRACTitleController;
 use App\Http\Controllers\VRACore\VRACWorkTypeController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
 
 Route::apiResource('users', UserController::class)->only(['index', 'store', 'show']);
 Route::apiResource('profiles', ProfileController::class)->only(['show']);
 Route::get('profiles/by-user-id/{userId}', [ProfileController::class, 'getByUserId']);
+Route::get('locations/geojson', [LocationController::class, 'geojson']);
 Route::apiResource('images', ImageController::class)->only(['index', 'show']);
 
 Route::middleware('auth:api')->group(function () {

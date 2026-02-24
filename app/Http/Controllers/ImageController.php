@@ -19,6 +19,7 @@ use App\Models\VRACore\VRACRight;
 use App\Models\VRACore\VRACTitle;
 use Illuminate\Http\Request;
 use Jcupitt\Vips\Image as VipsImage;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class ImageController extends Controller
@@ -128,6 +129,8 @@ class ImageController extends Controller
 
         TileImage::dispatch($image);
 
+        Cache::forget('locations.geojson');
+
         return new ImageResource($image);
     }
 
@@ -212,13 +215,17 @@ class ImageController extends Controller
             $date->save();
         }
 
+        Cache::forget('locations.geojson');
+
         return new ImageResource($image);
     }
 
     public function destroy(VRACImage $image)
     {
         $image->delete();
-        
+
+        Cache::forget('locations.geojson');
+
         return new ImageResource($image);
     }
 
