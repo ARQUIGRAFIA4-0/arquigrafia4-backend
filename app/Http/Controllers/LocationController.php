@@ -13,38 +13,38 @@ class LocationController extends Controller
     public function geojson()
     {
         $geojson = Cache::remember('locations.geojson', 3600, function () {
-            $images = VRACImage::whereHas('locations')
-                ->with(['locations', 'titles'])
-                ->get();
-
             $features = [];
 
-            foreach ($images as $image) {
-                $title = $image->titles->first()?->label;
-                $sizes = $image->sizes;
-                $thumbUrl = ($sizes['thumb']['width'] ?? null) !== null
-                    ? $image->path('thumb', 'url')
-                    : null;
+            VRACImage::whereHas('locations')
+                ->with(['locations', 'titles'])
+                ->chunkById(200, function ($images) use (&$features) {
+                    foreach ($images as $image) {
+                        $title = $image->titles->first()?->label;
+                        $sizes = $image->sizes;
+                        $thumbUrl = ($sizes['thumb']['width'] ?? null) !== null
+                            ? $image->path('thumb', 'url')
+                            : null;
 
-                foreach ($image->locations as $loc) {
-                    if ($loc->latitude === null || $loc->longitude === null) {
-                        continue;
+                        foreach ($image->locations as $loc) {
+                            if ($loc->latitude === null || $loc->longitude === null) {
+                                continue;
+                            }
+
+                            $features[] = [
+                                'type' => 'Feature',
+                                'geometry' => [
+                                    'type' => 'Point',
+                                    'coordinates' => [(float) $loc->longitude, (float) $loc->latitude],
+                                ],
+                                'properties' => [
+                                    'image_id' => $image->id,
+                                    'title' => $title,
+                                    'thumb_url' => $thumbUrl,
+                                ],
+                            ];
+                        }
                     }
-
-                    $features[] = [
-                        'type' => 'Feature',
-                        'geometry' => [
-                            'type' => 'Point',
-                            'coordinates' => [(float) $loc->longitude, (float) $loc->latitude],
-                        ],
-                        'properties' => [
-                            'image_id' => $image->id,
-                            'title' => $title,
-                            'thumb_url' => $thumbUrl,
-                        ],
-                    ];
-                }
-            }
+                });
 
             return [
                 'type' => 'FeatureCollection',
