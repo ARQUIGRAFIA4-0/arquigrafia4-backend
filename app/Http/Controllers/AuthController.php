@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ChangePasswordResetRequest;
-use App\Http\Requests\VerifyPasswordResetRequest;
+use App\Http\Requests\Auth\ChangePasswordResetRequest;
+use App\Http\Requests\Auth\VerifyPasswordResetRequest;
 use App\Models\AccountVerificationToken;
 use App\Models\PasswordResetToken;
 use App\Models\User;
@@ -158,21 +158,20 @@ class AuthController extends Controller
 
     private function passwordResetTokenValidation($email, $code)
     {
-        $message = null;
-
         $token = PasswordResetToken::where('email', $email)->first();
+
         if (!$token) {
-            $message = 'Sem código de recuperação';
+            return 'Sem código de recuperação';
         }
-        
+
         if ($token->created_at->diffInMinutes(now()) > 15) {
-            $message = 'Código de recuperação expirado';
+            return 'Código de recuperação expirado';
         }
 
         if ($token->token != $code) {
-            $message = 'Código de recuperação inválido';
+            return 'Código de recuperação inválido';
         }
 
-        return $message;
+        return null;
     }
 }
