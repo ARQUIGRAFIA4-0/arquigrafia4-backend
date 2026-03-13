@@ -220,8 +220,14 @@ class ImageController extends Controller
         return new ImageResource($image);
     }
 
-    public function destroy(VRACImage $image)
+    public function destroy(Request $request, VRACImage $image)
     {
+        if ($request->user()->id !== $image->user_id) {
+            abort(403);
+        }
+
+        Storage::disk('public')->deleteDirectory($image->path('base'));
+
         $image->delete();
 
         Cache::forget('locations.geojson');
