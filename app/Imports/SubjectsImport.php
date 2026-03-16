@@ -15,15 +15,16 @@ class SubjectsImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        if (!isset($row['name']) || !isset($row['id'])) {
+        if (!isset($row['term']) || !isset($row['id'])) {
             return null;
         }
 
         $subject = new VRACSubject([
-            'term' => $row['name'],
+            'id' => $row['id'],
+            'term' => $row['term'],
             'type' => 'otherTopic',
-            'vocab' => 'ARQUIGRAFIA',
-            'ref_id' => $row['id'],
+            'vocab' => $row['vocab'],
+            'ref_id' => $row['ref_id'],
         ]);
 
         return $subject;

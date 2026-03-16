@@ -23,17 +23,22 @@ use App\Http\Controllers\VRACore\VRACTechniqueController;
 use App\Http\Controllers\VRACore\VRACTextRefController;
 use App\Http\Controllers\VRACore\VRACTitleController;
 use App\Http\Controllers\VRACore\VRACWorkTypeController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
 
 Route::apiResource('users', UserController::class)->only(['index', 'store', 'show']);
 Route::apiResource('profiles', ProfileController::class)->only(['show']);
 Route::get('profiles/by-user-id/{userId}', [ProfileController::class, 'getByUserId']);
+Route::get('locations/geojson', [LocationController::class, 'geojson']);
+Route::apiResource('images', ImageController::class)->only(['index', 'show']);
 
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('users', UserController::class)->only(['update', 'destroy']);
     Route::apiResource('profiles', ProfileController::class)->only(['store', 'update']);
     Route::get('me', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::apiResource('images', ImageController::class)->only(['store', 'update', 'destroy']);
 });
 
 Route::middleware('throttle:6,1')->group(function () {
@@ -45,6 +50,8 @@ Route::middleware('throttle:6,1')->group(function () {
         ->middleware(['guest'])->name('password.email');
     Route::post('/verify-password-reset', [AuthController::class, 'verifyPasswordReset'])
         ->middleware(['guest'])->name('password.verify');
+    Route::post('/change-password-reset', [AuthController::class, 'changePasswordReset'])
+        ->middleware(['guest'])->name('password.reset');
 });
 
 // VRACore

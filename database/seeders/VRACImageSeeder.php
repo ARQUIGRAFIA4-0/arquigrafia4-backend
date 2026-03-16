@@ -12,7 +12,9 @@ use App\Models\VRACore\VRACSubject;
 use App\Models\VRACore\VRACTitle;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+
 
 class VRACImageSeeder extends Seeder
 {
@@ -90,6 +92,15 @@ class VRACImageSeeder extends Seeder
             $image->agents()->attach($agent->id);
             $image->dates()->attach($date->id);
             $image->subjects()->attach($subjectIds);
+
+            $imageUrl = 'https://www.arquigrafia.org.br/arquigrafia-images/13075_view.jpg';
+
+            $extension = pathinfo(parse_url($imageUrl, PHP_URL_PATH), PATHINFO_EXTENSION);
+
+            $contents = file_get_contents($imageUrl);
+            // dd(Storage::disk('local')->path("images/{$image->id}.{$extension}"));
+            $result = Storage::disk('local')->put("images/{$image->id}.{$extension}", $contents);
+            dd($result); // should be true
         });
     }
 }

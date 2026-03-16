@@ -48,15 +48,16 @@ class VRACDate extends Model
     {
         $earliest = $this->earliest_date ? $this->earliest_date->format('Y') : '';
         $latest = $this->latest_date ? $this->latest_date->format('Y') : '';
+        $earliest_circa = $this->circa_earliest_date;
 
-        if ($this->circa_earliest_date && $this->circa_latest_date) {
-            return "c.$earliest-c.$latest";
-        } elseif ($this->circa_earliest_date) {
-            return "c.$earliest-$latest";
-        } elseif ($this->circa_latest_date) {
-            return "$earliest-c.$latest";
+        if ($earliest == $latest) {
+            $display_date = $earliest;
         } else {
-            return "$earliest-$latest";
+            $display_date = "$earliest-$latest";
         }
+        if ($earliest_circa) {
+            $display_date = "c. $display_date";
+        }
+        return $display_date;
     }
 }

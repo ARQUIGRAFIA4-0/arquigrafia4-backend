@@ -15,6 +15,7 @@ class VRACStylePeriod extends Model
     protected $fillable = [
         'id',
         'label',
+        'vocab',
         'ref_id',
     ];
 
@@ -23,6 +24,7 @@ class VRACStylePeriod extends Model
         return [
             'id' => 'string',
             'label' => 'string',
+            'vocab' => 'string',
             'ref_id' => 'string',
         ];
     }

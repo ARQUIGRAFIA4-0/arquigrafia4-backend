@@ -21,6 +21,7 @@ class VRACContributorName extends Model
         'type',
         'vocab',
         'ref_id',
+        'user_id',
     ];
 
     protected function casts(): array
@@ -32,6 +33,7 @@ class VRACContributorName extends Model
             'type' => 'string',
             'vocab' => 'string',
             'ref_id' => 'string',
+            'user_id' => 'string',
         ];
     }
 
