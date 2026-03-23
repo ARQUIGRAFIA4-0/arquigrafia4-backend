@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -71,5 +72,10 @@ class User extends Authenticatable
     public function images(): HasMany
     {
         return $this->hasMany(Image::class);
+    }
+
+    public function collectives(): BelongsToMany
+    {
+        return $this->belongsToMany(Collective::class)->withPivot('role')->withTimestamps();
     }
 }

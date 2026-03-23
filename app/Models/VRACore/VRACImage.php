@@ -2,6 +2,7 @@
 
 namespace App\Models\VRACore;
 
+use App\Models\Collective;
 use App\Models\Location;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -111,6 +112,11 @@ class VRACImage extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function collective(): BelongsTo
+    {
+        return $this->belongsTo(Collective::class);
     }
 
     public function agents(): BelongsToMany
