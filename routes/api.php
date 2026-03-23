@@ -26,7 +26,10 @@ use App\Http\Controllers\VRACore\VRACWorkTypeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AlbumController;
 
+Route::apiResource('albums', AlbumController::class);
+Route::post('/albums/{album}/images', [AlbumController::class, 'addImage']);
 Route::apiResource('users', UserController::class)->only(['index', 'store', 'show']);
 Route::apiResource('profiles', ProfileController::class)->only(['show']);
 Route::get('profiles/by-user-id/{userId}', [ProfileController::class, 'getByUserId']);
