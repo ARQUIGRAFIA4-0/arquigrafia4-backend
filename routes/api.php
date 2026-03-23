@@ -23,6 +23,9 @@ use App\Http\Controllers\VRACore\VRACTechniqueController;
 use App\Http\Controllers\VRACore\VRACTextRefController;
 use App\Http\Controllers\VRACore\VRACTitleController;
 use App\Http\Controllers\VRACore\VRACWorkTypeController;
+use App\Http\Controllers\CollectiveController;
+use App\Http\Controllers\CollectiveInviteController;
+use App\Http\Controllers\CollectiveMemberController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +35,7 @@ Route::apiResource('profiles', ProfileController::class)->only(['show']);
 Route::get('profiles/by-user-id/{userId}', [ProfileController::class, 'getByUserId']);
 Route::get('locations/geojson', [LocationController::class, 'geojson']);
 Route::apiResource('images', ImageController::class)->only(['index', 'show']);
+Route::apiResource('collectives', CollectiveController::class)->only(['index', 'show']);
 
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('users', UserController::class)->only(['update', 'destroy']);
@@ -39,6 +43,16 @@ Route::middleware('auth:api')->group(function () {
     Route::get('me', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('images', ImageController::class)->only(['store', 'update', 'destroy']);
+
+    // Collectives
+    Route::apiResource('collectives', CollectiveController::class)->only(['store', 'update', 'destroy']);
+    Route::post('collectives/join', [CollectiveInviteController::class, 'redeem']);
+    Route::get('collectives/{collective}/members', [CollectiveMemberController::class, 'index']);
+    Route::put('collectives/{collective}/members/{user}', [CollectiveMemberController::class, 'update']);
+    Route::delete('collectives/{collective}/members/{user}', [CollectiveMemberController::class, 'destroy']);
+    Route::get('collectives/{collective}/invites', [CollectiveInviteController::class, 'index']);
+    Route::post('collectives/{collective}/invites', [CollectiveInviteController::class, 'store']);
+    Route::delete('collectives/{collective}/invites/{invite}', [CollectiveInviteController::class, 'destroy']);
 });
 
 Route::middleware('throttle:6,1')->group(function () {

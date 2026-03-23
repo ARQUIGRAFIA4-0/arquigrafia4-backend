@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Image;
 
+use App\Models\Collective;
 use App\Models\VRACore\VRACContributorName;
 use App\Models\VRACore\VRACSubject;
 use Illuminate\Foundation\Http\FormRequest;
@@ -14,6 +15,11 @@ class StoreImageRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        if ($this->filled('collective_id')) {
+            $collective = Collective::find($this->input('collective_id'));
+            return $collective && $collective->isMember($this->user());
+        }
+
         return true;
     }
 
@@ -27,7 +33,7 @@ class StoreImageRequest extends FormRequest
         return [
             'image' => 'required|file|mimes:jpg,jpeg,png,heic|max:6000',
             'user_id' => 'required|uuid|exists:users,id',
-            'collective_id' => 'nullable|uuid', // adicionar validação quando implementar collectives
+            'collective_id' => 'nullable|uuid|exists:collectives,id',
             'photographer' => [
                 'required',
                 'uuid',

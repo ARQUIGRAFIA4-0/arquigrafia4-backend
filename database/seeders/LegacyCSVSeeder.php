@@ -25,6 +25,18 @@ class LegacyCSVSeeder extends Seeder
     /**
      * Run the database seeds.
      */
+    // Legacy institution_id → collective UUID mapping
+    private const COLLECTIVE_MAP = [
+        '1' => 'a0d427a6-b8d8-42db-a9d9-4fc02ae8c4c5',
+        '2' => '2a39bf3d-f6b3-482e-ab22-5edfd9f1f06f',
+        '3' => 'ae9e2da4-afb5-4d00-8f6b-579333801189',
+        '4' => '70b8032b-0f23-41d2-8a59-0fdd1f898ca3',
+        '5' => '26145bc0-f632-4a30-9cfd-3e9a20de0cc9',
+        '6' => 'fe1e81b5-bc6a-43ed-9bdd-4ca3cbfaab85',
+        '7' => '8a2c1a68-260b-41fc-a067-3259b4601bd8',
+        '8' => 'c02bb389-895c-4962-98fa-ed58f9ba0535',
+    ];
+
     public function run(): void
     {
         // Default CSV path - change or place your CSV here
@@ -96,8 +108,12 @@ class LegacyCSVSeeder extends Seeder
                 }
 
                 $image = VRACImage::withTrashed()->firstOrNew(['id' => $imageId]);
+                $institutionId = trim($data['institution_id'] ?? '');
+                $collectiveId = self::COLLECTIVE_MAP[$institutionId] ?? null;
+
                 $image->fill([
                     'user_id' => $userUuid,
+                    'collective_id' => $collectiveId,
                     'created_at' => $this->parseTimestamp($data['created_at'] ?? now()),
                     'updated_at' => $this->parseTimestamp($data['updated_at'] ?? now()),
                     'deleted_at' => $this->parseTimestamp($data['deleted_at'] ?? null),

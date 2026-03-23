@@ -139,6 +139,7 @@ class ImageController extends Controller
         $image->load([
                 'agents.contributorName',
                 'user',
+                'collective',
                 'culturalContexts',
                 'dates',
                 'descriptions',
@@ -222,7 +223,11 @@ class ImageController extends Controller
 
     public function destroy(Request $request, VRACImage $image)
     {
-        if ($request->user()->id !== $image->user_id) {
+        $isOwner = $request->user()->id === $image->user_id;
+        $isCollectiveMember = $image->collective_id
+            && $image->collective->isMember($request->user());
+
+        if (!$isOwner && !$isCollectiveMember) {
             abort(403);
         }
 
