@@ -56,7 +56,7 @@ class LegacyCSVSeeder extends Seeder
 
         // Ensure Photographer role exists
         $photographerRole = VRACAgentRole::firstOrCreate(
-            ['label' => 'Photographer'],
+            ['label' => 'fotógrafo'],
             ['id' => (string) Str::uuid()]
         );
 
