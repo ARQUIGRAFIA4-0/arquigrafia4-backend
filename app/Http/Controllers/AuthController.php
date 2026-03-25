@@ -132,7 +132,7 @@ class AuthController extends Controller
 
     public function me()
     {
-        $loggedUser = Auth::user();
+        $loggedUser = Auth::user()->load('collectives');
 
         return response()->json([
             'user' => $loggedUser,
