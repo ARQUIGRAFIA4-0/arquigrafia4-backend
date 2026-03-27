@@ -9,6 +9,7 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\Profile;
 use App\Models\VRACore\VRACContributorName;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -71,6 +72,14 @@ class UserController extends Controller
         $user->name = $request->input('name');
         if ($user->email != $request->input('email')) $user->email = $request->input('email');
         if ($request->filled('password')) $user->password = Hash::make($request->input('password'));
+
+        if ($request->hasFile('image')) {
+            if ($user->avatar_path) {
+                Storage::disk('public')->delete($user->avatar_path);
+            }
+            $user->avatar_path = $request->file('image')->store('profileImage', 'public');
+        }
+
         $user->save();
 
         return response()->json([
@@ -85,7 +94,7 @@ class UserController extends Controller
     {
         optional($user->profile())->delete();
         $user->delete();
-        
+
         return response()->json([
             'user' => $user,
         ]);
