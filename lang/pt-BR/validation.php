@@ -99,12 +99,6 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
-        'image' => [
-            'image'      => 'O arquivo deve ser uma imagem válida.',
-            'mimes'      => 'A imagem deve estar no formato: JPG, JPEG ou PNG.',
-            'max'        => 'A imagem deve ter no máximo 5MB.',
-            'dimensions' => 'A imagem deve ter no máximo 2000x2000 pixels.',
-        ],
     ],
 
     /*
