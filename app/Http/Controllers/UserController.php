@@ -76,58 +76,44 @@ class UserController extends Controller
         if ($request->filled('password')) $user->password = Hash::make($request->input('password'));
 
         if ($request->hasFile('image')) {
-            try {
 
-                if ($user->avatar_path) {
-                    Storage::disk('public')->delete($user->avatar_path);
-                }
-                // $user->avatar_path = $request->file('image')->store('profileImage', 'public');
-
-
-                $filename = 'profileImage/' . Str::uuid() . '.webp';
-                $destPath  = Storage::disk('public')->path($filename);
-                $uploadedFile = $request->file('image');
-
-                $image = Image::newFromBuffer(
-                    $uploadedFile->getContent(),
-                    '',
-                    ['access' => 'sequential']
-                );
-
-
-                $width  = $image->width;
-                $height = $image->height;
-
-                // crop centralizado para um quadrado
-                $minSide = min($width, $height);
-
-                $image = $image->crop(
-                    (int) (($width  - $minSide) / 2),   // left offset
-                    (int) (($height - $minSide) / 2),   // top offset
-                    $minSide,
-                    $minSide
-                );
-
-                // redimensiona para 400x400, forçando o tamanho (pode distorcer a imagem)
-                $image = $image->thumbnail_image(400, [
-                    'height' => 400,
-                    'size' => 'force',
-                ]);
-
-                $image->writeToFile($destPath, [
-                    'Q'             => 82,    // qualidade (0-100)
-                    'strip'         => true,  // remove EXIF/metadados
-                ]);
-
-                $user->avatar_path = $filename;
-            } catch (\Throwable $e) {
-                // Isso vai mostrar o erro real em vez do 500 genérico
-                return response()->json([
-                    'error'   => $e->getMessage(),
-                    'file'    => $e->getFile(),
-                    'line'    => $e->getLine(),
-                ], 500);
+            if ($user->avatar_path) {
+                Storage::disk('public')->delete($user->avatar_path);
             }
+
+            $filename = 'profileImage/' . Str::uuid() . '.webp';
+            $destPath  = Storage::disk('public')->path($filename);
+            $uploadedFile = $request->file('image');
+
+            $image = Image::newFromBuffer(
+                $uploadedFile->getContent(),
+                '',
+                ['access' => 'sequential']
+            );
+
+            $width  = $image->width;
+            $height = $image->height;
+
+            $minSide = min($width, $height);
+
+            $image = $image->crop(
+                (int) (($width  - $minSide) / 2),
+                (int) (($height - $minSide) / 2),
+                $minSide,
+                $minSide
+            );
+
+            $image = $image->thumbnail_image(400, [
+                'height' => 400,
+                'size' => 'force',
+            ]);
+
+            $image->writeToFile($destPath, [
+                'Q'             => 82,
+                'strip'         => true,
+            ]);
+
+            $user->avatar_path = $filename;
         }
 
         $user->save();
