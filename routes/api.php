@@ -28,8 +28,10 @@ use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlbumController;
 
-Route::apiResource('albums', AlbumController::class);
-Route::post('/albums/{album}/images', [AlbumController::class, 'addImage']);
+Route::get('/albums', [AlbumController::class, 'index']);
+Route::get('/albums/{album}', [AlbumController::class, 'show']);
+Route::get('/users/{user}/albums', [AlbumController::class, 'getByUser']); 
+
 Route::apiResource('users', UserController::class)->only(['index', 'store', 'show']);
 Route::apiResource('profiles', ProfileController::class)->only(['show']);
 Route::get('profiles/by-user-id/{userId}', [ProfileController::class, 'getByUserId']);
@@ -37,6 +39,17 @@ Route::get('locations/geojson', [LocationController::class, 'geojson']);
 Route::apiResource('images', ImageController::class)->only(['index', 'show']);
 
 Route::middleware('auth:api')->group(function () {
+        // álbumes
+    Route::post('/albums', [AlbumController::class, 'store']);
+    Route::put('/albums/{album}', [AlbumController::class, 'update']);
+    Route::delete('/albums/{album}', [AlbumController::class, 'destroy']);
+
+    // imágenes dentro de álbum
+    Route::put('/albums/{album}/images', [AlbumController::class, 'syncImages']);
+    Route::post('/albums/{album}/images', [AlbumController::class, 'addImage']);
+    Route::delete('/albums/{album}/images', [AlbumController::class, 'removeImages']);
+    //Route::delete('/albums/{album}/images/{image}', [AlbumController::class, 'removeImage']);
+
     Route::apiResource('users', UserController::class)->only(['update', 'destroy']);
     Route::apiResource('profiles', ProfileController::class)->only(['store', 'update']);
     Route::get('me', [AuthController::class, 'me']);
