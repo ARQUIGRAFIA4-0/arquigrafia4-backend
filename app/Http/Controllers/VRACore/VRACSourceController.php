@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACSource;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Fontes
+ */
 class VRACSourceController extends Controller
 {
     /**

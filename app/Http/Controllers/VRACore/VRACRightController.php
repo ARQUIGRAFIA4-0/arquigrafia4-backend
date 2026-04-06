@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACRight;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Direitos
+ */
 class VRACRightController extends Controller
 {
     /**

@@ -22,6 +22,11 @@ use Jcupitt\Vips\Image as VipsImage;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
+/**
+ * @group Imagens
+ *
+ * Busca, visualização e gerenciamento de imagens de arquitetura.
+ */
 class ImageController extends Controller
 {
     private int $pageSize = 50;

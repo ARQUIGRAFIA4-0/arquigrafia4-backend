@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACDescription;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Descrições
+ */
 class VRACDescriptionController extends Controller
 {
     /**

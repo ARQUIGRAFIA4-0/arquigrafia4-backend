@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACTechnique;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Técnicas
+ */
 class VRACTechniqueController extends Controller
 {
     /**

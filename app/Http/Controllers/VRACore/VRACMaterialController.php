@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACMaterial;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Materiais
+ */
 class VRACMaterialController extends Controller
 {
     /**

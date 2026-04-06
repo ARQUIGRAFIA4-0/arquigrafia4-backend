@@ -7,6 +7,11 @@ use App\Http\Requests\Profile\UpdateProfileRequest;
 use App\Http\Resources\ProfileResource;
 use App\Models\Profile;
 
+/**
+ * @group Perfis
+ *
+ * Visualização e gerenciamento de perfis de usuário.
+ */
 class ProfileController extends Controller
 {
     /**

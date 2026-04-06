@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACAgent;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Agentes
+ */
 class VRACAgentController extends Controller
 {
     /**

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACSubject;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Assuntos
+ */
 class VRACSubjectController extends Controller
 {
     /**

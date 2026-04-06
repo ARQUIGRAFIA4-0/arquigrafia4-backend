@@ -8,6 +8,11 @@ use App\Http\Resources\CollectiveResource;
 use App\Models\Collective;
 use App\Models\User;
 
+/**
+ * @group Membros de Coletivos
+ *
+ * Listagem, atualização e remoção de membros de coletivos.
+ */
 class CollectiveMemberController extends Controller
 {
     public function index(Collective $collective)

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACLocation;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Localizações
+ */
 class VRACLocationController extends Controller
 {
     /**

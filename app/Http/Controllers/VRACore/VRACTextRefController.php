@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACTextRef;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Referências Textuais
+ */
 class VRACTextRefController extends Controller
 {
     /**

@@ -10,6 +10,11 @@ use App\Models\Profile;
 use App\Models\VRACore\VRACContributorName;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * @group Usuários
+ *
+ * Cadastro, visualização e gerenciamento de usuários.
+ */
 class UserController extends Controller
 {
     /**

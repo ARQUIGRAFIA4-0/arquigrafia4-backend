@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACInscription;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Inscrições
+ */
 class VRACInscriptionController extends Controller
 {
     /**
