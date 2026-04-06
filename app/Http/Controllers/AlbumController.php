@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Album;
 use Illuminate\Http\Request;
 
+/**
+ * @group Álbuns
+ *
+ * Criação, visualização e gerenciamento de álbuns de imagens.
+ */
 class AlbumController extends Controller
 {
     public function index()
