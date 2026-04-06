@@ -46,7 +46,7 @@ class Album extends Model
         'album_image',
         'album_id',
         'image_id'
-    )->using(AlbumImage::class) // 🔥 AQUÍ está la magia
+    )->using(AlbumImage::class)
      ->withPivot('position')
      ->withTimestamps();
 }

@@ -15,15 +15,14 @@ return new class extends Migration
         $table->uuid('album_id');
         $table->uuid('image_id');
 
-        // 🔥 posición SIEMPRE definida
         $table->integer('position')->default(0);
 
         $table->timestamps();
 
-        // 🔥 clave primaria compuesta (evita duplicados)
+        // clave primaria compuesta (evita duplicados)
         $table->primary(['album_id', 'image_id']);
 
-        // 🔥 relaciones
+        // relaciones
         $table->foreign('album_id')
               ->references('id')
               ->on('albums')
@@ -34,7 +33,7 @@ return new class extends Migration
               ->on('vrac_images')
               ->cascadeOnDelete();
 
-        // 🔥 índices (rendimiento)
+        // índices (rendimiento)
         $table->index('album_id');
         $table->index('image_id');
     });

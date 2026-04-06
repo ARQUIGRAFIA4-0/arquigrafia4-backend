@@ -15,6 +15,6 @@ class AlbumImage extends Pivot
     ];
 
     protected $casts = [
-        'position' => 'integer', // 👈 AQUÍ
+        'position' => 'integer',
     ];
 }

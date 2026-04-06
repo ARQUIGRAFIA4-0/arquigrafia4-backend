@@ -14,7 +14,6 @@ return new class extends Migration
     Schema::create('albums', function (Blueprint $table) {
         $table->uuid('id')->primary();
 
-        // 🔥 relación con users (obligatoria)
         $table->foreignUuid('user_id')
               ->constrained()
               ->cascadeOnDelete();

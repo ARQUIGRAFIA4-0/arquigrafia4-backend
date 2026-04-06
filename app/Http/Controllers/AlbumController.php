@@ -22,7 +22,7 @@ class AlbumController extends Controller
             'is_private' => 'boolean'
         ]);
 
-        // Usuario autenticado (Passport)
+        // Usuario autenticado
         $data['user_id'] = $request->user()->id;
 
         $album = Album::create($data);
@@ -94,19 +94,13 @@ class AlbumController extends Controller
 
         foreach ($data['images'] as $item) {
             $imageId = $item['image_id'];
-
-            // Saltar si ya está en el álbum
             if (in_array($imageId, $existingImages)) {
                 $skippedImageIds[] = $imageId;
                 continue;
             }
-
-            // Asociar imagen con posición
             $album->images()->attach($imageId, [
                 'position' => $currentPosition
             ]);
-
-            // Actualizar estado en memoria
             $existingImages[] = $imageId;
             $addedImageIds[] = $imageId;
             $currentPosition++;
