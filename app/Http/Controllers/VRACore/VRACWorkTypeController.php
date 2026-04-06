@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACWorkType;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Tipos de Obra
+ */
 class VRACWorkTypeController extends Controller
 {
     /**

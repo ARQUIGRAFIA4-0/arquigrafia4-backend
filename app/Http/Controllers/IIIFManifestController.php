@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use App\Models\VRACore\VRACImage;
 
+/**
+ * @group IIIF
+ *
+ * Manifestos IIIF para visualização de imagens.
+ */
 class IIIFManifestController extends Controller
 {
     public function getManifest($id)

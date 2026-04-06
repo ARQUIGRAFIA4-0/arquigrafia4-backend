@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACTitle;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Títulos
+ */
 class VRACTitleController extends Controller
 {
     /**

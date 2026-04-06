@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACContributorName;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Nomes de Contribuidores
+ */
 class VRACContributorNameController extends Controller
 {
     /**

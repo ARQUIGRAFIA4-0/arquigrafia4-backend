@@ -5,6 +5,9 @@ namespace App\Http\Controllers\VRACore;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Datas de Agentes
+ */
 class VRACAgentDateController extends Controller
 {
     /**

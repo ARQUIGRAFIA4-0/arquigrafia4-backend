@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACStylePeriod;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Estilos/Períodos
+ */
 class VRACStylePeriodController extends Controller
 {
     /**

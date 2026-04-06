@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACMeasurement;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Medições
+ */
 class VRACMeasurementController extends Controller
 {
     /**

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACAgentRole;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Papéis de Agentes
+ */
 class VRACAgentRoleController extends Controller
 {
     /**

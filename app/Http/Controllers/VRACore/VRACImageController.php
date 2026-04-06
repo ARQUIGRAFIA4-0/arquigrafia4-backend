@@ -5,6 +5,9 @@ namespace App\Http\Controllers\VRACore;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Imagens
+ */
 class VRACImageController extends Controller
 {
     /**

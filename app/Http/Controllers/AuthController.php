@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\RefreshTokenRepository;
 use Laravel\Passport\TokenRepository;
 
+/**
+ * @group Autenticação
+ *
+ * Login, logout, verificação de conta e recuperação de senha.
+ */
 class AuthController extends Controller
 {
     public function sendVerificationEmail(Request $request)

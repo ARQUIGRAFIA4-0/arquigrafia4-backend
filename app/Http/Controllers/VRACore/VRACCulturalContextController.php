@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACCulturalContext;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Contextos Culturais
+ */
 class VRACCulturalContextController extends Controller
 {
     /**

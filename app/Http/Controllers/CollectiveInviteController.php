@@ -11,6 +11,11 @@ use App\Models\CollectiveInvite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+/**
+ * @group Convites de Coletivos
+ *
+ * Criação, listagem e resgate de convites para coletivos.
+ */
 class CollectiveInviteController extends Controller
 {
     public function index(Collective $collective)

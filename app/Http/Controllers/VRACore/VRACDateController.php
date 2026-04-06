@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACDate;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Datas
+ */
 class VRACDateController extends Controller
 {
     /**

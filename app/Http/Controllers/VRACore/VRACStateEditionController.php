@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\VRACore\VRACStateEdition;
 use Illuminate\Http\Request;
 
+/**
+ * @group VRACore - Estado/Edição
+ */
 class VRACStateEditionController extends Controller
 {
     /**

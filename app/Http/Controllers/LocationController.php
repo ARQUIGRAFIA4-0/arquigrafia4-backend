@@ -8,6 +8,11 @@ use App\Http\Requests\Location\StoreLocationRequest;
 use App\Http\Requests\Location\UpdateLocationRequest;
 use Illuminate\Support\Facades\Cache;
 
+/**
+ * @group Localizações
+ *
+ * Dados geográficos e GeoJSON das imagens.
+ */
 class LocationController extends Controller
 {
     public function geojson()

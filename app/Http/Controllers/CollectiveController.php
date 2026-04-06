@@ -9,6 +9,11 @@ use App\Http\Resources\CollectiveResource;
 use App\Models\Collective;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * @group Coletivos
+ *
+ * Criação e gerenciamento de coletivos.
+ */
 class CollectiveController extends Controller
 {
     public function index()
