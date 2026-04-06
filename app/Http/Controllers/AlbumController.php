@@ -9,155 +9,185 @@ class AlbumController extends Controller
 {
     public function index()
     {
-       return Album::with(['images' => function ($q) {
-    $q->orderBy('pivot_position');
-}])->get();
+        return Album::with(['images' => function ($q) {
+            $q->orderBy('pivot_position');
+        }])->get();
     }
 
- public function store(Request $request)
-{
-    $data = $request->validate([
-        'title' => 'nullable|string|max:255',
-        'description' => 'nullable|string',
-        'is_private' => 'boolean'
-    ]);
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'title' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'is_private' => 'boolean'
+        ]);
 
-    $data['user_id'] = auth()->id();
+        // Usuario autenticado (Passport)
+        $data['user_id'] = $request->user()->id;
 
-    $album = Album::create($data);
+        $album = Album::create($data);
 
-    return response()->json($album, 201);
-}
+        return response()->json([
+            'message' => 'Álbum creado correctamente',
+            'album' => $album,
+        ], 201);
+    }
 
     public function show($id)
     {
         return Album::with(['images' => function ($q) {
-    $q->orderBy('pivot_position');
-}])->findOrFail($id);
+            $q->orderBy('pivot_position');
+        }])->findOrFail($id);
     }
 
     public function update(Request $request, $id)
-{
-    $album = Album::findOrFail($id);
+    {
+        $album = Album::findOrFail($id);
 
-    $data = $request->validate([
-        'title' => 'nullable|string|max:255',
-        'description' => 'nullable|string',
-        'is_private' => 'boolean'
-    ]);
+        $data = $request->validate([
+            'title' => 'sometimes|nullable|string|max:255',
+            'description' => 'sometimes|nullable|string|max:1000',
+            'is_private' => 'sometimes|boolean'
+        ]);
+            // evitar updates vacíos
+    if (empty($data)) {
+        return response()->json([
+            'message' => 'No se enviaron datos para actualizar'
+        ], 422);
+    }
+        $album->update($data);
 
-    $album->update($data);
-
-    return response()->json($album, 200);
-}
+        return response()->json([
+            'message' => 'Álbum actualizado correctamente',
+            'album' => $album,
+        ], 200);
+    }
 
     public function destroy($id)
-{
-    $album = Album::findOrFail($id);
-    $album->delete(); // activa deleted_at
+    {
+        $album = Album::findOrFail($id);
+        $album->delete(); // activa deleted_at
 
-    return response()->json([
-        'message' => 'Álbum eliminado (soft delete)'
-    ], 200);
-}
- public function addImage(Request $request, $albumId)
-{
-    $data = $request->validate([
-        'images' => 'required|array|min:1',
-        'images.*.image_id' => 'required|uuid|exists:vrac_images,id',
-    ]);
-
-    $album = Album::findOrFail($albumId);
-
-    // 🔥 traer todas las imágenes existentes UNA sola vez
-    $existingImages = $album->images()->pluck('image_id')->toArray();
-
-    // 🔥 calcular posición inicial UNA sola vez
-    $maxPosition = $album->images()->max('position');
-    $currentPosition = is_null($maxPosition) ? 0 : $maxPosition + 1;
-
-    foreach ($data['images'] as $item) {
-
-        // evitar duplicados SIN queries extra
-        if (in_array($item['image_id'], $existingImages)) {
-            continue;
-        }
-
-        $album->images()->attach($item['image_id'], [
-            'position' => $currentPosition
+        return response()->json([
+            'message' => 'Álbum eliminado (soft delete)'
+        ], 200);
+    }
+    public function addImage(Request $request, $albumId)
+    {
+        // Validar input
+        $data = $request->validate([
+            'images' => 'required|array|min:1',
+            'images.*.image_id' => 'required|uuid|exists:vrac_images,id',
         ]);
 
-        $currentPosition++;
-    }
+        $album = Album::findOrFail($albumId);
 
-    return response()->json(
-        $album->load(['images' => function ($q) {
-            $q->orderBy('pivot_position');
-        }]),
-        201
-    );
-}
-public function removeImages(Request $request, $albumId)
-{
-    $data = $request->validate([
-        'image_ids' => 'required|array|min:1',
-        'image_ids.*' => 'required|uuid|exists:vrac_images,id',
-    ]);
+        // IDs ya existentes en el álbum (evita queries dentro del loop)
+        $existingImages = $album->images()->pluck('image_id')->toArray();
 
-    $album = Album::where('user_id', auth()->id())->findOrFail($albumId);
+        // Posición inicial (continuar secuencia)
+        $maxPosition = $album->images()->max('position');
+        $currentPosition = is_null($maxPosition) ? 1 : $maxPosition + 1;
 
-    $existingImageIds = $album->images()
-        ->wherePivotIn('image_id', $data['image_ids'])
-        ->pluck('vrac_images.id')
-        ->toArray();
+        $addedImageIds = [];
+        $skippedImageIds = [];
 
-    if (empty($existingImageIds)) {
+        foreach ($data['images'] as $item) {
+            $imageId = $item['image_id'];
+
+            // Saltar si ya está en el álbum
+            if (in_array($imageId, $existingImages)) {
+                $skippedImageIds[] = $imageId;
+                continue;
+            }
+
+            // Asociar imagen con posición
+            $album->images()->attach($imageId, [
+                'position' => $currentPosition
+            ]);
+
+            // Actualizar estado en memoria
+            $existingImages[] = $imageId;
+            $addedImageIds[] = $imageId;
+            $currentPosition++;
+        }
+
+        // 201 si se agregó algo, 200 si todo fue omitido
+        $status = count($addedImageIds) > 0 ? 201 : 200;
+
         return response()->json([
-            'message' => 'Ninguna de las imágenes está en el álbum'
-        ], 404);
+            'message' => count($addedImageIds) > 0
+                ? 'Imágenes agregadas al álbum'
+                : 'No se agregaron imágenes porque ya existían en el álbum',
+            'added_image_ids' => $addedImageIds,
+            'skipped_image_ids' => $skippedImageIds,
+
+            // Álbum actualizado con orden correcto
+            'album' => $album->load(['images' => function ($q) {
+                $q->orderBy('pivot_position');
+            }]),
+        ], $status);
     }
+    public function removeImages(Request $request, $albumId)
+    {
+        $data = $request->validate([
+            'image_ids' => 'required|array|min:1',
+            'image_ids.*' => 'required|uuid|exists:vrac_images,id',
+        ]);
 
-    $album->images()->detach($existingImageIds);
+        //$album = Album::where('user_id', auth()->id())->findOrFail($albumId);
+        $album = Album::where('user_id', $request->user()->id)->findOrFail($albumId);
+        $existingImageIds = $album->images()
+            ->wherePivotIn('image_id', $data['image_ids'])
+            ->pluck('vrac_images.id')
+            ->toArray();
 
-    return response()->json([
-        'message' => 'Imágenes eliminadas del álbum',
-        'removed_image_ids' => $existingImageIds,
-    ], 200);
-}
-public function getByUser($userId)
-{
-    return Album::with(['images' => function ($q) {
-        $q->orderBy('pivot_position');
-    }])
-    ->where('user_id', $userId)
-    ->get();
-}
-public function syncImages(Request $request, $albumId)
-{
-    $data = $request->validate([
-        'images' => 'required|array',
-        'images.*.image_id' => 'required|uuid|exists:vrac_images,id',
-        'images.*.position' => 'required|integer|min:1'
-    ]);
+        if (empty($existingImageIds)) {
+            return response()->json([
+                'message' => 'Ninguna de las imágenes está en el álbum'
+            ], 404);
+        }
 
-    $album = Album::findOrFail($albumId);
+        $album->images()->detach($existingImageIds);
 
-    //Construir array para sync
-    $syncData = collect($data['images'])->mapWithKeys(function ($item) {
-        return [
-            $item['image_id'] => ['position' => $item['position']]
-        ];
-    })->toArray();
-
-    // 🔥 Sync mágico
-    $album->images()->sync($syncData);
-
-    return response()->json(
-        $album->load(['images' => function ($q) {
+        return response()->json([
+            'message' => 'Imágenes eliminadas del álbum',
+            'removed_image_ids' => $existingImageIds,
+        ], 200);
+    }
+    public function getByUser($userId)
+    {
+        return Album::with(['images' => function ($q) {
             $q->orderBy('pivot_position');
-        }]),
-        200
-    );
-}
+        }])
+            ->where('user_id', $userId)
+            ->get();
+    }
+    public function syncImages(Request $request, $albumId)
+    {
+        $data = $request->validate([
+            'images' => 'required|array',
+            'images.*.image_id' => 'required|uuid|exists:vrac_images,id',
+            'images.*.position' => 'required|integer|min:1'
+        ]);
 
+        $album = Album::findOrFail($albumId);
+
+        //Construir array para sync
+        $syncData = collect($data['images'])->mapWithKeys(function ($item) {
+            return [
+                $item['image_id'] => ['position' => $item['position']]
+            ];
+        })->toArray();
+
+        //Sync
+        $album->images()->sync($syncData);
+
+        return response()->json(
+            $album->load(['images' => function ($q) {
+                $q->orderBy('pivot_position');
+            }]),
+            200
+        );
+    }
 }

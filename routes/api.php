@@ -28,6 +28,7 @@ use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlbumController;
 
+ // álbumes
 Route::get('/albums', [AlbumController::class, 'index']);
 Route::get('/albums/{album}', [AlbumController::class, 'show']);
 Route::get('/users/{user}/albums', [AlbumController::class, 'getByUser']); 
@@ -39,7 +40,7 @@ Route::get('locations/geojson', [LocationController::class, 'geojson']);
 Route::apiResource('images', ImageController::class)->only(['index', 'show']);
 
 Route::middleware('auth:api')->group(function () {
-        // álbumes
+    // álbumes
     Route::post('/albums', [AlbumController::class, 'store']);
     Route::put('/albums/{album}', [AlbumController::class, 'update']);
     Route::delete('/albums/{album}', [AlbumController::class, 'destroy']);
