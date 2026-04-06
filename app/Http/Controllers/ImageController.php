@@ -44,7 +44,7 @@ class ImageController extends Controller
             'subjects:id,term',
             'dates:id,type,earliest_date,latest_date,circa_earliest_date,circa_latest_date',
             'titles:id,label,type',
-        ])->inRandomOrder()->paginate($request->integer('per_page', $this->pageSize));
+        ])->paginate($request->integer('per_page', $this->pageSize));
 
         return ImageResource::collection($images);
     }
