@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Direitos
+ * @unauthenticated
  */
 class VRACRightController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACRightController extends Controller
      */
     public function index()
     {
-        $rights = VRACRight::all();
-
-        return response()->json([
-            'rights' => $rights,
-        ]);
+        return VRACRight::paginate();
     }
 
     /**

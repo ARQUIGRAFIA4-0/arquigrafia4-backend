@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Referências Textuais
+ * @unauthenticated
  */
 class VRACTextRefController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACTextRefController extends Controller
      */
     public function index()
     {
-        $refs = VRACTextRef::all();
-
-        return response()->json([
-            'refs' => $refs,
-        ]);
+        return VRACTextRef::paginate();
     }
 
     /**

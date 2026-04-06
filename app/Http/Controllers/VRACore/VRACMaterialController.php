@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Materiais
+ * @unauthenticated
  */
 class VRACMaterialController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACMaterialController extends Controller
      */
     public function index()
     {
-        $materials = VRACMaterial::all();
-
-        return response()->json([
-            'materials' => $materials,
-        ]);
+        return VRACMaterial::paginate();
     }
 
     /**

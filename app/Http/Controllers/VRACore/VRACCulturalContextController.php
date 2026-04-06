@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Contextos Culturais
+ * @unauthenticated
  */
 class VRACCulturalContextController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACCulturalContextController extends Controller
      */
     public function index()
     {
-        $contexts = VRACCulturalContext::all();
-
-        return response()->json([
-            'contexts' => $contexts,
-        ]);
+        return VRACCulturalContext::paginate();
     }
 
     /**

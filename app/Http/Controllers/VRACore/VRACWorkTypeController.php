@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Tipos de Obra
+ * @unauthenticated
  */
 class VRACWorkTypeController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACWorkTypeController extends Controller
      */
     public function index()
     {
-        $workTypes = VRACWorkType::all();
-
-        return response()->json([
-            'work_types' => $workTypes,
-        ]);
+        return VRACWorkType::paginate();
     }
 
     /**

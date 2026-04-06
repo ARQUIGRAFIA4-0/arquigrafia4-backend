@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Assuntos
+ * @unauthenticated
  */
 class VRACSubjectController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACSubjectController extends Controller
      */
     public function index()
     {
-        $subjects = VRACSubject::all();
-
-        return response()->json([
-            'data' => $subjects,
-        ]);
+        return VRACSubject::paginate();
     }
 
     /**

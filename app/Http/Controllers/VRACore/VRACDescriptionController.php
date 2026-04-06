@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Descrições
+ * @unauthenticated
  */
 class VRACDescriptionController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACDescriptionController extends Controller
      */
     public function index()
     {
-        $descriptions = VRACDescription::all();
-
-        return response()->json([
-            'descriptions' => $descriptions,
-        ]);
+        return VRACDescription::paginate();
     }
 
     /**

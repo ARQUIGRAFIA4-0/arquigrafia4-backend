@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Títulos
+ * @unauthenticated
  */
 class VRACTitleController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACTitleController extends Controller
      */
     public function index()
     {
-        $titles = VRACTitle::all();
-
-        return response()->json([
-            'titles' => $titles,
-        ]);
+        return VRACTitle::paginate();
     }
 
     /**

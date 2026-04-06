@@ -12,11 +12,14 @@ use Illuminate\Http\Request;
  */
 class AlbumController extends Controller
 {
+    /**
+     * @unauthenticated
+     */
     public function index()
     {
         return Album::with(['images' => function ($q) {
             $q->orderBy('pivot_position');
-        }])->get();
+        }])->paginate();
     }
 
     public function store(Request $request)
@@ -38,6 +41,9 @@ class AlbumController extends Controller
         ], 201);
     }
 
+    /**
+     * @unauthenticated
+     */
     public function show($id)
     {
         return Album::with(['images' => function ($q) {
@@ -154,6 +160,9 @@ class AlbumController extends Controller
             'removed_image_ids' => $existingImageIds,
         ], 200);
     }
+    /**
+     * @unauthenticated
+     */
     public function getByUser($userId)
     {
         return Album::with(['images' => function ($q) {

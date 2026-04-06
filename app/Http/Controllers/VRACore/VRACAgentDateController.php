@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Datas de Agentes
+ * @unauthenticated
  */
 class VRACAgentDateController extends Controller
 {

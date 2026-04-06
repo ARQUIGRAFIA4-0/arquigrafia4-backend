@@ -22,6 +22,9 @@ use Laravel\Passport\TokenRepository;
  */
 class AuthController extends Controller
 {
+    /**
+     * @unauthenticated
+     */
     public function sendVerificationEmail(Request $request)
     {
         $request->validate(['email' => 'required|email|exists:users,email']);
@@ -47,6 +50,9 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @unauthenticated
+     */
     public function verifyEmail(Request $request)
     {
         $request->validate([
@@ -76,6 +82,9 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @unauthenticated
+     */
     public function passwordResetEmail(Request $request)
     {
         $request->validate(['email' => 'required|email|exists:users,email']);
@@ -103,6 +112,9 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @unauthenticated
+     */
     public function verifyPasswordReset(VerifyPasswordResetRequest $request)
     {
         $message = $this->passwordResetTokenValidation($request->input('email'), $request->input('code'));
@@ -117,6 +129,9 @@ class AuthController extends Controller
         ], 200);
     }
 
+    /**
+     * @unauthenticated
+     */
     public function changePasswordReset(ChangePasswordResetRequest $request)
     {
         $message = $this->passwordResetTokenValidation($request->input('email'), $request->input('code'));

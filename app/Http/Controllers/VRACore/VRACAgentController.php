@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Agentes
+ * @unauthenticated
  */
 class VRACAgentController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACAgentController extends Controller
      */
     public function index()
     {
-        $agents = VRACAgent::all();
-
-        return response()->json([
-            'agents' => $agents,
-        ]);
+        return VRACAgent::paginate();
     }
 
     /**

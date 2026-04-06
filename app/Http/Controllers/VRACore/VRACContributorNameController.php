@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Nomes de Contribuidores
+ * @unauthenticated
  */
 class VRACContributorNameController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACContributorNameController extends Controller
      */
     public function index()
     {
-        $names = VRACContributorName::all();
-
-        return response()->json([
-            'names' => $names,
-        ]);
+        return VRACContributorName::paginate();
     }
 
     /**

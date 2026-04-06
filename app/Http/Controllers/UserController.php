@@ -19,18 +19,16 @@ class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @unauthenticated
      */
     public function index()
     {
-        $users = User::all();
-
-        return response()->json([
-            'users' => $users,
-        ]);
+        return User::paginate();
     }
 
     /**
      * Store a newly created resource in storage.
+     * @unauthenticated
      */
     public function store(StoreUserRequest $request)
     {
@@ -60,6 +58,7 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
+     * @unauthenticated
      */
     public function show(User $user)
     {

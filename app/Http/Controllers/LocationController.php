@@ -15,6 +15,33 @@ use Illuminate\Support\Facades\Cache;
  */
 class LocationController extends Controller
 {
+    /**
+     * GeoJSON
+     *
+     * Retorna todas as localizações de imagens em formato GeoJSON. A resposta pode ser grande.
+     *
+     * @unauthenticated
+     *
+     * @responseField type string Always "FeatureCollection".
+     * @responseField features object[] Array of GeoJSON Feature objects.
+     * @response scenario="Exemplo (truncado)" {
+     *   "type": "FeatureCollection",
+     *   "features": [
+     *     {
+     *       "type": "Feature",
+     *       "geometry": {
+     *         "type": "Point",
+     *         "coordinates": [-46.7318, -23.5258]
+     *       },
+     *       "properties": {
+     *         "image_id": "9d5a3e3c-7b2f-4a1e-8c9d-1f2e3a4b5c6d",
+     *         "title": "Edifício Copan",
+     *         "thumb_url": "iiif/9d5a3e3c-7b2f-4a1e-8c9d-1f2e3a4b5c6d/full/200,200/0/default.jpg"
+     *       }
+     *     }
+     *   ]
+     * }
+     */
     public function geojson()
     {
         $geojson = Cache::remember('locations.geojson', 3600, function () {

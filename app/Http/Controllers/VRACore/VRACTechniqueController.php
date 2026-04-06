@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Técnicas
+ * @unauthenticated
  */
 class VRACTechniqueController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACTechniqueController extends Controller
      */
     public function index()
     {
-        $techniques = VRACTechnique::all();
-
-        return response()->json([
-            'techniques' => $techniques,
-        ]);
+        return VRACTechnique::paginate();
     }
 
     /**

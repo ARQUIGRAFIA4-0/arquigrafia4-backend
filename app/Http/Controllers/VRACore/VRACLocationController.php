@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Localizações
+ * @unauthenticated
  */
 class VRACLocationController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACLocationController extends Controller
      */
     public function index()
     {
-        $locations = VRACLocation::all();
-
-        return response()->json([
-            'locations' => $locations,
-        ]);
+        return VRACLocation::paginate();
     }
 
     /**

@@ -19,9 +19,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $profiles = Profile::all();
-
-        return ProfileResource::collection($profiles);
+        return ProfileResource::collection(Profile::paginate());
     }
 
     /**
@@ -54,6 +52,7 @@ class ProfileController extends Controller
 
     /**
      * Display the specified resource.
+     * @unauthenticated
      */
     public function show(Profile $profile)
     {
@@ -92,6 +91,9 @@ class ProfileController extends Controller
         return new ProfileResource($profile);
     }
 
+    /**
+     * @unauthenticated
+     */
     public function getByUserId(string $userId)
     {
         // validar userId como uuid?

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Fontes
+ * @unauthenticated
  */
 class VRACSourceController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACSourceController extends Controller
      */
     public function index()
     {
-        $sources = VRACSource::all();
-
-        return response()->json([
-            'sources' => $sources,
-        ]);
+        return VRACSource::paginate();
     }
 
     /**

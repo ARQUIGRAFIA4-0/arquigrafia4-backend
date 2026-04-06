@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Datas
+ * @unauthenticated
  */
 class VRACDateController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACDateController extends Controller
      */
     public function index()
     {
-        $dates = VRACDate::all();
-
-        return response()->json([
-            'dates' => $dates,
-        ]);
+        return VRACDate::paginate();
     }
 
     /**

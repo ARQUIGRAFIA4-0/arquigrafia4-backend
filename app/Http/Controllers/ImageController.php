@@ -31,6 +31,9 @@ class ImageController extends Controller
 {
     private int $pageSize = 50;
 
+    /**
+     * @unauthenticated
+     */
     public function index(SearchImageRequest $request, ImageSearchService $searchService)
     {
         $query = VRACImage::query();
@@ -139,6 +142,9 @@ class ImageController extends Controller
         return new ImageResource($image);
     }
 
+    /**
+     * @unauthenticated
+     */
     public function show(VRACImage $image)
     {
         $image->load([

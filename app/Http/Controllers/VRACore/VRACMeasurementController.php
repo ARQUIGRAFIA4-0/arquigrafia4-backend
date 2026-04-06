@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Medições
+ * @unauthenticated
  */
 class VRACMeasurementController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACMeasurementController extends Controller
      */
     public function index()
     {
-        $measurements = VRACMeasurement::all();
-
-        return response()->json([
-            'measurements' => $measurements,
-        ]);
+        return VRACMeasurement::paginate();
     }
 
     /**

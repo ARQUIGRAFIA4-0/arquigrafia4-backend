@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Inscrições
+ * @unauthenticated
  */
 class VRACInscriptionController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACInscriptionController extends Controller
      */
     public function index()
     {
-        $inscriptions = VRACInscription::all();
-
-        return response()->json([
-            'inscriptions' => $inscriptions,
-        ]);
+        return VRACInscription::paginate();
     }
 
     /**

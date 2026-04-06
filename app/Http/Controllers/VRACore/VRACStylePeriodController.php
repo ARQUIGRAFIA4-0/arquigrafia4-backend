@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Estilos/Períodos
+ * @unauthenticated
  */
 class VRACStylePeriodController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACStylePeriodController extends Controller
      */
     public function index()
     {
-        $periods = VRACStylePeriod::all();
-
-        return response()->json([
-            'periods' => $periods,
-        ]);
+        return VRACStylePeriod::paginate();
     }
 
     /**

@@ -16,11 +16,12 @@ use Illuminate\Support\Facades\Storage;
  */
 class CollectiveController extends Controller
 {
+    /**
+     * @unauthenticated
+     */
     public function index()
     {
-        $collectives = Collective::withCount('members')->get();
-
-        return CollectiveResource::collection($collectives);
+        return CollectiveResource::collection(Collective::withCount('members')->paginate());
     }
 
     public function store(StoreCollectiveRequest $request)
@@ -52,6 +53,9 @@ class CollectiveController extends Controller
         return new CollectiveResource($collective);
     }
 
+    /**
+     * @unauthenticated
+     */
     public function show(Collective $collective)
     {
         $collective->load('members', 'subjects');

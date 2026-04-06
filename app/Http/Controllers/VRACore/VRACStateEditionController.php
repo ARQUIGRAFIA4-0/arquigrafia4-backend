@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Estado/Edição
+ * @unauthenticated
  */
 class VRACStateEditionController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACStateEditionController extends Controller
      */
     public function index()
     {
-        $editions = VRACStateEdition::all();
-
-        return response()->json([
-            'editions' => $editions,
-        ]);
+        return VRACStateEdition::paginate();
     }
 
     /**

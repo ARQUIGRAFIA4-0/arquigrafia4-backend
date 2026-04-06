@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Imagens
+ * @unauthenticated
  */
 class VRACImageController extends Controller
 {

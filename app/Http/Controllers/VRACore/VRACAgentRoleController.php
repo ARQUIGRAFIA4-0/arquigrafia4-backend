@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group VRACore - Papéis de Agentes
+ * @unauthenticated
  */
 class VRACAgentRoleController extends Controller
 {
@@ -16,11 +17,7 @@ class VRACAgentRoleController extends Controller
      */
     public function index()
     {
-        $roles = VRACAgentRole::all();
-
-        return response()->json([
-            'roles' => $roles,
-        ]);
+        return VRACAgentRole::paginate();
     }
 
     /**
