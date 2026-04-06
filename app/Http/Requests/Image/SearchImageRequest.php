@@ -24,6 +24,7 @@ class SearchImageRequest extends FormRequest
             'date_from' => 'nullable|date_format:Y-m-d',
             'date_to' => 'nullable|date_format:Y-m-d',
             'user_id' => 'nullable|uuid',
+            'collective_id' => 'sometimes|nullable|uuid',
             'sort_by' => 'nullable|string|in:created_at,title,date',
             'sort_order' => 'nullable|string|in:asc,desc',
             'per_page' => 'nullable|integer|min:1|max:100',

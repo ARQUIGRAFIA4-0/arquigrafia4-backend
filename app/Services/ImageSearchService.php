@@ -18,6 +18,12 @@ class ImageSearchService
             ->when($filters['date_from'] ?? null, fn (Builder $q, string $from) => $this->filterByDateFrom($q, $from))
             ->when($filters['date_to'] ?? null, fn (Builder $q, string $to) => $this->filterByDateTo($q, $to))
             ->when($filters['user_id'] ?? null, fn (Builder $q, string $userId) => $q->where('user_id', $userId))
+            ->when(array_key_exists('collective_id', $filters), function (Builder $q) use ($filters) {
+                $collectiveId = $filters['collective_id'];
+                return $collectiveId === null
+                    ? $q->whereNull('collective_id')
+                    : $q->where('collective_id', $collectiveId);
+            })
             ->when(
                 isset($filters['sort_by']),
                 fn (Builder $q) => $this->applySorting($q, $filters),
