@@ -9,6 +9,9 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\Profile;
 use App\Models\VRACore\VRACContributorName;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Jcupitt\Vips\Image;
 
 /**
  * @group Usuários
@@ -75,6 +78,48 @@ class UserController extends Controller
         $user->name = $request->input('name');
         if ($user->email != $request->input('email')) $user->email = $request->input('email');
         if ($request->filled('password')) $user->password = Hash::make($request->input('password'));
+
+        if ($request->hasFile('image')) {
+
+            if ($user->avatar_path) {
+                Storage::disk('public')->delete($user->avatar_path);
+            }
+
+            $filename = 'profileImage/' . Str::uuid() . '.webp';
+            $destPath  = Storage::disk('public')->path($filename);
+            $uploadedFile = $request->file('image');
+
+            $image = Image::newFromBuffer(
+                $uploadedFile->getContent(),
+                '',
+                ['access' => 'sequential']
+            );
+
+            $width  = $image->width;
+            $height = $image->height;
+
+            $minSide = min($width, $height);
+
+            $image = $image->crop(
+                (int) (($width  - $minSide) / 2),
+                (int) (($height - $minSide) / 2),
+                $minSide,
+                $minSide
+            );
+
+            $image = $image->thumbnail_image(400, [
+                'height' => 400,
+                'size' => 'force',
+            ]);
+
+            $image->writeToFile($destPath, [
+                'Q'             => 82,
+                'strip'         => true,
+            ]);
+
+            $user->avatar_path = $filename;
+        }
+
         $user->save();
 
         return response()->json([
@@ -89,7 +134,7 @@ class UserController extends Controller
     {
         optional($user->profile())->delete();
         $user->delete();
-        
+
         return response()->json([
             'user' => $user,
         ]);
