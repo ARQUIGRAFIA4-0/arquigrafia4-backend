@@ -64,8 +64,9 @@ Route::middleware('auth:api')->group(function () {
 
     //Comments
     Route::get('/images/{imageId}/comments', [CommentController::class, 'index']);
+    Route::get('/images/{commentId}/replies', [CommentController::class, 'replies']);
     Route::post('/comments', [CommentController::class, 'store']);
-    Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
+    Route::delete('/comments/{commentId}', [CommentController::class, 'destroy']);
 
     // Collectives
     Route::apiResource('collectives', CollectiveController::class)->only(['store', 'update', 'destroy']);

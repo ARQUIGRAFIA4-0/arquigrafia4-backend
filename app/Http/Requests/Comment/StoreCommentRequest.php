@@ -13,6 +13,7 @@ class StoreCommentRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+        // return auth()->check();
     }
 
     /**
@@ -25,7 +26,20 @@ class StoreCommentRequest extends FormRequest
         return [
             'image_id'  => ['required', 'uuid', 'exists:vrac_images,id'],
             'content'   => ['required', 'string', 'min:1', 'max:2000'],
-            'parent_id' => ['nullable', 'uuid', 'exists:comments,id'],
+            'parent_id' => [
+                'nullable',
+                'uuid',
+                'exists:comments,id',
+                // garante que o pai pertence à mesma imagem
+                function ($attribute, $value, $fail) {
+                    if ($value) {
+                        $parent = \App\Models\Comment::find($value);
+                        if ($parent && $parent->image_id !== $this->image_id) {
+                            $fail('O comentário pai não pertence a esta imagem.');
+                        }
+                    }
+                },
+            ],
         ];
     }
 }

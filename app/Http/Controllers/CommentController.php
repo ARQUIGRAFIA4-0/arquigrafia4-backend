@@ -24,6 +24,19 @@ class CommentController extends Controller
     }
 
     /**
+     * Display a listing of the replies.
+     */
+    public function replies(Comment $commentId): JsonResponse
+    {
+        $replies = $commentId->replies()
+            ->with('user')
+            ->latest()
+            ->get();
+
+        return response()->json($replies);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreCommentRequest $request): JsonResponse
@@ -60,14 +73,14 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Comment $comment): JsonResponse
+    public function destroy(Request $request, Comment $commentId): JsonResponse
     { {
             // Garante que só o dono pode deletar
-            if ($comment->user_id !== $request->user()->id) {
+            if ($commentId->user_id !== $request->user()->id) {
                 return response()->json(['message' => 'Forbidden'], 403);
             }
 
-            $comment->delete(); // soft delete — deleted_at é preenchido
+            $commentId->delete(); // soft delete — deleted_at é preenchido
 
             return response()->json(null, 204);
         }
