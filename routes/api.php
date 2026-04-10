@@ -30,11 +30,12 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\CommentController;
 
- // álbumes
+// álbumes
 Route::get('/albums', [AlbumController::class, 'index']);
 Route::get('/albums/{album}', [AlbumController::class, 'show']);
-Route::get('/users/{user}/albums', [AlbumController::class, 'getByUser']); 
+Route::get('/users/{user}/albums', [AlbumController::class, 'getByUser']);
 
 Route::apiResource('users', UserController::class)->only(['index', 'store', 'show']);
 Route::apiResource('profiles', ProfileController::class)->only(['show']);
@@ -60,6 +61,11 @@ Route::middleware('auth:api')->group(function () {
     Route::get('me', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('images', ImageController::class)->only(['store', 'update', 'destroy']);
+
+    //Comments
+    Route::get('/images/{imageId}/comments', [CommentController::class, 'index']);
+    Route::post('/comments', [CommentController::class, 'store']);
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
 
     // Collectives
     Route::apiResource('collectives', CollectiveController::class)->only(['store', 'update', 'destroy']);
