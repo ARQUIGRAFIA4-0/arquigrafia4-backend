@@ -78,4 +78,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Collective::class)->withPivot('role')->withTimestamps();
     }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
