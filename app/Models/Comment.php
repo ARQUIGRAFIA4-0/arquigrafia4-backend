@@ -26,7 +26,9 @@ class Comment extends Model
             'id'        => 'string',
             'user_id'   => 'string',
             'image_id'  => 'string',
-            'parent_id' => 'string',  // nullable, mas o cast ainda é string
+            'parent_id' => 'string',
+            'is_deleted' => 'boolean',
+            'edited_at'  => 'datetime',
             'deleted_at' => 'datetime',
         ];
     }
@@ -54,4 +56,11 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class, 'parent_id');
     }
+
+    // Carrega replies recursivamente (cuidado com profundidade muito grande)
+    // public function repliesRecursive(): HasMany
+    // {
+    //     return $this->hasMany(Comment::class, 'parent_id')
+    //         ->with('repliesRecursive.user'); // recursão
+    // }
 }
