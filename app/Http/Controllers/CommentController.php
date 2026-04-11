@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Comment\StoreCommentRequest;
+use App\Http\Requests\Comment\UpdateCommentRequest;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use Illuminate\Http\JsonResponse;
@@ -65,24 +66,39 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCommentRequest $request, Comment $commentId): JsonResponse
     {
-        //
+        $this->authorize('update', $commentId);
+
+        // Não permite editar comentário já deletado logicamente
+        if ($commentId->is_deleted) {
+            return response()->json(['message' => 'Comentário removido não pode ser editado.'], 422);
+        }
+
+        $commentId->update([
+            'content'   => $request->content,
+            'edited_at' => now(),
+        ]);
+
+        return response()->json($commentId->load('user'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Request $request, Comment $commentId): JsonResponse
-    { {
-            // Garante que só o dono pode deletar
-            if ($commentId->user_id !== $request->user()->id) {
-                return response()->json(['message' => 'Forbidden'], 403);
-            }
+    {
+        $this->authorize('delete', $commentId);
 
-            $commentId->delete(); // soft delete — deleted_at é preenchido
-
+        if ($commentId->replies()->exists()) {
+            $commentId->update([
+                'content' => null,
+                'is_deleted' => true,
+            ]);
             return response()->json(null, 204);
         }
+
+        $commentId->delete(); // soft delete normal
+        return response()->json(null, 204);
     }
 }
