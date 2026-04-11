@@ -30,6 +30,12 @@ return new class extends Migration
 
             $table->text('content');
 
+            $table->boolean('is_deleted')
+                ->default(false);
+
+            $table->timestamp('edited_at')
+                ->nullable();
+
             $table->timestamps();       // created_at + updated_at
             $table->softDeletes();      // deleted_at
         });
