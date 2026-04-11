@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Comment\StoreCommentRequest;
 use App\Http\Requests\Comment\UpdateCommentRequest;
+use App\Http\Resources\CommentResource;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use Illuminate\Http\JsonResponse;
@@ -21,7 +22,7 @@ class CommentController extends Controller
             ->latest()
             ->get();
 
-        return response()->json($comments);
+        return CommentResource::collection($comments)->response();
     }
 
     /**
@@ -34,7 +35,7 @@ class CommentController extends Controller
             ->latest()
             ->get();
 
-        return response()->json($replies);
+        return CommentResource::collection($replies)->response();
     }
 
     /**
@@ -49,10 +50,9 @@ class CommentController extends Controller
             'parent_id' => $request->parent_id, // null se for comentário raiz
         ]);
 
-        return response()->json(
-            $comment->load('user'),
-            201
-        );
+        return (new CommentResource($comment->load('user')))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -80,7 +80,7 @@ class CommentController extends Controller
             'edited_at' => now(),
         ]);
 
-        return response()->json($commentId->load('user'));
+        return (new CommentResource($commentId->load('user')))->response();
     }
 
     /**
