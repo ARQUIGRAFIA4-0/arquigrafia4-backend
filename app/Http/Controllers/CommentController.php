@@ -20,7 +20,7 @@ class CommentController extends Controller
             ->where('image_id', $imageId)
             ->whereNull('parent_id')
             ->latest()
-            ->get();
+            ->cursorPaginate(10);
 
         return CommentResource::collection($comments)->response();
     }
@@ -33,7 +33,7 @@ class CommentController extends Controller
         $replies = $commentId->replies()
             ->with('user')
             ->latest()
-            ->get();
+            ->cursorPaginate(5);
 
         return CommentResource::collection($replies)->response();
     }
