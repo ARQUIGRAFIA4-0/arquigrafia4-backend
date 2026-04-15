@@ -31,9 +31,10 @@ class VRACAgentRole extends Model
 
     public static function getPhotographer()
     {
-        return VRACAgentRole::where('label', 'fotógrafo')->orWhere('label', 'fotógrafos')->first();
+        return self::where('label', 'Photographer')
+            ->orWhere('label', 'fotógrafos')
+            ->first();
     }
-
     // relations
 
     public function agents(): HasMany

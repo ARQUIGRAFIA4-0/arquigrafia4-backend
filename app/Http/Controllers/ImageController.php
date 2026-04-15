@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Jcupitt\Vips\Image as VipsImage;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use App\Actions\Images\ApplyImageChangesAction;
 
 /**
  * @group Imagens
@@ -64,7 +65,7 @@ class ImageController extends Controller
         Storage::disk('public')->put($image->path('original'), $converted);
 
         $title = new VRACTitle();
-        $title->label = $request->input('title');   
+        $title->label = $request->input('title');
         $title->type = 'other';
         $title->save();
         $image->titles()->sync($title->id);
@@ -148,29 +149,29 @@ class ImageController extends Controller
     public function show(VRACImage $image)
     {
         $image->load([
-                'agents.contributorName',
-                'user',
-                'collective',
-                'culturalContexts',
-                'dates',
-                'descriptions',
-                'titles',
-                'techniques',
-                'workTypes',
-                'materials',
-                'stylePeriods',
-                'measurements',
-                'stateEditions',
-                'sources',
-                'rights',
-                'inscriptions',
-                'subjects',
-                'locations'
-            ]);
+            'agents.contributorName',
+            'user',
+            'collective',
+            'culturalContexts',
+            'dates',
+            'descriptions',
+            'titles',
+            'techniques',
+            'workTypes',
+            'materials',
+            'stylePeriods',
+            'measurements',
+            'stateEditions',
+            'sources',
+            'rights',
+            'inscriptions',
+            'subjects',
+            'locations'
+        ]);
         return new ImageResource($image);
     }
 
-    public function update(UpdateImageRequest $request, VRACImage $image)
+    /*    public function update(UpdateImageRequest $request, VRACImage $image)
     {
         $image->user_id = $request->input('user_id');
         $image->collective_id = $request->input('collective_id');
@@ -228,6 +229,16 @@ class ImageController extends Controller
         }
 
         Cache::forget('locations.geojson');
+
+        return new ImageResource($image);
+    }*/
+
+    public function update(
+        UpdateImageRequest $request,
+        VRACImage $image,
+        ApplyImageChangesAction $applyImageChanges
+    ) {
+        $image = $applyImageChanges->execute($image, $request->validated());
 
         return new ImageResource($image);
     }
