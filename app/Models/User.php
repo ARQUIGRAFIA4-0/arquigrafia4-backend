@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
@@ -60,6 +61,15 @@ class User extends Authenticatable
             'avatar_path' => 'string',
             'deleted_at' => 'datetime',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (User $user) {
+            if ($user->avatar_path) {
+                Storage::disk('public')->delete($user->avatar_path);
+            }
+        });
     }
 
     // relationships

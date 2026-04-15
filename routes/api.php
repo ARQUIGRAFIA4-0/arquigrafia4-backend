@@ -55,14 +55,17 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/albums/{album}/images', [AlbumController::class, 'removeImages']);
     //Route::delete('/albums/{album}/images/{image}', [AlbumController::class, 'removeImage']);
 
-    Route::apiResource('users', UserController::class)->only(['update', 'destroy']);
+    Route::middleware('throttle:10,1')->group(function () {
+        Route::apiResource('users', UserController::class)->only(['update', 'destroy']);
+        Route::apiResource('collectives', CollectiveController::class)->only(['store', 'update', 'destroy']);
+    });
+
     Route::apiResource('profiles', ProfileController::class)->only(['store', 'update']);
     Route::get('me', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('images', ImageController::class)->only(['store', 'update', 'destroy']);
 
     // Collectives
-    Route::apiResource('collectives', CollectiveController::class)->only(['store', 'update', 'destroy']);
     Route::get('collectives/{collective}/members', [CollectiveMemberController::class, 'index']);
     Route::put('collectives/{collective}/members/{user}', [CollectiveMemberController::class, 'update']);
     Route::delete('collectives/{collective}/members/{user}', [CollectiveMemberController::class, 'destroy']);

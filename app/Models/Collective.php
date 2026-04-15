@@ -6,6 +6,7 @@ use App\Models\VRACore\VRACImage;
 use App\Models\VRACore\VRACSubject;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -40,6 +41,15 @@ class Collective extends Model
             'legacy_id' => 'integer',
             'deleted_at' => 'datetime',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (Collective $collective) {
+            if ($collective->avatar_path) {
+                Storage::disk('public')->delete($collective->avatar_path);
+            }
+        });
     }
 
     // relationships
