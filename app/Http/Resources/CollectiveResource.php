@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class CollectiveResource extends JsonResource
 {
@@ -15,7 +16,7 @@ class CollectiveResource extends JsonResource
             'email' => $this->email,
             'foundation_date' => $this->foundation_date,
             'location' => $this->location,
-            'avatar_path' => $this->avatar_path,
+            'avatar_url' => $this->avatar_path ? Storage::url($this->avatar_path) : null,
             'description' => $this->description,
             'socials' => $this->socials,
             'subjects' => $this->whenLoaded('subjects', fn () => $this->subjects->pluck('id')),
@@ -24,7 +25,7 @@ class CollectiveResource extends JsonResource
                 return $this->members->map(fn ($user) => [
                     'id' => $user->id,
                     'name' => $user->name,
-                    'avatar_path' => $user->avatar_path,
+                    'avatar_url' => $user->avatar_path ? Storage::url($user->avatar_path) : null,
                     'role' => $user->pivot->role,
                 ]);
             }),

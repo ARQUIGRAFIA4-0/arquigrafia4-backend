@@ -34,17 +34,16 @@ class UpdateUserRequest extends FormRequest
                 Rule::unique('users')->ignore($this->user()->id),
             ],
             'password' => ['nullable', 'max:250', Password::min(8)],
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'dimensions:max_width=2000,max_height=2000', 'max:5120']
+            'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:7168']
         ];
     }
 
     public function messages()
     {
         return [
-            'image.image' => 'O arquivo deve ser uma imagem válida.',
-            'image.mimes' => 'A imagem deve estar no formato: JPG, JPEG ou PNG.',
-            'image.dimensions' => 'A imagem deve ter no máximo 2000x2000 pixels.',
-            'image.max' => 'A imagem deve ter no máximo 5MB.',
+            'avatar.image' => 'O arquivo deve ser uma imagem válida.',
+            'avatar.mimes' => 'A imagem deve estar no formato: JPG, JPEG ou PNG.',
+            'avatar.max' => 'A imagem deve ter no máximo 7MB.',
         ];
     }
 }
