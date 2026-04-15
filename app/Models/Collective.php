@@ -59,9 +59,13 @@ class Collective extends Model
         return $this->hasMany(VRACImage::class);
     }
 
-    public function invites(): HasMany
+    /**
+     * Get all join requests for this collective.
+     * This includes pending, approved, and rejected requests.
+     */
+    public function joinRequests(): HasMany
     {
-        return $this->hasMany(CollectiveInvite::class);
+        return $this->hasMany(CollectiveJoinRequest::class);
     }
 
     public function subjects(): BelongsToMany

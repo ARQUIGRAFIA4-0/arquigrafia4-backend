@@ -24,7 +24,7 @@ use App\Http\Controllers\VRACore\VRACTextRefController;
 use App\Http\Controllers\VRACore\VRACTitleController;
 use App\Http\Controllers\VRACore\VRACWorkTypeController;
 use App\Http\Controllers\CollectiveController;
-use App\Http\Controllers\CollectiveInviteController;
+use App\Http\Controllers\CollectiveJoinRequestController;
 use App\Http\Controllers\CollectiveMemberController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LocationController;
@@ -63,13 +63,13 @@ Route::middleware('auth:api')->group(function () {
 
     // Collectives
     Route::apiResource('collectives', CollectiveController::class)->only(['store', 'update', 'destroy']);
-    Route::post('collectives/join', [CollectiveInviteController::class, 'redeem']);
     Route::get('collectives/{collective}/members', [CollectiveMemberController::class, 'index']);
     Route::put('collectives/{collective}/members/{user}', [CollectiveMemberController::class, 'update']);
     Route::delete('collectives/{collective}/members/{user}', [CollectiveMemberController::class, 'destroy']);
-    Route::get('collectives/{collective}/invites', [CollectiveInviteController::class, 'index']);
-    Route::post('collectives/{collective}/invites', [CollectiveInviteController::class, 'store']);
-    Route::delete('collectives/{collective}/invites/{invite}', [CollectiveInviteController::class, 'destroy']);
+    Route::post('collectives/{collective}/join-requests', [CollectiveJoinRequestController::class, 'store']);
+    Route::get('collectives/{collective}/join-requests', [CollectiveJoinRequestController::class, 'index']);
+    Route::put('collectives/{collective}/join-requests/{user}', [CollectiveJoinRequestController::class, 'update']);
+    Route::delete('collectives/{collective}/join-requests/{user}', [CollectiveJoinRequestController::class, 'destroy']);
 });
 
 Route::middleware('throttle:6,1')->group(function () {
