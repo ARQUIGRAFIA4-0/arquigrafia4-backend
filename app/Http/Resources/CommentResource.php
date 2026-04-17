@@ -16,6 +16,7 @@ class CommentResource extends JsonResource
     {
         return [
             'id'         => $this->id,
+            'image_id'     => $this->image_id,
             'content'    => $this->is_deleted ? null : $this->content,
             'is_deleted' => $this->is_deleted,
             'is_edited'  => !is_null($this->edited_at),
@@ -23,9 +24,12 @@ class CommentResource extends JsonResource
             'created_at' => $this->created_at,
             'user'       => new UserResource($this->whenLoaded('user')),
             'replies'    => CommentResource::collection($this->whenLoaded('replies')),
-
+            'replies_count' => $this->replies_count ?? $this->replies()->count(),
             // preparado para likes — retorna 0 até implementar
-            'likes_count' => $this->whenNotNull($this->likes_count, 0),
+            'likes_count' => $this->likes_count ?? $this->likes()->count(),
+            'liked_by_me' => $this->likes()
+                ->where('user_id', $request->user()?->id)
+                ->exists(),
         ];
     }
 }
