@@ -16,11 +16,14 @@ class CommentController extends Controller
      */
     public function index(string $imageId): JsonResponse
     {
-        $comments = Comment::with(['user', 'replies.user'])
+        $comments = Comment::with(['user', 'replies' => function ($query) {
+            $query->with('user')->withCount('likes')->latest();
+        }])
             ->where('image_id', $imageId)
             ->whereNull('parent_id')
+            ->withCount(['likes', 'replies'])
             ->latest()
-            ->cursorPaginate(10);
+            ->cursorPaginate(3);
 
         return CommentResource::collection($comments)->response();
     }
@@ -33,7 +36,7 @@ class CommentController extends Controller
         $replies = $commentId->replies()
             ->with('user')
             ->latest()
-            ->cursorPaginate(5);
+            ->cursorPaginate(3);
 
         return CommentResource::collection($replies)->response();
     }
@@ -92,7 +95,6 @@ class CommentController extends Controller
 
         if ($commentId->replies()->exists()) {
             $commentId->update([
-                'content' => null,
                 'is_deleted' => true,
             ]);
             return response()->json(null, 204);
