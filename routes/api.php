@@ -31,6 +31,7 @@ use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CommentLikeController;
 
 // álbumes
 Route::get('/albums', [AlbumController::class, 'index']);
@@ -43,6 +44,8 @@ Route::get('profiles/by-user-id/{userId}', [ProfileController::class, 'getByUser
 Route::get('locations/geojson', [LocationController::class, 'geojson']);
 Route::apiResource('images', ImageController::class)->only(['index', 'show']);
 Route::apiResource('collectives', CollectiveController::class)->only(['index', 'show']);
+Route::get('/images/{imageId}/comments', [CommentController::class, 'index']);
+Route::get('/comments/{commentId}/replies', [CommentController::class, 'replies']);
 
 Route::middleware('auth:api')->group(function () {
     // álbumes
@@ -63,11 +66,14 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('images', ImageController::class)->only(['store', 'update', 'destroy']);
 
     //Comments
-    Route::get('/images/{imageId}/comments', [CommentController::class, 'index']);
-    Route::get('/images/{commentId}/replies', [CommentController::class, 'replies']);
-    Route::post('/comments', [CommentController::class, 'store']);
-    Route::patch('/comments/{commentId}', [CommentController::class, 'update']);
+    Route::post('/comments', [CommentController::class, 'store'])
+        ->middleware('throttle:store-comment');
+    Route::patch('/comments/{commentId}', [CommentController::class, 'update'])
+        ->middleware('throttle:update-comment');
     Route::delete('/comments/{commentId}', [CommentController::class, 'destroy']);
+
+    // Comment Likes
+    Route::post('/comments/{commentId}/like', [CommentLikeController::class, 'store']);
 
     // Collectives
     Route::apiResource('collectives', CollectiveController::class)->only(['store', 'update', 'destroy']);
