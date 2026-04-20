@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ImageSuggestionController extends Controller
 {
+
     public function index(Request $request)
     {
         $query = ImageSuggestion::with(['image', 'user', 'reviewer']);
@@ -30,7 +31,14 @@ class ImageSuggestionController extends Controller
             'suggestions' => $query->latest()->paginate(20),
         ]);
     }
-
+    /**
+     * Create image suggestion
+     *
+     * @group Image Suggestions
+     * @authenticated
+     *
+     * @bodyParam payload object required Suggested changes.
+     */
     public function store(Request $request, VRACImage $image)
     {
         $request->validate([
@@ -50,7 +58,12 @@ class ImageSuggestionController extends Controller
             'suggestion' => $suggestion,
         ], 201);
     }
-
+    /**
+     * Get image suggestion
+     *
+     * @group Image Suggestions
+     * @unauthenticated
+     */
     public function show(ImageSuggestion $imageSuggestion)
     {
         $imageSuggestion->load(['image', 'user', 'reviewer']);
@@ -59,7 +72,14 @@ class ImageSuggestionController extends Controller
             'suggestion' => $imageSuggestion,
         ]);
     }
-
+    /**
+     * Update image suggestion
+     *
+     * @group Image Suggestions
+     * @authenticated
+     *
+     * @bodyParam payload object required Suggested changes.
+     */
     public function update(Request $request, ImageSuggestion $imageSuggestion)
     {
         if ($imageSuggestion->user_id !== $request->user()->id) {
@@ -68,7 +88,7 @@ class ImageSuggestionController extends Controller
 
         if ($imageSuggestion->status !== 'pending') {
             return response()->json([
-                'message' => 'Solo se pueden editar sugerencias pendientes.',
+                'message' => 'Apenas sugestões pendentes podem ser editadas.',
             ], 422);
         }
 
@@ -84,7 +104,12 @@ class ImageSuggestionController extends Controller
             'suggestion' => $imageSuggestion,
         ]);
     }
-
+    /**
+     * Delete image suggestion
+     *
+     * @group Image Suggestions
+     * @authenticated
+     */
     public function destroy(Request $request, ImageSuggestion $imageSuggestion)
     {
         if ($imageSuggestion->user_id !== $request->user()->id) {
@@ -93,7 +118,7 @@ class ImageSuggestionController extends Controller
 
         if ($imageSuggestion->status !== 'pending') {
             return response()->json([
-                'message' => 'Solo se pueden eliminar sugerencias pendientes.',
+                'message' => 'Apenas sugestões pendentes podem ser excluídas.',
             ], 422);
         }
 
@@ -103,7 +128,15 @@ class ImageSuggestionController extends Controller
             'suggestion' => $imageSuggestion,
         ]);
     }
-
+    /**
+     * Accept image suggestion
+     *
+     * @group Image Suggestions
+     * @authenticated
+     *
+     * @bodyParam accepted_fields array Optional fields to accept.
+     * @bodyParam review_note string Optional review note.
+     */
     public function accept(
         Request $request,
         ImageSuggestion $imageSuggestion,
@@ -117,7 +150,7 @@ class ImageSuggestionController extends Controller
 
         if ($imageSuggestion->status !== 'pending') {
             return response()->json([
-                'message' => 'La sugerencia ya fue revisada.',
+                'message' => 'A sugestão já foi revisada.',
             ], 422);
         }
 
@@ -168,12 +201,19 @@ class ImageSuggestionController extends Controller
         });
 
         return response()->json([
-            'message' => 'Sugerencia revisada correctamente.',
+            'message' => 'Sugestão revisada com sucesso.',
             'suggestion' => $imageSuggestion->fresh(['image', 'user', 'reviewer']),
             'image' => new ImageResource($updatedImage),
         ]);
     }
-
+    /**
+     * Reject image suggestion
+     *
+     * @group Image Suggestions
+     * @authenticated
+     *
+     * @bodyParam review_note string Optional review note.
+     */
     public function reject(Request $request, ImageSuggestion $imageSuggestion)
     {
         $request->validate([
@@ -182,7 +222,7 @@ class ImageSuggestionController extends Controller
 
         if ($imageSuggestion->status !== 'pending') {
             return response()->json([
-                'message' => 'La sugerencia ya fue revisada.',
+                'message' => 'A sugestão já foi revisada.',
             ], 422);
         }
 
@@ -199,7 +239,7 @@ class ImageSuggestionController extends Controller
         $imageSuggestion->save();
 
         return response()->json([
-            'message' => 'Sugerencia rechazada correctamente.',
+            'message' => 'Sugestão rejeitada com sucesso.',
             'suggestion' => $imageSuggestion->fresh(['image', 'user', 'reviewer']),
         ]);
     }
