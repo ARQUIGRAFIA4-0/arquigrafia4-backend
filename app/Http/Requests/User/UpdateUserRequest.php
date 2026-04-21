@@ -34,6 +34,16 @@ class UpdateUserRequest extends FormRequest
                 Rule::unique('users')->ignore($this->user()->id),
             ],
             'password' => ['nullable', 'max:250', Password::min(8)],
+            'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:7168']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'avatar.image' => 'O arquivo deve ser uma imagem válida.',
+            'avatar.mimes' => 'A imagem deve estar no formato: JPG, JPEG ou PNG.',
+            'avatar.max' => 'A imagem deve ter no máximo 7MB.',
         ];
     }
 }

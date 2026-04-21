@@ -14,10 +14,18 @@ class VRACContributorNameController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @queryParam per_page integer The number of items per page. Use -1 to fetch all records without pagination. Default is 15.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return VRACContributorName::paginate();
+        $perPage = $request->integer('per_page', 15);
+
+        if ($perPage === -1) {
+            return response()->json(['data' => VRACContributorName::all()]);
+        }
+
+        return VRACContributorName::paginate($perPage);
     }
 
     /**

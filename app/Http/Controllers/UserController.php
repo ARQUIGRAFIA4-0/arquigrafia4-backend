@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Http\Requests\User\DeleteUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
@@ -9,6 +10,8 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\Profile;
 use App\Models\VRACore\VRACContributorName;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Jcupitt\Vips\Image;
 
 /**
  * @group Usuários
@@ -23,7 +26,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::paginate();
+        return UserResource::collection(User::paginate());
     }
 
     /**
@@ -51,9 +54,7 @@ class UserController extends Controller
         $contributor->ref_id = $user->id;
         $contributor->save();
 
-        return response()->json([
-            'user' => $user,
-        ]);
+        return new UserResource($user);
     }
 
     /**
@@ -62,9 +63,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json([
-            'user' => $user,
-        ]);
+        return new UserResource($user);
     }
 
     /**
@@ -75,11 +74,51 @@ class UserController extends Controller
         $user->name = $request->input('name');
         if ($user->email != $request->input('email')) $user->email = $request->input('email');
         if ($request->filled('password')) $user->password = Hash::make($request->input('password'));
+
+        if ($request->hasFile('avatar')) {
+
+            if ($user->avatar_path) {
+                Storage::disk('public')->delete($user->avatar_path);
+            }
+
+            $filename = 'avatars/users/' . $user->id . '.webp';
+            $destPath  = Storage::disk('public')->path($filename);
+            $uploadedFile = $request->file('avatar');
+
+            $image = Image::newFromBuffer(
+                $uploadedFile->getContent(),
+                '',
+                ['access' => 'sequential']
+            );
+
+            $width  = $image->width;
+            $height = $image->height;
+
+            $minSide = min($width, $height);
+
+            $image = $image->crop(
+                (int) (($width  - $minSide) / 2),
+                (int) (($height - $minSide) / 2),
+                $minSide,
+                $minSide
+            );
+
+            $image = $image->thumbnail_image(400, [
+                'height' => 400,
+                'size' => 'force',
+            ]);
+
+            $image->writeToFile($destPath, [
+                'Q'             => 82,
+                'strip'         => true,
+            ]);
+
+            $user->avatar_path = $filename;
+        }
+
         $user->save();
 
-        return response()->json([
-            'user' => $user,
-        ]);
+        return new UserResource($user);
     }
 
     /**
@@ -89,9 +128,7 @@ class UserController extends Controller
     {
         optional($user->profile())->delete();
         $user->delete();
-        
-        return response()->json([
-            'user' => $user,
-        ]);
+
+        return new UserResource($user);
     }
 }
