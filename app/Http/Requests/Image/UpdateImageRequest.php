@@ -7,6 +7,7 @@ use App\Models\VRACore\VRACContributorName;
 use App\Models\VRACore\VRACSubject;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Support\ImageUpdateRules;
 
 class UpdateImageRequest extends FormRequest
 {
@@ -15,17 +16,20 @@ class UpdateImageRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        $user = $this->user();
         $image = $this->route('image');
 
-        // Original uploader can always edit
-        if ($this->user()->id === $image->user_id) {
+        if (! $user || ! $image) {
+            return false;
+        }
+
+        if ($user->id === $image->user_id) {
             return true;
         }
 
-        // Any collective member can edit collective images
         if ($image->collective_id) {
             $collective = Collective::find($image->collective_id);
-            return $collective && $collective->isMember($this->user());
+            return $collective && $collective->isMember($user);
         }
 
         return false;
@@ -36,7 +40,7 @@ class UpdateImageRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    /*   public function rules(): array
     {
         return [
             // 'image' => 'required|file|mimes:jpg,jpeg,png,heic|max:6000',
@@ -47,8 +51,9 @@ class UpdateImageRequest extends FormRequest
                 'uuid',
                 Rule::exists(VRACContributorName::class, 'id'),
             ],
-            'owner_name' => 'required|string|max:255',
-            'right_text' => 'required|string|max:255',
+            //'owner_name' => 'required|string|max:255',
+            //'right_text' => 'required|string|max:255',
+            //'license' => 'required|string|max:255',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:500',
             'earliest_date' => 'nullable|date_format:Y-m-d',
@@ -63,5 +68,9 @@ class UpdateImageRequest extends FormRequest
                 Rule::exists(VRACSubject::class, 'id'),
             ],
         ];
-    }
+    }*/
+   public function rules(): array
+{
+    return ImageUpdateRules::rules();
+}
 }

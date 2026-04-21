@@ -30,11 +30,8 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\ImageSuggestionController;
 
- // álbumes
-Route::get('/albums', [AlbumController::class, 'index']);
-Route::get('/albums/{album}', [AlbumController::class, 'show']);
-Route::get('/users/{user}/albums', [AlbumController::class, 'getByUser']); 
 
 Route::apiResource('users', UserController::class)->only(['index', 'store', 'show']);
 Route::apiResource('profiles', ProfileController::class)->only(['show']);
@@ -43,17 +40,16 @@ Route::get('locations/geojson', [LocationController::class, 'geojson']);
 Route::apiResource('images', ImageController::class)->only(['index', 'show']);
 Route::apiResource('collectives', CollectiveController::class)->only(['index', 'show']);
 
-Route::middleware('auth:api')->group(function () {
-    // álbumes
-    Route::post('/albums', [AlbumController::class, 'store']);
-    Route::put('/albums/{album}', [AlbumController::class, 'update']);
-    Route::delete('/albums/{album}', [AlbumController::class, 'destroy']);
+// álbumes
+Route::get('/albums', [AlbumController::class, 'index']);
+Route::get('/albums/{album}', [AlbumController::class, 'show']);
+Route::get('/users/{user}/albums', [AlbumController::class, 'getByUser']);
 
-    // imágenes dentro de álbum
-    Route::put('/albums/{album}/images', [AlbumController::class, 'syncImages']);
-    Route::post('/albums/{album}/images', [AlbumController::class, 'addImage']);
-    Route::delete('/albums/{album}/images', [AlbumController::class, 'removeImages']);
-    //Route::delete('/albums/{album}/images/{image}', [AlbumController::class, 'removeImage']);
+//suggestions
+Route::get('/image-suggestions', [ImageSuggestionController::class, 'index']);
+Route::get('/image-suggestions/{imageSuggestion}', [ImageSuggestionController::class, 'show']);
+
+Route::middleware('auth:api')->group(function () {
 
     Route::middleware('throttle:10,1')->group(function () {
         Route::apiResource('users', UserController::class)->only(['update', 'destroy']);
@@ -69,6 +65,21 @@ Route::middleware('auth:api')->group(function () {
     Route::get('collectives/{collective}/members', [CollectiveMemberController::class, 'index']);
     Route::put('collectives/{collective}/members/{user}', [CollectiveMemberController::class, 'update']);
     Route::delete('collectives/{collective}/members/{user}', [CollectiveMemberController::class, 'destroy']);
+
+    // álbumes
+    Route::post('/albums', [AlbumController::class, 'store']);
+    Route::put('/albums/{album}', [AlbumController::class, 'update']);
+    Route::delete('/albums/{album}', [AlbumController::class, 'destroy']);
+    Route::put('/albums/{album}/images', [AlbumController::class, 'syncImages']);
+    Route::post('/albums/{album}/images', [AlbumController::class, 'addImage']);
+    Route::delete('/albums/{album}/images', [AlbumController::class, 'removeImages']);
+
+    //suggestions
+    Route::post('/images/{image}/suggestions', [ImageSuggestionController::class, 'store']);
+    Route::put('/image-suggestions/{imageSuggestion}', [ImageSuggestionController::class, 'update']);
+    Route::delete('/image-suggestions/{imageSuggestion}', [ImageSuggestionController::class, 'destroy']);
+    Route::post('/image-suggestions/{imageSuggestion}/accept', [ImageSuggestionController::class, 'accept']);
+    Route::post('/image-suggestions/{imageSuggestion}/reject', [ImageSuggestionController::class, 'reject']);
     Route::post('collectives/{collective}/join-requests', [CollectiveJoinRequestController::class, 'store']);
     Route::get('collectives/{collective}/join-requests', [CollectiveJoinRequestController::class, 'index']);
     Route::put('collectives/{collective}/join-requests/{user}', [CollectiveJoinRequestController::class, 'update']);
