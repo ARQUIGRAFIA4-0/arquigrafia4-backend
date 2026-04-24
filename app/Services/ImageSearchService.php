@@ -17,6 +17,7 @@ class ImageSearchService
             ->when($filters['subject_term'] ?? null, fn (Builder $q, array $terms) => $this->filterBySubjectTerm($q, $terms))
             ->when($filters['date_from'] ?? null, fn (Builder $q, string $from) => $this->filterByDateFrom($q, $from))
             ->when($filters['date_to'] ?? null, fn (Builder $q, string $to) => $this->filterByDateTo($q, $to))
+            ->when($filters['license'] ?? null, fn (Builder $q, array $licenses) => $this->filterByLicense($q, $licenses))
             ->when($filters['user_id'] ?? null, fn (Builder $q, string $userId) => $q->where('user_id', $userId))
             ->when(array_key_exists('collective_id', $filters), function (Builder $q) use ($filters) {
                 $collectiveId = $filters['collective_id'];
@@ -62,6 +63,13 @@ class ImageSearchService
                     $q2->orWhere('term', 'LIKE', '%' . $term . '%');
                 }
             });
+        });
+    }
+
+    protected function filterByLicense(Builder $query, array $licenses): Builder
+    {
+        return $query->whereHas('rights', function (Builder $q) use ($licenses) {
+            $q->whereIn('text', array_map('strtoupper', $licenses));
         });
     }
 
