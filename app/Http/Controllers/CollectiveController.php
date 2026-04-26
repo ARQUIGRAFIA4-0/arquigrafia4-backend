@@ -8,6 +8,7 @@ use App\Http\Requests\Collective\UpdateCollectiveRequest;
 use App\Http\Resources\CollectiveResource;
 use App\Models\Collective;
 use Illuminate\Support\Facades\Storage;
+use Jcupitt\Vips\Image;
 
 /**
  * @group Coletivos
@@ -34,12 +35,43 @@ class CollectiveController extends Controller
         $collective->description = $request->input('description');
         $collective->socials = $request->input('socials');
 
-        if ($request->hasFile('avatar')) {
-            $path = $request->file('avatar')->store("avatars/collectives", 'public');
-            $collective->avatar_path = $path;
-        }
-
         $collective->save();
+
+        if ($request->hasFile('avatar')) {
+            $filename = 'avatars/collectives/' . $collective->id . '.webp';
+            $destPath = Storage::disk('public')->path($filename);
+            $uploadedFile = $request->file('avatar');
+
+            $image = Image::newFromBuffer(
+                $uploadedFile->getContent(),
+                '',
+                ['access' => 'sequential']
+            );
+
+            $width  = $image->width;
+            $height = $image->height;
+            $minSide = min($width, $height);
+
+            $image = $image->crop(
+                (int) (($width  - $minSide) / 2),
+                (int) (($height - $minSide) / 2),
+                $minSide,
+                $minSide
+            );
+
+            $image = $image->thumbnail_image(400, [
+                'height' => 400,
+                'size' => 'force',
+            ]);
+
+            $image->writeToFile($destPath, [
+                'Q'     => 82,
+                'strip' => true,
+            ]);
+
+            $collective->avatar_path = $filename;
+            $collective->save();
+        }
 
         if ($request->filled('subjects')) {
             $collective->subjects()->sync($request->input('subjects'));
@@ -89,8 +121,39 @@ class CollectiveController extends Controller
             if ($collective->avatar_path) {
                 Storage::disk('public')->delete($collective->avatar_path);
             }
-            $path = $request->file('avatar')->store("avatars/collectives", 'public');
-            $collective->avatar_path = $path;
+
+            $filename = 'avatars/collectives/' . $collective->id . '.webp';
+            $destPath = Storage::disk('public')->path($filename);
+            $uploadedFile = $request->file('avatar');
+
+            $image = Image::newFromBuffer(
+                $uploadedFile->getContent(),
+                '',
+                ['access' => 'sequential']
+            );
+
+            $width  = $image->width;
+            $height = $image->height;
+            $minSide = min($width, $height);
+
+            $image = $image->crop(
+                (int) (($width  - $minSide) / 2),
+                (int) (($height - $minSide) / 2),
+                $minSide,
+                $minSide
+            );
+
+            $image = $image->thumbnail_image(400, [
+                'height' => 400,
+                'size' => 'force',
+            ]);
+
+            $image->writeToFile($destPath, [
+                'Q'     => 82,
+                'strip' => true,
+            ]);
+
+            $collective->avatar_path = $filename;
         }
 
         $collective->save();

@@ -20,7 +20,7 @@ class StoreCollectiveRequest extends FormRequest
             'email'           => 'nullable|email',
             'foundation_date' => 'nullable|date',
             'location'        => 'nullable|string|max:250',
-            'avatar'          => 'nullable|file|mimes:jpg,jpeg,png|max:2000',
+            'avatar'          => 'nullable|image|mimes:jpg,jpeg,png|max:7168',
             'description'     => 'nullable|string',
             'socials'         => 'nullable|array',
             'subjects'        => ['nullable', 'array', Rule::exists(VRACSubject::class, 'id')],

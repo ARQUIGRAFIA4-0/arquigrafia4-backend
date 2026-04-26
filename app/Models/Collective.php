@@ -6,6 +6,7 @@ use App\Models\VRACore\VRACImage;
 use App\Models\VRACore\VRACSubject;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -42,6 +43,15 @@ class Collective extends Model
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::deleting(function (Collective $collective) {
+            if ($collective->avatar_path) {
+                Storage::disk('public')->delete($collective->avatar_path);
+            }
+        });
+    }
+
     // relationships
 
     public function members(): BelongsToMany
@@ -59,9 +69,13 @@ class Collective extends Model
         return $this->hasMany(VRACImage::class);
     }
 
-    public function invites(): HasMany
+    /**
+     * Get all join requests for this collective.
+     * This includes pending, approved, and rejected requests.
+     */
+    public function joinRequests(): HasMany
     {
-        return $this->hasMany(CollectiveInvite::class);
+        return $this->hasMany(CollectiveJoinRequest::class);
     }
 
     public function subjects(): BelongsToMany

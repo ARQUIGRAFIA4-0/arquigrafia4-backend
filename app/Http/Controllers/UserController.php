@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Http\Requests\User\DeleteUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
@@ -10,7 +11,6 @@ use App\Models\Profile;
 use App\Models\VRACore\VRACContributorName;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Jcupitt\Vips\Image;
 
 /**
@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::paginate();
+        return UserResource::collection(User::paginate());
     }
 
     /**
@@ -54,9 +54,7 @@ class UserController extends Controller
         $contributor->ref_id = $user->id;
         $contributor->save();
 
-        return response()->json([
-            'user' => $user,
-        ]);
+        return new UserResource($user);
     }
 
     /**
@@ -65,9 +63,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json([
-            'user' => $user,
-        ]);
+        return new UserResource($user);
     }
 
     /**
@@ -79,15 +75,15 @@ class UserController extends Controller
         if ($user->email != $request->input('email')) $user->email = $request->input('email');
         if ($request->filled('password')) $user->password = Hash::make($request->input('password'));
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('avatar')) {
 
             if ($user->avatar_path) {
                 Storage::disk('public')->delete($user->avatar_path);
             }
 
-            $filename = 'profileImage/' . Str::uuid() . '.webp';
+            $filename = 'avatars/users/' . $user->id . '.webp';
             $destPath  = Storage::disk('public')->path($filename);
-            $uploadedFile = $request->file('image');
+            $uploadedFile = $request->file('avatar');
 
             $image = Image::newFromBuffer(
                 $uploadedFile->getContent(),
@@ -122,9 +118,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return response()->json([
-            'user' => $user,
-        ]);
+        return new UserResource($user);
     }
 
     /**
@@ -135,8 +129,6 @@ class UserController extends Controller
         optional($user->profile())->delete();
         $user->delete();
 
-        return response()->json([
-            'user' => $user,
-        ]);
+        return new UserResource($user);
     }
 }
