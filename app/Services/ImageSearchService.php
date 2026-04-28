@@ -69,8 +69,20 @@ class ImageSearchService
     protected function filterByLicense(Builder $query, array $licenses): Builder
     {
         return $query->whereHas('rights', function (Builder $q) use ($licenses) {
-            $q->whereIn('text', array_map('strtoupper', $licenses));
+            $q->where(function (Builder $q2) use ($licenses) {
+                foreach ($licenses as $license) {
+                    $q2->orWhere('href', 'LIKE', '%' . $this->licenseToHrefSegment($license) . '%');
+                }
+            });
         });
+    }
+
+    protected function licenseToHrefSegment(string $license): string
+    {
+        return match (strtoupper($license)) {
+            'CC0' => '/publicdomain/zero/',
+            default => '/licenses/' . strtolower($license) . '/',
+        };
     }
 
     protected function filterByDateFrom(Builder $query, string $from): Builder
