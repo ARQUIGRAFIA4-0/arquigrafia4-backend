@@ -17,6 +17,7 @@ class ImageSearchService
             ->when($filters['subject_term'] ?? null, fn (Builder $q, array $terms) => $this->filterBySubjectTerm($q, $terms))
             ->when($filters['date_from'] ?? null, fn (Builder $q, string $from) => $this->filterByDateFrom($q, $from))
             ->when($filters['date_to'] ?? null, fn (Builder $q, string $to) => $this->filterByDateTo($q, $to))
+            ->when($filters['license'] ?? null, fn (Builder $q, array $licenses) => $this->filterByLicense($q, $licenses))
             ->when($filters['user_id'] ?? null, fn (Builder $q, string $userId) => $q->where('user_id', $userId))
             ->when(array_key_exists('collective_id', $filters), function (Builder $q) use ($filters) {
                 $collectiveId = $filters['collective_id'];
@@ -63,6 +64,25 @@ class ImageSearchService
                 }
             });
         });
+    }
+
+    protected function filterByLicense(Builder $query, array $licenses): Builder
+    {
+        return $query->whereHas('rights', function (Builder $q) use ($licenses) {
+            $q->where(function (Builder $q2) use ($licenses) {
+                foreach ($licenses as $license) {
+                    $q2->orWhere('href', 'LIKE', '%' . $this->licenseToHrefSegment($license) . '%');
+                }
+            });
+        });
+    }
+
+    protected function licenseToHrefSegment(string $license): string
+    {
+        return match (strtoupper($license)) {
+            'CC0' => '/publicdomain/zero/',
+            default => '/licenses/' . strtolower($license) . '/',
+        };
     }
 
     protected function filterByDateFrom(Builder $query, string $from): Builder
