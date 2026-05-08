@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use App\Models\Report;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class VRACImage extends Model
@@ -197,5 +199,10 @@ class VRACImage extends Model
     public function locations(): BelongsToMany
     {
         return $this->belongsToMany(Location::class, 'image_location', 'image_id', 'location_id');
+    }
+
+    public function reports(): MorphMany
+    {
+        return $this->morphMany(Report::class, 'reportable');
     }
 }

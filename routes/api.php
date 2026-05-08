@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentLikeController;
+use App\Http\Controllers\ReportController;
 
 // álbumes
 Route::get('/albums', [AlbumController::class, 'index']);
@@ -93,6 +94,12 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/albums/{album}/images', [AlbumController::class, 'syncImages']);
     Route::post('/albums/{album}/images', [AlbumController::class, 'addImage']);
     Route::delete('/albums/{album}/images', [AlbumController::class, 'removeImages']);
+
+    // Reports
+    Route::post('/reports', [ReportController::class, 'store']);
+    Route::get('/reports', [ReportController::class, 'index']);
+    Route::get('/reports/{report}', [ReportController::class, 'show']);
+    Route::patch('/reports/{report}', [ReportController::class, 'update']);
 
     //suggestions
     Route::post('/images/{image}/suggestions', [ImageSuggestionController::class, 'store']);
