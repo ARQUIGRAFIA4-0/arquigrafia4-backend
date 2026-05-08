@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -47,6 +48,7 @@ Route::get('profiles/by-user-id/{userId}', [ProfileController::class, 'getByUser
 Route::get('locations/geojson', [LocationController::class, 'geojson']);
 Route::apiResource('images', ImageController::class)->only(['index', 'show']);
 Route::apiResource('collectives', CollectiveController::class)->only(['index', 'show']);
+Route::get('actors', [ActorController::class, 'index']);
 Route::get('/images/{imageId}/comments', [CommentController::class, 'index']);
 Route::get('/comments/{commentId}/replies', [CommentController::class, 'replies']);
 
