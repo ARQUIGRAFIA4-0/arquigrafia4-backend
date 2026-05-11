@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Album;
+use App\Models\VRACore\VRACSubject;
 use Illuminate\Http\Request;
 
 /**
@@ -171,6 +172,30 @@ class AlbumController extends Controller
             ->where('user_id', $userId)
             ->get();
     }
+    /**
+     * Tags de um álbum
+     *
+     * Retorna todas as tags únicas das imagens do álbum.
+     *
+     * @group Álbuns
+     * @unauthenticated
+     */
+    public function tags(Album $album)
+    {
+        $tags = VRACSubject::select('vrac_subjects.id', 'vrac_subjects.term', 'vrac_subjects.type')
+            ->join('image_subject', 'vrac_subjects.id', '=', 'image_subject.subject_id')
+            ->join('album_image', 'image_subject.image_id', '=', 'album_image.image_id')
+            ->where('album_image.album_id', $album->id)
+            ->distinct()
+            ->orderBy('vrac_subjects.term')
+            ->get();
+
+        return response()->json([
+            'album_id' => $album->id,
+            'tags'     => $tags,
+        ]);
+    }
+
     public function syncImages(Request $request, $albumId)
     {
         $data = $request->validate([
