@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Album;
+use App\Models\Collective;
 use App\Models\VRACore\VRACSubject;
 use Illuminate\Http\Request;
 
@@ -26,19 +27,28 @@ class AlbumController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => 'nullable|string|max:255',
-            'description' => 'nullable|string|max:1000',
-            'is_private' => 'boolean'
+            'collective_id' => 'nullable|uuid|exists:collectives,id',
+            'title'         => 'nullable|string|max:255',
+            'description'   => 'nullable|string|max:1000',
+            'is_private'    => 'boolean',
         ]);
 
-        // Usuario autenticado
-        $data['user_id'] = $request->user()->id;
+        if (!empty($data['collective_id'])) {
+            $collective = Collective::findOrFail($data['collective_id']);
+            if (!$collective->isMember($request->user())) {
+                return response()->json([
+                    'message' => 'No eres miembro de este colectivo.',
+                ], 403);
+            }
+        } else {
+            $data['user_id'] = $request->user()->id;
+        }
 
         $album = Album::create($data);
 
         return response()->json([
             'message' => 'Álbum creado correctamente',
-            'album' => $album,
+            'album'   => $album,
         ], 201);
     }
 
@@ -56,33 +66,39 @@ class AlbumController extends Controller
     {
         $album = Album::findOrFail($id);
 
+        if (!$album->userCanManage($request->user())) {
+            return response()->json(['message' => 'No tienes permiso para editar este álbum.'], 403);
+        }
+
         $data = $request->validate([
-            'title' => 'sometimes|nullable|string|max:255',
+            'title'       => 'sometimes|nullable|string|max:255',
             'description' => 'sometimes|nullable|string|max:1000',
-            'is_private' => 'sometimes|boolean'
+            'is_private'  => 'sometimes|boolean',
         ]);
-            // evitar updates vacíos
-    if (empty($data)) {
-        return response()->json([
-            'message' => 'No se enviaron datos para actualizar'
-        ], 422);
-    }
+
+        if (empty($data)) {
+            return response()->json(['message' => 'No se enviaron datos para actualizar'], 422);
+        }
+
         $album->update($data);
 
         return response()->json([
             'message' => 'Álbum actualizado correctamente',
-            'album' => $album,
+            'album'   => $album,
         ], 200);
     }
 
     public function destroy($id)
     {
         $album = Album::findOrFail($id);
-        $album->delete(); // activa deleted_at
 
-        return response()->json([
-            'message' => 'Álbum eliminado (soft delete)'
-        ], 200);
+        if (!$album->userCanManage(request()->user())) {
+            return response()->json(['message' => 'No tienes permiso para eliminar este álbum.'], 403);
+        }
+
+        $album->delete();
+
+        return response()->json(['message' => 'Álbum eliminado (soft delete)'], 200);
     }
     public function addImage(Request $request, $albumId)
     {
@@ -93,6 +109,10 @@ class AlbumController extends Controller
         ]);
 
         $album = Album::findOrFail($albumId);
+
+        if (!$album->userCanManage($request->user())) {
+            return response()->json(['message' => 'No tienes permiso para agregar imágenes a este álbum.'], 403);
+        }
 
         // IDs ya existentes en el álbum (evita queries dentro del loop)
         $existingImages = $album->images()->pluck('image_id')->toArray();
@@ -141,8 +161,11 @@ class AlbumController extends Controller
             'image_ids.*' => 'required|uuid|exists:vrac_images,id',
         ]);
 
-        //$album = Album::where('user_id', auth()->id())->findOrFail($albumId);
-        $album = Album::where('user_id', $request->user()->id)->findOrFail($albumId);
+        $album = Album::findOrFail($albumId);
+
+        if (!$album->userCanManage($request->user())) {
+            return response()->json(['message' => 'No tienes permiso para eliminar imágenes de este álbum.'], 403);
+        }
         $existingImageIds = $album->images()
             ->wherePivotIn('image_id', $data['image_ids'])
             ->pluck('vrac_images.id')
@@ -172,6 +195,18 @@ class AlbumController extends Controller
             ->where('user_id', $userId)
             ->get();
     }
+    /**
+     * @unauthenticated
+     */
+    public function getByCollective($collectiveId)
+    {
+        return Album::with(['images' => function ($q) {
+            $q->orderBy('pivot_position');
+        }])
+            ->where('collective_id', $collectiveId)
+            ->get();
+    }
+
     /**
      * Tags de um álbum
      *
@@ -205,6 +240,10 @@ class AlbumController extends Controller
         ]);
 
         $album = Album::findOrFail($albumId);
+
+        if (!$album->userCanManage($request->user())) {
+            return response()->json(['message' => 'No tienes permiso para modificar las imágenes de este álbum.'], 403);
+        }
 
         //Construir array para sync
         $syncData = collect($data['images'])->mapWithKeys(function ($item) {

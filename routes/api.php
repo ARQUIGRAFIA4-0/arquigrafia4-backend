@@ -39,6 +39,7 @@ use App\Http\Controllers\ReportController;
 Route::get('/albums', [AlbumController::class, 'index']);
 Route::get('/albums/{album}', [AlbumController::class, 'show']);
 Route::get('/users/{user}/albums', [AlbumController::class, 'getByUser']);
+Route::get('/collectives/{collectiveId}/albums', [AlbumController::class, 'getByCollective']);
 
 use App\Http\Controllers\ImageSuggestionController;
 
