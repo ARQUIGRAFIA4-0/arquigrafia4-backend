@@ -63,6 +63,11 @@ class ApplyImageChangesAction
                 $image->subjects()->sync($data['subjects'] ?? []);
             }
 
+            // Works
+            if (array_key_exists('works', $data)) {
+                $image->works()->sync($data['works'] ?? []);
+            }
+
             // Description
             if (array_key_exists('description', $data) && filled($data['description'])) {
                 $description = $image->descriptions()->first() ?? new VRACDescription();
@@ -129,6 +134,8 @@ class ApplyImageChangesAction
                 'inscriptions',
                 'subjects',
                 'locations',
+                'works.titles',
+                'works.location',
             ]);
         });
     }

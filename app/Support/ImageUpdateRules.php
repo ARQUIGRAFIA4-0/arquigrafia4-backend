@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models\VRACore\VRACContributorName;
 use App\Models\VRACore\VRACSubject;
+use App\Models\VRACore\VRACWork;
 use Illuminate\Validation\Rule;
 
 class ImageUpdateRules
@@ -44,6 +45,13 @@ class ImageUpdateRules
             'subjects.*' => [
                 'uuid',
                 Rule::exists(VRACSubject::class, 'id'),
+            ],
+
+            // Works
+            'works' => 'sometimes|array',
+            'works.*' => [
+                'uuid',
+                Rule::exists(VRACWork::class, 'id'),
             ],
 
             // IMPORTANTE: nunca permitir license en update

@@ -89,6 +89,10 @@ class ImageController extends Controller
 
         $image->subjects()->sync($request->input('subjects'));
 
+        if ($request->filled('works')) {
+            $image->works()->sync($request->input('works'));
+        }
+
         if ($request->filled('description')) {
             $description = new VRACDescription();
             $description->text = $request->input('description');
@@ -167,7 +171,9 @@ class ImageController extends Controller
             'rights',
             'inscriptions',
             'subjects',
-            'locations'
+            'locations',
+            'works.titles',
+            'works.location',
         ]);
         return new ImageResource($image);
     }
