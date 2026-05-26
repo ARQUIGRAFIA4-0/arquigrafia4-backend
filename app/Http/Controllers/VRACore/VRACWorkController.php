@@ -22,6 +22,9 @@ class VRACWorkController extends Controller
         'materials',
         'techniques',
         'stylePeriods',
+        'culturalContexts',
+        'workTypes',
+        'subjects',
     ];
 
     /**
@@ -82,6 +85,12 @@ class VRACWorkController extends Controller
             'techniques.*' => 'uuid|exists:vrac_techniques,id',
             'style_periods' => 'nullable|array',
             'style_periods.*' => 'uuid|exists:vrac_style_periods,id',
+            'cultural_contexts' => 'nullable|array',
+            'cultural_contexts.*' => 'uuid|exists:vrac_cultural_contexts,id',
+            'work_types' => 'nullable|array',
+            'work_types.*' => 'uuid|exists:vrac_work_types,id',
+            'subjects' => 'nullable|array',
+            'subjects.*' => 'uuid|exists:vrac_subjects,id',
         ]);
 
         $work = new VRACWork();
@@ -94,6 +103,9 @@ class VRACWorkController extends Controller
         $work->materials()->sync($request->input('materials', []));
         $work->techniques()->sync($request->input('techniques', []));
         $work->stylePeriods()->sync($request->input('style_periods', []));
+        $work->culturalContexts()->sync($request->input('cultural_contexts', []));
+        $work->workTypes()->sync($request->input('work_types', []));
+        $work->subjects()->sync($request->input('subjects', []));
 
         $work->load(self::EAGER);
 
@@ -133,6 +145,12 @@ class VRACWorkController extends Controller
             'techniques.*' => 'uuid|exists:vrac_techniques,id',
             'style_periods' => 'sometimes|array',
             'style_periods.*' => 'uuid|exists:vrac_style_periods,id',
+            'cultural_contexts' => 'sometimes|array',
+            'cultural_contexts.*' => 'uuid|exists:vrac_cultural_contexts,id',
+            'work_types' => 'sometimes|array',
+            'work_types.*' => 'uuid|exists:vrac_work_types,id',
+            'subjects' => 'sometimes|array',
+            'subjects.*' => 'uuid|exists:vrac_subjects,id',
         ]);
 
         if ($request->has('location_id')) {
@@ -148,6 +166,9 @@ class VRACWorkController extends Controller
                 'materials' => 'materials',
                 'techniques' => 'techniques',
                 'style_periods' => 'stylePeriods',
+                'cultural_contexts' => 'culturalContexts',
+                'work_types' => 'workTypes',
+                'subjects' => 'subjects',
             ] as $input => $relation
         ) {
             if ($request->has($input)) {

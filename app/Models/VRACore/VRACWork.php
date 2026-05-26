@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\VRACore\VRACCulturalContext;
+use App\Models\VRACore\VRACWorkType;
+use App\Models\VRACore\VRACSubject;
 
 class VRACWork extends Model
 {
@@ -37,6 +40,9 @@ class VRACWork extends Model
         'materials',
         'techniques',
         'stylePeriods',
+        'culturalContexts',
+        'workTypes',
+        'subjects',
         'images',
         'location',
     ];
@@ -79,5 +85,20 @@ class VRACWork extends Model
     public function stylePeriods(): BelongsToMany
     {
         return $this->belongsToMany(VRACStylePeriod::class, 'work_style_period', 'work_id', 'style_period_id');
+    }
+
+    public function culturalContexts(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACCulturalContext::class, 'work_cultural_context', 'work_id', 'cultural_context_id');
+    }
+
+    public function workTypes(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACWorkType::class, 'work_work_type', 'work_id', 'work_type_id');
+    }
+
+    public function subjects(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACSubject::class, 'work_subject', 'work_id', 'subject_id');
     }
 }
