@@ -108,6 +108,7 @@ class VRACImage extends Model
         'inscriptions',
         'subjects',
         'locations',
+        'works',
     ];
 
     // relations
@@ -199,6 +200,11 @@ class VRACImage extends Model
     public function locations(): BelongsToMany
     {
         return $this->belongsToMany(Location::class, 'image_location', 'image_id', 'location_id');
+    }
+
+    public function works(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACWork::class, 'image_work', 'image_id', 'work_id');
     }
 
     public function reports(): MorphMany

@@ -15,6 +15,7 @@ class ImageSearchService
             ->when($filters['contributor'] ?? null, fn (Builder $q, string $contributor) => $this->filterByContributor($q, $contributor))
             ->when($filters['subject'] ?? null, fn (Builder $q, array $ids) => $this->filterBySubjectIds($q, $ids))
             ->when($filters['subject_term'] ?? null, fn (Builder $q, array $terms) => $this->filterBySubjectTerm($q, $terms))
+            ->when($filters['work'] ?? null, fn (Builder $q, array $ids) => $this->filterByWorkIds($q, $ids))
             ->when($filters['date_from'] ?? null, fn (Builder $q, string $from) => $this->filterByDateFrom($q, $from))
             ->when($filters['date_to'] ?? null, fn (Builder $q, string $to) => $this->filterByDateTo($q, $to))
             ->when($filters['license'] ?? null, fn (Builder $q, array $licenses) => $this->filterByLicense($q, $licenses))
@@ -63,6 +64,13 @@ class ImageSearchService
                     $q2->orWhere('term', 'LIKE', '%' . $term . '%');
                 }
             });
+        });
+    }
+
+    protected function filterByWorkIds(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('works', function (Builder $q) use ($ids) {
+            $q->whereIn('vrac_works.id', $ids);
         });
     }
 
@@ -122,10 +130,17 @@ class ImageSearchService
             ->join('vrac_contributor_names', 'vrac_agents.contributor_name_id', '=', 'vrac_contributor_names.id')
             ->whereRaw('MATCH(vrac_contributor_names.name) AGAINST(? IN BOOLEAN MODE)', [$search]);
 
+        $workTitleIds = DB::table('image_work')
+            ->select('image_work.image_id')
+            ->join('work_title', 'image_work.work_id', '=', 'work_title.work_id')
+            ->join('vrac_titles', 'work_title.title_id', '=', 'vrac_titles.id')
+            ->whereRaw('MATCH(vrac_titles.label) AGAINST(? IN BOOLEAN MODE)', [$search]);
+
         $matchingIds = $titleIds
             ->union($subjectIds)
             ->union($descriptionIds)
             ->union($contributorIds)
+            ->union($workTitleIds)
             ->pluck('image_id');
 
         return $query->whereIn('vrac_images.id', $matchingIds);

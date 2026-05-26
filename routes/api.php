@@ -23,6 +23,7 @@ use App\Http\Controllers\VRACore\VRACSubjectController;
 use App\Http\Controllers\VRACore\VRACTechniqueController;
 use App\Http\Controllers\VRACore\VRACTextRefController;
 use App\Http\Controllers\VRACore\VRACTitleController;
+use App\Http\Controllers\VRACore\VRACWorkController;
 use App\Http\Controllers\VRACore\VRACWorkTypeController;
 use App\Http\Controllers\CollectiveController;
 use App\Http\Controllers\CollectiveJoinRequestController;
@@ -72,6 +73,8 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::apiResource('profiles', ProfileController::class)->only(['store', 'update']);
+
+    Route::apiResource('vrac-works', VRACWorkController::class)->only(['store', 'update', 'destroy']);
     Route::get('me', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('images', ImageController::class)->only(['store', 'update', 'destroy']);
@@ -151,3 +154,4 @@ Route::apiResource('vrac-techniques', VRACTechniqueController::class);
 Route::apiResource('vrac-text-refs', VRACTextRefController::class);
 Route::apiResource('vrac-titles', VRACTitleController::class);
 Route::apiResource('vrac-work-types', VRACWorkTypeController::class);
+Route::apiResource('vrac-works', VRACWorkController::class)->only(['index', 'show']);

@@ -5,6 +5,7 @@ namespace App\Http\Requests\Image;
 use App\Models\Collective;
 use App\Models\VRACore\VRACContributorName;
 use App\Models\VRACore\VRACSubject;
+use App\Models\VRACore\VRACWork;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -53,6 +54,11 @@ class StoreImageRequest extends FormRequest
                 'nullable',
                 'array',
                 Rule::exists(VRACSubject::class, 'id'),
+            ],
+            'works' => 'nullable|array',
+            'works.*' => [
+                'uuid',
+                Rule::exists(VRACWork::class, 'id'),
             ],
         ];
     }
