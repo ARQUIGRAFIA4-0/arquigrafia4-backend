@@ -15,7 +15,7 @@ class ActorResource extends JsonResource
     {
         return [
             'type'       => $this->type,
-            'id'         => (int) $this->id,
+            'id'         => $this->id,
             'name'       => $this->name,
             'avatar_url' => $this->avatar_path ? Storage::url($this->avatar_path) : null,
             'legacy_id'  => $this->legacy_id,
