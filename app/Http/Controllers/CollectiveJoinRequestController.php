@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Collective\DestroyJoinRequestRequest;
 use App\Http\Requests\Collective\StoreJoinRequestRequest;
 use App\Http\Requests\Collective\UpdateJoinRequestRequest;
 use App\Models\Collective;
@@ -35,7 +34,7 @@ class CollectiveJoinRequestController extends Controller
         $user = $request->user();
 
         if ($collective->isMember($user)) {
-            abort(422, 'You are already a member of this collective.');
+            abort(422, 'Você já é membro deste coletivo.');
         }
 
         $alreadyPending = CollectiveJoinRequest::where('collective_id', $collective->id)
@@ -44,7 +43,7 @@ class CollectiveJoinRequestController extends Controller
             ->exists();
 
         if ($alreadyPending) {
-            abort(422, 'You already have a pending join request for this collective.');
+            abort(422, 'Você já tem uma solicitação pendente para este coletivo.');
         }
 
         $joinRequest = CollectiveJoinRequest::create([
@@ -130,8 +129,12 @@ class CollectiveJoinRequestController extends Controller
      * @response 403 Unauthorized — you can only cancel your own requests
      * @response 404 Join request not found or already processed
      */
-    public function destroy(DestroyJoinRequestRequest $request, Collective $collective, User $user): JsonResponse
+    public function destroy(Collective $collective, User $user): JsonResponse
     {
+        if (request()->user()->id !== $user->id) {
+            abort(403);
+        }
+
         $joinRequest = CollectiveJoinRequest::where('collective_id', $collective->id)
             ->where('user_id', $user->id)
             ->where('status', 'pending')
