@@ -35,7 +35,7 @@ class CollectiveMemberController extends Controller
         // Prevent demoting the last admin
         if ($request->input('role') === 'member' && $collective->isAdmin($user)) {
             if ($collective->admins()->count() <= 1) {
-                abort(422, 'Cannot demote the last admin.');
+                abort(422, 'O coletivo deve ter pelo menos um admin.');
             }
         }
 
@@ -56,7 +56,7 @@ class CollectiveMemberController extends Controller
 
         // Prevent removing the last admin
         if ($collective->isAdmin($user) && $collective->admins()->count() <= 1) {
-            abort(422, 'Cannot remove the last admin.');
+            abort(422, 'O coletivo deve ter pelo menos um admin.');
         }
 
         $collective->members()->detach($user->id);
