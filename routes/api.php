@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentLikeController;
+use App\Http\Controllers\BinomialEvaluationController;
 use App\Http\Controllers\ReportController;
 
 // álbumes
@@ -52,6 +53,11 @@ Route::apiResource('images', ImageController::class)->only(['index', 'show']);
 Route::apiResource('collectives', CollectiveController::class)->only(['index', 'show']);
 Route::get('actors', [ActorController::class, 'index']);
 Route::get('/images/{imageId}/comments', [CommentController::class, 'index']);
+
+// Binomials
+Route::get('/images/{image}/binomials', [BinomialEvaluationController::class, 'index']);
+Route::get('/images/{image}/binomials/report', [BinomialEvaluationController::class, 'report']);
+Route::get('/images/{image}/binomials/evaluations', [BinomialEvaluationController::class, 'evaluations']);
 Route::get('/comments/{commentId}/replies', [CommentController::class, 'replies']);
 
 // álbumes
@@ -98,6 +104,9 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/albums/{album}/images', [AlbumController::class, 'syncImages']);
     Route::post('/albums/{album}/images', [AlbumController::class, 'addImage']);
     Route::delete('/albums/{album}/images', [AlbumController::class, 'removeImages']);
+
+    // Binomials
+    Route::post('/images/{image}/binomials', [BinomialEvaluationController::class, 'store']);
 
     // Reports
     Route::post('/reports', [ReportController::class, 'store']);
