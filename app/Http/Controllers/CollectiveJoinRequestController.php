@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Collective\StoreJoinRequestRequest;
 use App\Http\Requests\Collective\UpdateJoinRequestRequest;
+use App\Http\Resources\UserResource;
 use App\Models\Collective;
 use App\Models\CollectiveJoinRequest;
 use App\Models\User;
@@ -63,7 +64,7 @@ class CollectiveJoinRequestController extends Controller
      *
      * @authenticated
      * @urlParam collective required The ID of the collective. Example: 019d9127-505f-723e-81e7-240866fcf510
-     * @response 200 {"data": [{"id": "...", "collective_id": "...", "user_id": "...", "status": "pending", "created_at": "2026-04-15T12:39:26Z", "updated_at": "2026-04-15T12:39:26Z", "user": {"id": "...", "name": "John Doe", "email": "john@example.com"}}]}
+     * @response 200 {"data": [{"id": "...", "collective_id": "...", "user_id": "...", "status": "pending", "created_at": "2026-04-15T12:39:26Z", "updated_at": "2026-04-15T12:39:26Z", "user": {"id": "...", "name": "John Doe", "avatar_url": "https://.../avatars/users/....webp", "legacy_id": null, "created_at": "...", "updated_at": "..."}}]}
      * @response 403 Unauthorized — you must be a collective admin
      * @response 404 Collective not found
      */
@@ -77,7 +78,16 @@ class CollectiveJoinRequestController extends Controller
             ->where('collective_id', $collective->id)
             ->where('status', 'pending')
             ->latest()
-            ->get();
+            ->get()
+            ->map(fn (CollectiveJoinRequest $r) => [
+                'id'            => $r->id,
+                'collective_id' => $r->collective_id,
+                'user_id'       => $r->user_id,
+                'status'        => $r->status,
+                'created_at'    => $r->created_at,
+                'updated_at'    => $r->updated_at,
+                'user'          => new UserResource($r->user),
+            ]);
 
         return response()->json(['data' => $requests]);
     }
