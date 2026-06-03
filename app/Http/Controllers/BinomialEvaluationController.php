@@ -25,7 +25,7 @@ class BinomialEvaluationController extends Controller
      */
     public function index(Request $request, VRACImage $image): JsonResponse
     {
-        $userId = $request->user()?->id;
+        $userId = auth('api')->id();
 
         $binomials = Binomial::where('active', true)
             ->orderBy('order')
@@ -46,8 +46,9 @@ class BinomialEvaluationController extends Controller
         $averages = BinomialEvaluation::where('image_id', $image->id)
             ->selectRaw('binomial_id, ROUND(AVG(value), 1) as average')
             ->groupBy('binomial_id')
-            ->pluck('average', 'binomial_id')
-            ->map(fn ($avg) => (float) $avg);
+            ->get()
+            ->mapWithKeys(fn ($row) => [(int) $row->binomial_id => (float) $row->average])
+            ->toArray();
 
         // Evaluación propia del usuario
         $myValues = [];
@@ -177,8 +178,9 @@ class BinomialEvaluationController extends Controller
         $averages = (clone $query)
             ->selectRaw('binomial_id, ROUND(AVG(value), 1) as average')
             ->groupBy('binomial_id')
-            ->pluck('average', 'binomial_id')
-            ->map(fn ($avg) => (float) $avg);
+            ->get()
+            ->mapWithKeys(fn ($row) => [(int) $row->binomial_id => (float) $row->average])
+            ->toArray();
 
         $data = $binomials->map(fn ($b) => [
             'id'         => $b->id,
@@ -257,8 +259,9 @@ class BinomialEvaluationController extends Controller
         $averages = (clone $query)
             ->selectRaw('binomial_id, ROUND(AVG(value), 1) as average')
             ->groupBy('binomial_id')
-            ->pluck('average', 'binomial_id')
-            ->map(fn ($avg) => (float) $avg);
+            ->get()
+            ->mapWithKeys(fn ($row) => [(int) $row->binomial_id => (float) $row->average])
+            ->toArray();
 
         return response()->json([
             'binomials' => $binomials->map(fn ($b) => [
