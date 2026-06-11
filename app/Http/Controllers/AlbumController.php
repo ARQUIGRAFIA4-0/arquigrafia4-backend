@@ -55,11 +55,21 @@ class AlbumController extends Controller
     /**
      * @unauthenticated
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        return Album::with(['images' => function ($q) {
+        $album = Album::with(['images' => function ($q) {
             $q->orderBy('pivot_position');
         }])->findOrFail($id);
+
+        if ($album->is_private) {
+            $user = $request->user();
+            $canSee = $album->isOwnedByCollective()
+                ? ($user && $album->collective->isMember($user))
+                : ($user && $album->isOwnedByUser($user));
+            if (!$canSee) abort(403);
+        }
+
+        return $album;
     }
 
     public function update(Request $request, $id)
@@ -198,13 +208,19 @@ class AlbumController extends Controller
     /**
      * @unauthenticated
      */
-    public function getByCollective($collectiveId)
+    public function getByCollective(Request $request, $collectiveId)
     {
-        return Album::with(['images' => function ($q) {
+        $collective = Collective::findOrFail($collectiveId);
+        $user = $request->user();
+
+        $query = Album::where('collective_id', $collectiveId);
+        if (!$user || !$collective->isMember($user)) {
+            $query->where('is_private', false);
+        }
+
+        return $query->with(['images' => function ($q) {
             $q->orderBy('pivot_position');
-        }])
-            ->where('collective_id', $collectiveId)
-            ->get();
+        }])->get();
     }
 
     /**
