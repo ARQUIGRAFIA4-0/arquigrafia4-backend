@@ -139,6 +139,13 @@ Route::middleware('auth:api')->group(function () {
     Route::get('collectives/{collective}/join-requests', [CollectiveJoinRequestController::class, 'index']);
     Route::put('collectives/{collective}/join-requests/{user}', [CollectiveJoinRequestController::class, 'update']);
     Route::delete('collectives/{collective}/join-requests/{user}', [CollectiveJoinRequestController::class, 'destroy']);
+
+    // VRACore vocabularies (manual Arquigrafia entries)
+    Route::apiResource('vrac-agent-roles', VRACAgentRoleController::class)->only(['store', 'update', 'destroy']);
+    Route::apiResource('vrac-materials', VRACMaterialController::class)->only(['store', 'update', 'destroy']);
+    Route::apiResource('vrac-style-periods', VRACStylePeriodController::class)->only(['store', 'update', 'destroy']);
+    Route::apiResource('vrac-techniques', VRACTechniqueController::class)->only(['store', 'update', 'destroy']);
+    Route::apiResource('vrac-work-types', VRACWorkTypeController::class)->only(['store', 'update', 'destroy']);
 });
 
 Route::middleware('throttle:6,1')->group(function () {
@@ -156,7 +163,7 @@ Route::middleware('throttle:6,1')->group(function () {
 
 // VRACore
 Route::apiResource('vrac-agents', VRACAgentController::class);
-Route::apiResource('vrac-agent-roles', VRACAgentRoleController::class);
+Route::apiResource('vrac-agent-roles', VRACAgentRoleController::class)->only(['index', 'show']);
 Route::apiResource('vrac-contributor-names', VRACContributorNameController::class);
 Route::apiResource('vrac-cultural-contexts', VRACCulturalContextController::class);
 Route::apiResource('vrac-dates', VRACDateController::class);
@@ -164,15 +171,15 @@ Route::apiResource('vrac-descriptions', VRACDescriptionController::class);
 Route::apiResource('vrac-inscriptions', VRACInscriptionController::class);
 Route::apiResource('vrac-location-names', VRACLocationNameController::class);
 Route::apiResource('vrac-locations', VRACLocationController::class);
-Route::apiResource('vrac-materials', VRACMaterialController::class);
+Route::apiResource('vrac-materials', VRACMaterialController::class)->only(['index', 'show']);
 Route::apiResource('vrac-measurements', VRACMeasurementController::class);
 Route::apiResource('vrac-rights', VRACRightController::class);
 Route::apiResource('vrac-sources', VRACSourceController::class);
 Route::apiResource('vrac-state-editions', VRACStateEditionController::class);
-Route::apiResource('vrac-style-periods', VRACStylePeriodController::class);
+Route::apiResource('vrac-style-periods', VRACStylePeriodController::class)->only(['index', 'show']);
 Route::apiResource('vrac-subjects', VRACSubjectController::class);
-Route::apiResource('vrac-techniques', VRACTechniqueController::class);
+Route::apiResource('vrac-techniques', VRACTechniqueController::class)->only(['index', 'show']);
 Route::apiResource('vrac-text-refs', VRACTextRefController::class);
 Route::apiResource('vrac-titles', VRACTitleController::class);
-Route::apiResource('vrac-work-types', VRACWorkTypeController::class);
+Route::apiResource('vrac-work-types', VRACWorkTypeController::class)->only(['index', 'show']);
 Route::apiResource('vrac-works', VRACWorkController::class)->only(['index', 'show']);

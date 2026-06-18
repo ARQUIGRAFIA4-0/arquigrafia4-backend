@@ -36,7 +36,7 @@ class VRACStylePeriodController extends Controller
         $period = new VRACStylePeriod;
 
         $period->label = $request->input('label');
-        $period->ref_id = $request->input('ref_id');
+        $period->vocab = 'Arquigrafia';
         $period->save();
 
         return response()->json([
@@ -64,7 +64,6 @@ class VRACStylePeriodController extends Controller
         $period = VRACStylePeriod::find($id);
 
         $period->label = $request->input('label');
-        $period->ref_id = $request->input('ref_id');
         $period->save();
 
         return response()->json([

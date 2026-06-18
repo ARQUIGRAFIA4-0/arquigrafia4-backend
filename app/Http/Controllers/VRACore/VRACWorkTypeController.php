@@ -36,8 +36,7 @@ class VRACWorkTypeController extends Controller
         $workType = new VRACWorkType;
 
         $workType->label = $request->input('label');
-        $workType->vocab = $request->input('vocab');
-        $workType->ref_id = $request->input('ref_id');
+        $workType->vocab = 'Arquigrafia';
         $workType->save();
 
         return response()->json([
@@ -65,8 +64,6 @@ class VRACWorkTypeController extends Controller
         $workType = VRACWorkType::find($id);
 
         $workType->label = $request->input('label');
-        $workType->vocab = $request->input('vocab');
-        $workType->ref_id = $request->input('ref_id');
         $workType->save();
 
         return response()->json([
