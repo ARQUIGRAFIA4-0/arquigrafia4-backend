@@ -104,9 +104,9 @@ class ApplyImageChangesAction
 
                 $date->type = 'creation';
                 $date->earliest_date = $data['earliest_date'] ?? null;
-                $date->circa_earliest_date = $data['circa'] ?? null;
+                $date->circa_earliest_date = $data['circa'] ?? 0;
                 $date->latest_date = $data['latest_date'] ?? null;
-                $date->circa_latest_date = $data['circa'] ?? null;
+                $date->circa_latest_date = $data['circa'] ?? 0;
                 $date->save();
 
                 $image->dates()->sync([$date->id]);
