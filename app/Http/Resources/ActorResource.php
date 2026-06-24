@@ -13,6 +13,10 @@ class ActorResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $subjects = $this->type === 'user'
+            ? ($this->profile?->subjects ?? collect())
+            : ($this->subjects ?? collect());
+
         return [
             'type'       => $this->type,
             'id'         => $this->id,
@@ -21,6 +25,7 @@ class ActorResource extends JsonResource
             'legacy_id'  => $this->legacy_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'tags'       => $subjects->map(fn($s) => ['id' => $s->id, 'term' => $s->term])->values(),
         ];
     }
 }

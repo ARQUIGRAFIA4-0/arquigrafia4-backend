@@ -6,7 +6,7 @@ use App\Http\Resources\ActorResource;
 use App\Models\Collective;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * @group Actors
@@ -30,38 +30,50 @@ class ActorController extends Controller
      */
     public function index(Request $request)
     {
-        $q    = trim((string) $request->query('q', ''));
-        $type = $request->query('type');
-
-        $columns = ['id', 'name', 'avatar_path', 'legacy_id', 'created_at', 'updated_at'];
-
-        $users = User::query()
-            ->select(array_merge($columns, [DB::raw("'user' as type")]));
-
-        $collectives = Collective::query()
-            ->select(array_merge($columns, [DB::raw("'collective' as type")]));
-
-        if ($q !== '') {
-            $like = '%' . $q . '%';
-            $users->whereRaw('LOWER(name) LIKE LOWER(?)', [$like]);
-            $collectives->whereRaw('LOWER(name) LIKE LOWER(?)', [$like]);
-        }
-
-        if ($type === 'user') {
-            $query = $users;
-        } elseif ($type === 'collective') {
-            $query = $collectives;
-        } else {
-            $query = $users->unionAll($collectives);
-        }
+        $q       = trim((string) $request->query('q', ''));
+        $type    = $request->query('type');
+        $perPage = max(1, min((int) $request->query('per_page', 15), 100));
+        $page    = max(1, (int) $request->query('page', 1));
 
         [$sortColumn, $sortDir] = $this->resolveSort($request->query('sort'));
-        $query->orderBy($sortColumn, $sortDir);
 
-        $perPage = (int) $request->query('per_page', 15);
-        $perPage = max(1, min($perPage, 100));
+        $actors = collect();
 
-        return ActorResource::collection($query->paginate($perPage)->appends($request->query()));
+        if ($type !== 'collective') {
+            $userQuery = User::query()->with('profile.subjects');
+            if ($q !== '') {
+                $userQuery->whereRaw('LOWER(name) LIKE LOWER(?)', ['%' . $q . '%']);
+            }
+            $userQuery->get()->each(function (User $user) use (&$actors) {
+                $user->type = 'user';
+                $actors->push($user);
+            });
+        }
+
+        if ($type !== 'user') {
+            $collectiveQuery = Collective::query()->with('subjects');
+            if ($q !== '') {
+                $collectiveQuery->whereRaw('LOWER(name) LIKE LOWER(?)', ['%' . $q . '%']);
+            }
+            $collectiveQuery->get()->each(function (Collective $collective) use (&$actors) {
+                $collective->type = 'collective';
+                $actors->push($collective);
+            });
+        }
+
+        $actors = $sortDir === 'asc'
+            ? $actors->sortBy($sortColumn)
+            : $actors->sortByDesc($sortColumn);
+
+        $paginator = new LengthAwarePaginator(
+            $actors->slice(($page - 1) * $perPage, $perPage)->values(),
+            $actors->count(),
+            $perPage,
+            $page,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+
+        return ActorResource::collection($paginator);
     }
 
     /**
