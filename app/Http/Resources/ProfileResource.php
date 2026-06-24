@@ -50,7 +50,13 @@ class ProfileResource extends JsonResource
             'race' => $raceCheck ? $this->race : '',
             'profession' => $professionCheck ? $this->profession : '',
             'address' => $addressCheck ? $this->address : '',
-            'subjects' => $this->subjects,
+            'subjects'   => $this->subjects,
+            'collectives' => $this->user?->collectives->map(fn ($c) => [
+                'id'         => $c->id,
+                'name'       => $c->name,
+                'avatar_url' => $c->avatar_path ? \Illuminate\Support\Facades\Storage::url($c->avatar_path) : null,
+                'role'       => $c->pivot->role,
+            ]) ?? [],
         ];
     }
 }
