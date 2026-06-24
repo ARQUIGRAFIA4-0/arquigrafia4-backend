@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\ImageSuggestion;
 use App\Models\VRACore\VRACImage;
+use App\Models\VRACore\VRACSubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Actions\Images\ApplyImageChangesAction;
 use App\Http\Resources\ImageResource;
+use App\Http\Resources\ImageSuggestionResource;
 use App\Support\ImageUpdateRules;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -27,9 +29,32 @@ class ImageSuggestionController extends Controller
             $query->where('status', $request->input('status'));
         }
 
-        return response()->json([
-            'suggestions' => $query->latest()->paginate(20),
-        ]);
+        $suggestions = $query->latest()->paginate(20);
+
+        $subjectIds = collect($suggestions->items())
+            ->flatMap(fn($s) => $s->payload['subjects'] ?? [])
+            ->unique()
+            ->values();
+
+        $subjects = VRACSubject::whereIn('id', $subjectIds)
+            ->get(['id', 'term', 'type', 'vocab', 'ref_id', 'source'])
+            ->keyBy('id');
+
+        $suggestions->getCollection()->transform(function ($suggestion) use ($subjects) {
+            $payload = $suggestion->payload ?? [];
+
+            if (!empty($payload['subjects'])) {
+                $payload['subjects'] = collect($payload['subjects'])
+                    ->map(fn($id) => $subjects->get($id))
+                    ->filter()
+                    ->values();
+            }
+
+            $suggestion->payload = $payload;
+            return $suggestion;
+        });
+
+        return ImageSuggestionResource::collection($suggestions);
     }
     /**
      * Create image suggestion
@@ -68,9 +93,24 @@ class ImageSuggestionController extends Controller
     {
         $imageSuggestion->load(['image', 'user', 'reviewer']);
 
-        return response()->json([
-            'suggestion' => $imageSuggestion,
-        ]);
+        $payload = $imageSuggestion->payload ?? [];
+
+        if (!empty($payload['subjects'])) {
+            $subjectIds = collect($payload['subjects'])->unique()->values();
+
+            $subjects = VRACSubject::whereIn('id', $subjectIds)
+                ->get(['id', 'term', 'type', 'vocab', 'ref_id', 'source'])
+                ->keyBy('id');
+
+            $payload['subjects'] = collect($payload['subjects'])
+                ->map(fn($id) => $subjects->get($id))
+                ->filter()
+                ->values();
+
+            $imageSuggestion->payload = $payload;
+        }
+
+        return new ImageSuggestionResource($imageSuggestion);
     }
     /**
      * Update image suggestion
