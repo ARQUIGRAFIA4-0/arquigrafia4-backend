@@ -18,6 +18,7 @@ use App\Models\VRACore\VRACImage;
 use App\Models\VRACore\VRACRight;
 use App\Models\VRACore\VRACTitle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Jcupitt\Vips\Image as VipsImage;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -267,6 +268,53 @@ class ImageController extends Controller
         Cache::forget('locations.geojson');
 
         return new ImageResource($image);
+    }
+
+    public function related(VRACImage $image)
+    {
+        $id = $image->id;
+
+        $weightedPivots = [
+            ['table' => 'image_subject',         'col' => 'subject_id',          'weight' => 3],
+            ['table' => 'image_style_period',     'col' => 'style_period_id',     'weight' => 2],
+            ['table' => 'image_work_type',        'col' => 'work_type_id',        'weight' => 2],
+            ['table' => 'image_material',         'col' => 'material_id',         'weight' => 1],
+            ['table' => 'image_technique',        'col' => 'technique_id',        'weight' => 1],
+            ['table' => 'agent_image',            'col' => 'agent_id',            'weight' => 1],
+            ['table' => 'image_location',         'col' => 'location_id',         'weight' => 1],
+            ['table' => 'cultural_context_image', 'col' => 'cultural_context_id', 'weight' => 1],
+            ['table' => 'image_work',             'col' => 'work_id',             'weight' => 1],
+        ];
+
+        $scores = [];
+
+        foreach ($weightedPivots as $pivot) {
+            $matchedIds = DB::table($pivot['table'] . ' as p2')
+                ->select('p2.image_id')
+                ->join($pivot['table'] . ' as p1', "p1.{$pivot['col']}", '=', "p2.{$pivot['col']}")
+                ->where('p1.image_id', $id)
+                ->where('p2.image_id', '!=', $id)
+                ->pluck('p2.image_id');
+
+            foreach ($matchedIds as $matchedId) {
+                $scores[$matchedId] = ($scores[$matchedId] ?? 0) + $pivot['weight'];
+            }
+        }
+
+        arsort($scores);
+        $topIds = array_slice(array_keys($scores), 0, 50);
+
+        if (empty($topIds)) {
+            return ImageResource::collection(collect());
+        }
+
+        $placeholders = implode(',', array_fill(0, count($topIds), '?'));
+
+        $images = VRACImage::whereIn('id', $topIds)
+            ->orderByRaw("FIELD(id, {$placeholders})", $topIds)
+            ->paginate(10);
+
+        return ImageResource::collection($images);
     }
 
     public function downloadFull(Request $request, string $id)
