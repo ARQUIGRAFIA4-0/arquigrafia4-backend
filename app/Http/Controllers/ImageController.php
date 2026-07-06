@@ -270,6 +270,15 @@ class ImageController extends Controller
         return new ImageResource($image);
     }
 
+    /**
+     * Imagens relacionadas
+     *
+     * Retorna até 50 imagens relacionadas à imagem informada, paginadas de 10 em 10.
+     * A ordem é determinada por score ponderado: subjects (3pts), estilo/tipologia (2pts), demais campos (1pt).
+     *
+     * @group Imagens
+     * @unauthenticated
+     */
     public function related(VRACImage $image)
     {
         $id = $image->id;
