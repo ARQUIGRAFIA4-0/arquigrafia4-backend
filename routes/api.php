@@ -51,6 +51,7 @@ Route::apiResource('profiles', ProfileController::class)->only(['show']);
 Route::get('profiles/by-user-id/{userId}', [ProfileController::class, 'getByUserId']);
 Route::get('locations/geojson', [LocationController::class, 'geojson']);
 Route::apiResource('images', ImageController::class)->only(['index', 'show']);
+Route::get('/images/{image}/related', [ImageController::class, 'related']);
 Route::apiResource('collectives', CollectiveController::class)->only(['index', 'show']);
 Route::get('actors', [ActorController::class, 'index']);
 Route::get('/images/{imageId}/comments', [CommentController::class, 'index']);
