@@ -197,13 +197,18 @@ class AlbumController extends Controller
     /**
      * @unauthenticated
      */
-    public function getByUser($userId)
+    public function getByUser(Request $request, $userId)
     {
-        return Album::with(['images' => function ($q) {
+        $user = $request->user('api');
+
+        $query = Album::where('user_id', $userId);
+        if (!$user || (string) $user->id !== (string) $userId) {
+            $query->where('is_private', false);
+        }
+
+        return $query->with(['images' => function ($q) {
             $q->orderBy('pivot_position');
-        }])
-            ->where('user_id', $userId)
-            ->get();
+        }])->get();
     }
     /**
      * @unauthenticated
@@ -211,7 +216,7 @@ class AlbumController extends Controller
     public function getByCollective(Request $request, $collectiveId)
     {
         $collective = Collective::findOrFail($collectiveId);
-        $user = $request->user();
+        $user = $request->user('api');
 
         $query = Album::where('collective_id', $collectiveId);
         if (!$user || !$collective->isMember($user)) {
