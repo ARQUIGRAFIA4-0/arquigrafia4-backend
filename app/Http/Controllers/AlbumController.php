@@ -62,7 +62,7 @@ class AlbumController extends Controller
         }])->findOrFail($id);
 
         if ($album->is_private) {
-            $user = $request->user();
+            $user = $request->user('api');
             $canSee = $album->isOwnedByCollective()
                 ? ($user && $album->collective->isMember($user))
                 : ($user && $album->isOwnedByUser($user));
