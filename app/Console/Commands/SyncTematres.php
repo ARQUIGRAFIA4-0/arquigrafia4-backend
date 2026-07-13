@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\VRACore\VRACAgentRole;
 use App\Models\VRACore\VRACMaterial;
 use App\Models\VRACore\VRACStylePeriod;
 use App\Models\VRACore\VRACTechnique;
@@ -23,7 +22,6 @@ class SyncTematres extends Command
         '4'    => ['model' => VRACTechnique::class,   'extra' => []],
         '16'   => ['model' => VRACMaterial::class,    'extra' => ['type' => 'medium']],
         '1870' => ['model' => VRACStylePeriod::class, 'extra' => []],
-        '3794' => ['model' => VRACAgentRole::class,   'extra' => []],
     ];
 
     public function handle(): int
