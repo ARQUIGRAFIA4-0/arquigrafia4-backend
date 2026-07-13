@@ -19,7 +19,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return ProfileResource::collection(Profile::paginate());
+        return ProfileResource::collection(Profile::with('user.collectives')->paginate());
     }
 
     /**
@@ -47,6 +47,7 @@ class ProfileController extends Controller
 
         $profile->subjects()->sync($request->input('subjects'));
 
+        $profile->load('user.collectives');
         return new ProfileResource($profile);
     }
 
@@ -56,6 +57,7 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
+        $profile->load('user.collectives');
         return new ProfileResource($profile);
     }
 
@@ -78,6 +80,7 @@ class ProfileController extends Controller
 
         $profile->subjects()->sync($request->input('subjects'));
 
+        $profile->load('user.collectives');
         return new ProfileResource($profile);
     }
 
@@ -97,7 +100,7 @@ class ProfileController extends Controller
     public function getByUserId(string $userId)
     {
         // validar userId como uuid?
-        $profile = Profile::where('user_id', $userId)->first();
+        $profile = Profile::with('user.collectives')->where('user_id', $userId)->first();
 
         if (!$profile) {
             return response()->json(['message' => 'profile not found'], 404);
