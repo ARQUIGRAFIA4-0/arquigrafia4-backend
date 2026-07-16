@@ -271,6 +271,80 @@ class ImageController extends Controller
     }
 
     /**
+     * Sugestões de busca
+     *
+     * Retorna os termos mais usados em imagens por categoria, para exibir como sugestões na busca avançada.
+     * Resultado cacheado por 24h.
+     *
+     * @group Imagens
+     * @unauthenticated
+     */
+    public function searchSuggestions()
+    {
+        return Cache::remember('image.search-suggestions', 86400, function () {
+            $top = fn (string $pivot, string $table, string $fk, string $label) =>
+                DB::table($pivot)
+                    ->join($table, "{$pivot}.{$fk}", '=', "{$table}.id")
+                    ->select("{$table}.id", "{$table}.{$label} as term", DB::raw('COUNT(*) as total'))
+                    ->groupBy("{$table}.id", "{$table}.{$label}")
+                    ->orderByDesc('total')
+                    ->limit(10)
+                    ->get(['id', 'term']);
+
+            $topSubjects = fn (string $joinTable, string $joinCol) =>
+                DB::table('image_subject')
+                    ->join('vrac_subjects', 'image_subject.subject_id', '=', 'vrac_subjects.id')
+                    ->join($joinTable, DB::raw('LOWER(vrac_subjects.term)'), '=', DB::raw("LOWER({$joinTable}.{$joinCol})"))
+                    ->select('vrac_subjects.id', 'vrac_subjects.term')
+                    ->groupBy('vrac_subjects.id', 'vrac_subjects.term')
+                    ->orderByDesc(DB::raw('COUNT(*)'))
+                    ->limit(10)
+                    ->get(['id', 'term']);
+
+            $topSubjectsUncategorized = DB::table('image_subject')
+                ->join('vrac_subjects', 'image_subject.subject_id', '=', 'vrac_subjects.id')
+                ->leftJoin('vrac_materials',     DB::raw('LOWER(vrac_subjects.term)'), '=', DB::raw('LOWER(vrac_materials.label)'))
+                ->leftJoin('vrac_techniques',    DB::raw('LOWER(vrac_subjects.term)'), '=', DB::raw('LOWER(vrac_techniques.label)'))
+                ->leftJoin('vrac_work_types',    DB::raw('LOWER(vrac_subjects.term)'), '=', DB::raw('LOWER(vrac_work_types.label)'))
+                ->leftJoin('vrac_style_periods', DB::raw('LOWER(vrac_subjects.term)'), '=', DB::raw('LOWER(vrac_style_periods.label)'))
+                ->whereNull('vrac_materials.id')
+                ->whereNull('vrac_techniques.id')
+                ->whereNull('vrac_work_types.id')
+                ->whereNull('vrac_style_periods.id')
+                ->select('vrac_subjects.id', 'vrac_subjects.term')
+                ->groupBy('vrac_subjects.id', 'vrac_subjects.term')
+                ->orderByDesc(DB::raw('COUNT(*)'))
+                ->limit(10)
+                ->get(['id', 'term']);
+
+            $subjects = [
+                'material'      => $topSubjects('vrac_materials',    'label'),
+                'technique'     => $topSubjects('vrac_techniques',   'label'),
+                'work_type'     => $topSubjects('vrac_work_types',   'label'),
+                'style_period'  => $topSubjects('vrac_style_periods','label'),
+                'uncategorized' => $topSubjectsUncategorized,
+            ];
+
+            return response()->json([
+                'work_types'        => $top('image_work_type',       'vrac_work_types',        'work_type_id',        'label'),
+                'materials'         => $top('image_material',         'vrac_materials',          'material_id',         'label'),
+                'techniques'        => $top('image_technique',        'vrac_techniques',         'technique_id',        'label'),
+                'style_periods'     => $top('image_style_period',     'vrac_style_periods',      'style_period_id',     'label'),
+                'cultural_contexts' => $top('cultural_context_image', 'vrac_cultural_contexts',  'cultural_context_id', 'label'),
+                'contributors'      => DB::table('agent_image')
+                    ->join('vrac_agents', 'agent_image.agent_id', '=', 'vrac_agents.id')
+                    ->join('vrac_contributor_names', 'vrac_agents.contributor_name_id', '=', 'vrac_contributor_names.id')
+                    ->select('vrac_contributor_names.id', 'vrac_contributor_names.name as term', DB::raw('COUNT(*) as total'))
+                    ->groupBy('vrac_contributor_names.id', 'vrac_contributor_names.name')
+                    ->orderByDesc('total')
+                    ->limit(10)
+                    ->get(['id', 'term']),
+                'subjects'          => $subjects,
+            ]);
+        });
+    }
+
+    /**
      * Imagens relacionadas
      *
      * Retorna até 50 imagens relacionadas à imagem informada, paginadas de 10 em 10.

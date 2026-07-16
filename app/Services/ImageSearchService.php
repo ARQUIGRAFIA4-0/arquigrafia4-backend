@@ -18,6 +18,9 @@ class ImageSearchService
             ->when($filters['work'] ?? null, fn (Builder $q, array $ids) => $this->filterByWorkIds($q, $ids))
             ->when($filters['date_from'] ?? null, fn (Builder $q, string $from) => $this->filterByDateFrom($q, $from))
             ->when($filters['date_to'] ?? null, fn (Builder $q, string $to) => $this->filterByDateTo($q, $to))
+            ->when($filters['work_date_from'] ?? null, fn (Builder $q, string $from) => $this->filterByWorkDateFrom($q, $from))
+            ->when($filters['work_date_to'] ?? null, fn (Builder $q, string $to) => $this->filterByWorkDateTo($q, $to))
+            ->when($filters['binomial'] ?? null, fn (Builder $q, array $binomials) => $this->filterByBinomials($q, $binomials))
             ->when($filters['license'] ?? null, fn (Builder $q, array $licenses) => $this->filterByLicense($q, $licenses))
             ->when($filters['user_id'] ?? null, fn (Builder $q, string $userId) => $q->where('user_id', $userId))
             ->when(array_key_exists('collective_id', $filters), function (Builder $q) use ($filters) {
@@ -103,6 +106,36 @@ class ImageSearchService
     protected function filterByDateTo(Builder $query, string $to): Builder
     {
         return $query->whereHas('dates', function (Builder $q) use ($to) {
+            $q->where('latest_date', '<=', $to);
+        });
+    }
+
+    protected function filterByBinomials(Builder $query, array $binomials): Builder
+    {
+        foreach ($binomials as $binomialId => $side) {
+            $operator = $side === 'left' ? '<' : '>=';
+            $subquery = DB::table('binomial_evaluations')
+                ->select('image_id')
+                ->where('binomial_id', $binomialId)
+                ->groupBy('image_id')
+                ->havingRaw("AVG(value) {$operator} 50");
+
+            $query->whereIn('vrac_images.id', $subquery);
+        }
+
+        return $query;
+    }
+
+    protected function filterByWorkDateFrom(Builder $query, string $from): Builder
+    {
+        return $query->whereHas('works.dates', function (Builder $q) use ($from) {
+            $q->where('earliest_date', '>=', $from);
+        });
+    }
+
+    protected function filterByWorkDateTo(Builder $query, string $to): Builder
+    {
+        return $query->whereHas('works.dates', function (Builder $q) use ($to) {
             $q->where('latest_date', '<=', $to);
         });
     }
