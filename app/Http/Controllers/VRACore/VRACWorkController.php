@@ -5,8 +5,11 @@ namespace App\Http\Controllers\VRACore;
 use App\Http\Controllers\Controller;
 use App\Models\Location;
 use App\Models\VRACore\VRACWork;
+use App\Support\WorkDeduplication;
+use App\Support\WorkUpdateRules;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @group VRACore - Obras
@@ -93,7 +96,15 @@ class VRACWorkController extends Controller
             'subjects.*' => 'uuid|exists:vrac_subjects,id',
         ]);
 
-        $work = new VRACWork();
+        WorkUpdateRules::assertExactlyOnePrimaryTitle($request->input('titles'));
+
+        [$latitude, $longitude] = $this->resolveCoordinates($request);
+
+        if ($duplicate = WorkDeduplication::findDuplicate($request->input('titles'), $latitude, $longitude)) {
+            return $this->duplicateResponse($duplicate);
+        }
+
+        $work = new VRACWork;
         $work->location_id = $this->resolveLocationId($request);
         $work->save();
 
@@ -108,6 +119,8 @@ class VRACWorkController extends Controller
         $work->subjects()->sync($request->input('subjects', []));
 
         $work->load(self::EAGER);
+
+        Cache::forget('locations.geojson');
 
         return response()->json(['data' => $work], 201);
     }
@@ -131,27 +144,27 @@ class VRACWorkController extends Controller
     {
         $work = VRACWork::findOrFail($id);
 
-        $request->validate([
-            'location_id' => 'nullable|uuid|exists:locations,id',
-            'titles' => 'sometimes|array|min:1',
-            'titles.*' => 'uuid|exists:vrac_titles,id',
-            'agents' => 'sometimes|array',
-            'agents.*' => 'uuid|exists:vrac_agents,id',
-            'dates' => 'sometimes|array',
-            'dates.*' => 'uuid|exists:vrac_dates,id',
-            'materials' => 'sometimes|array',
-            'materials.*' => 'uuid|exists:vrac_materials,id',
-            'techniques' => 'sometimes|array',
-            'techniques.*' => 'uuid|exists:vrac_techniques,id',
-            'style_periods' => 'sometimes|array',
-            'style_periods.*' => 'uuid|exists:vrac_style_periods,id',
-            'cultural_contexts' => 'sometimes|array',
-            'cultural_contexts.*' => 'uuid|exists:vrac_cultural_contexts,id',
-            'work_types' => 'sometimes|array',
-            'work_types.*' => 'uuid|exists:vrac_work_types,id',
-            'subjects' => 'sometimes|array',
-            'subjects.*' => 'uuid|exists:vrac_subjects,id',
-        ]);
+        $request->validate(WorkUpdateRules::rules());
+
+        // The dedup/primary-title guards run against the work's resulting state:
+        // request values where provided, current values otherwise.
+        $titleIds = $request->has('titles')
+            ? $request->input('titles')
+            : $work->titles()->pluck('vrac_titles.id')->all();
+
+        if ($request->has('titles')) {
+            WorkUpdateRules::assertExactlyOnePrimaryTitle($titleIds);
+        }
+
+        $locationId = $request->has('location_id')
+            ? $request->input('location_id')
+            : $work->location_id;
+
+        [$latitude, $longitude] = $this->coordinatesForLocation($locationId);
+
+        if ($duplicate = WorkDeduplication::findDuplicate($titleIds, $latitude, $longitude, $work->id)) {
+            return $this->duplicateResponse($duplicate);
+        }
 
         if ($request->has('location_id')) {
             $work->location_id = $request->input('location_id');
@@ -178,6 +191,8 @@ class VRACWorkController extends Controller
 
         $work->load(self::EAGER);
 
+        Cache::forget('locations.geojson');
+
         return response()->json(['data' => $work]);
     }
 
@@ -189,7 +204,59 @@ class VRACWorkController extends Controller
         $work = VRACWork::findOrFail($id);
         $work->delete();
 
+        Cache::forget('locations.geojson');
+
         return response()->json(['data' => $work]);
+    }
+
+    /**
+     * 422 response for a work that would duplicate an existing one, including
+     * the conflicting work so the client can offer to open it instead.
+     */
+    private function duplicateResponse(VRACWork $duplicate): \Illuminate\Http\JsonResponse
+    {
+        return response()->json([
+            'message' => 'Já existe uma obra com este título principal neste local.',
+            'existing_work' => $duplicate->load(self::EAGER),
+        ], 422);
+    }
+
+    /**
+     * Coordinates for the store request: from the inline latitude/longitude
+     * fields, or from the referenced existing location.
+     *
+     * @return array{0: ?float, 1: ?float}
+     */
+    private function resolveCoordinates(Request $request): array
+    {
+        if ($request->filled('location_id')) {
+            return $this->coordinatesForLocation($request->input('location_id'));
+        }
+
+        return [
+            $request->filled('latitude') ? (float) $request->input('latitude') : null,
+            $request->filled('longitude') ? (float) $request->input('longitude') : null,
+        ];
+    }
+
+    /**
+     * Look up the coordinates of an existing location.
+     *
+     * @return array{0: ?float, 1: ?float}
+     */
+    private function coordinatesForLocation(?string $locationId): array
+    {
+        if ($locationId === null) {
+            return [null, null];
+        }
+
+        $location = Location::find($locationId);
+
+        if ($location === null || $location->latitude === null || $location->longitude === null) {
+            return [null, null];
+        }
+
+        return [(float) $location->latitude, (float) $location->longitude];
     }
 
     private function resolveLocationId(Request $request): ?string
@@ -198,7 +265,7 @@ class VRACWorkController extends Controller
             return $request->input('location_id');
         }
 
-        $location = new Location();
+        $location = new Location;
         $location->latitude = $request->input('latitude');
         $location->longitude = $request->input('longitude');
         $location->label = $request->input('location_label');

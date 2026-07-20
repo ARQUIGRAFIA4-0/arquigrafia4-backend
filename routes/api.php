@@ -44,6 +44,7 @@ Route::get('/users/{user}/albums', [AlbumController::class, 'getByUser']);
 Route::get('/collectives/{collectiveId}/albums', [AlbumController::class, 'getByCollective']);
 
 use App\Http\Controllers\ImageSuggestionController;
+use App\Http\Controllers\WorkSuggestionController;
 
 
 Route::apiResource('users', UserController::class)->only(['index', 'store', 'show']);
@@ -71,6 +72,8 @@ Route::get('/users/{user}/albums', [AlbumController::class, 'getByUser']);
 //suggestions
 Route::get('/image-suggestions', [ImageSuggestionController::class, 'index']);
 Route::get('/image-suggestions/{imageSuggestion}', [ImageSuggestionController::class, 'show']);
+Route::get('/work-suggestions', [WorkSuggestionController::class, 'index']);
+Route::get('/work-suggestions/{workSuggestion}', [WorkSuggestionController::class, 'show']);
 
 Route::middleware('auth:api')->group(function () {
 
@@ -124,6 +127,11 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/image-suggestions/{imageSuggestion}', [ImageSuggestionController::class, 'destroy']);
     Route::post('/image-suggestions/{imageSuggestion}/accept', [ImageSuggestionController::class, 'accept']);
     Route::post('/image-suggestions/{imageSuggestion}/reject', [ImageSuggestionController::class, 'reject']);
+    Route::post('/vrac-works/{work}/suggestions', [WorkSuggestionController::class, 'store']);
+    Route::put('/work-suggestions/{workSuggestion}', [WorkSuggestionController::class, 'update']);
+    Route::delete('/work-suggestions/{workSuggestion}', [WorkSuggestionController::class, 'destroy']);
+    Route::post('/work-suggestions/{workSuggestion}/accept', [WorkSuggestionController::class, 'accept']);
+    Route::post('/work-suggestions/{workSuggestion}/reject', [WorkSuggestionController::class, 'reject']);
     Route::post('collectives/{collective}/join-requests', [CollectiveJoinRequestController::class, 'store']);
     Route::get('collectives/{collective}/join-requests', [CollectiveJoinRequestController::class, 'index']);
     Route::put('collectives/{collective}/join-requests/{user}', [CollectiveJoinRequestController::class, 'update']);
