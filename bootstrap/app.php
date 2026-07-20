@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Auth\AuthenticationException;
-use JsonException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -23,9 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
-        $exceptions->render(function (JsonException $e, $request) {
+        $exceptions->render(function (\JsonException $e, $request) {
             if ($request->is('api/*')) {
-                return response()->json(['message' => 'Invalid JSON: ' . $e->getMessage()], 400);
+                return response()->json(['message' => 'Invalid JSON: '.$e->getMessage()], 400);
             }
         });
     })->create();
