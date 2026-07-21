@@ -34,6 +34,12 @@ class ImageController extends Controller
     private int $pageSize = 50;
 
     /**
+     * Listar / buscar imagens
+     *
+     * Retorna imagens paginadas com suporte a filtros de texto, data da imagem, data da obra,
+     * licença, assunto, contribuidor, binômios e coletivo. Todos os filtros são combinados com AND.
+     *
+     * @group Imagens
      * @unauthenticated
      */
     public function index(SearchImageRequest $request, ImageSearchService $searchService)
@@ -273,7 +279,9 @@ class ImageController extends Controller
     /**
      * Sugestões de busca
      *
-     * Retorna os termos mais usados em imagens por categoria, para exibir como sugestões na busca avançada.
+     * Retorna os termos mais usados por categoria: tipos de obra, materiais, técnicas, períodos,
+     * contextos culturais, contribuidores e assuntos. Os assuntos vêm agrupados por categoria VRACore
+     * (material, technique, work_type, style_period, uncategorized), top 10 por grupo.
      * Resultado cacheado por 24h.
      *
      * @group Imagens
