@@ -7,7 +7,14 @@ use Illuminate\Support\Facades\DB;
 
 class ImageSearchService
 {
-    public function apply(Builder $query, array $filters): Builder
+    /**
+     * Apply search filters to an image query.
+     *
+     * @param  bool  $sortable  When false, skips ordering entirely (default random order is
+     *                          meaningless for callers like the map, and breaks `chunkById`
+     *                          / EXISTS subqueries). Grid/list callers keep the default true.
+     */
+    public function apply(Builder $query, array $filters, bool $sortable = true): Builder
     {
         return $query
             ->when($filters['q'] ?? null, fn (Builder $q, string $search) => $this->filterByFullText($q, $search))
@@ -25,21 +32,25 @@ class ImageSearchService
             ->when($filters['user_id'] ?? null, fn (Builder $q, string $userId) => $q->where('user_id', $userId))
             ->when(array_key_exists('collective_id', $filters), function (Builder $q) use ($filters) {
                 $collectiveId = $filters['collective_id'];
+
                 return $collectiveId === null
                     ? $q->whereNull('collective_id')
                     : $q->where('collective_id', $collectiveId);
             })
             ->when(
-                isset($filters['sort_by']),
-                fn (Builder $q) => $this->applySorting($q, $filters),
-                fn (Builder $q) => $q->inRandomOrder(),
+                $sortable,
+                fn (Builder $q) => $q->when(
+                    isset($filters['sort_by']),
+                    fn (Builder $q2) => $this->applySorting($q2, $filters),
+                    fn (Builder $q2) => $q2->inRandomOrder(),
+                ),
             );
     }
 
     protected function filterByTitle(Builder $query, string $title): Builder
     {
         return $query->whereHas('titles', function (Builder $q) use ($title) {
-            $q->where('label', 'LIKE', '%' . $title . '%');
+            $q->where('label', 'LIKE', '%'.$title.'%');
         });
     }
 
@@ -47,7 +58,7 @@ class ImageSearchService
     {
         return $query->whereHas('agents', function (Builder $q) use ($contributor) {
             $q->whereHas('contributorName', function (Builder $q2) use ($contributor) {
-                $q2->where('name', 'LIKE', '%' . $contributor . '%');
+                $q2->where('name', 'LIKE', '%'.$contributor.'%');
             });
         });
     }
@@ -64,7 +75,7 @@ class ImageSearchService
         return $query->whereHas('subjects', function (Builder $q) use ($terms) {
             $q->where(function (Builder $q2) use ($terms) {
                 foreach ($terms as $term) {
-                    $q2->orWhere('term', 'LIKE', '%' . $term . '%');
+                    $q2->orWhere('term', 'LIKE', '%'.$term.'%');
                 }
             });
         });
@@ -82,7 +93,7 @@ class ImageSearchService
         return $query->whereHas('rights', function (Builder $q) use ($licenses) {
             $q->where(function (Builder $q2) use ($licenses) {
                 foreach ($licenses as $license) {
-                    $q2->orWhere('href', 'LIKE', '%' . $this->licenseToHrefSegment($license) . '%');
+                    $q2->orWhere('href', 'LIKE', '%'.$this->licenseToHrefSegment($license).'%');
                 }
             });
         });
@@ -92,7 +103,7 @@ class ImageSearchService
     {
         return match (strtoupper($license)) {
             'CC0' => '/publicdomain/zero/',
-            default => '/licenses/' . strtolower($license) . '/',
+            default => '/licenses/'.strtolower($license).'/',
         };
     }
 
