@@ -6,6 +6,7 @@ use App\Models\Album;
 use App\Models\Collective;
 use App\Models\VRACore\VRACSubject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @group Álbuns
@@ -19,9 +20,22 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        return Album::with(['images' => function ($q) {
-            $q->orderBy('pivot_position');
-        }])->paginate();
+        $albums = Album::where('is_private', false)
+            ->with(['images' => function ($q) {
+                $q->orderBy('pivot_position');
+            }])->paginate();
+
+        $albumIds = $albums->pluck('id')->toArray();
+
+        if (!empty($albumIds)) {
+            $stats = $this->batchStats($albumIds);
+            $albums->getCollection()->transform(function ($album) use ($stats) {
+                $album->stats = $stats[$album->id] ?? null;
+                return $album;
+            });
+        }
+
+        return $albums;
     }
 
     public function store(Request $request)
@@ -206,9 +220,20 @@ class AlbumController extends Controller
             $query->where('is_private', false);
         }
 
-        return $query->with(['images' => function ($q) {
+        $albums = $query->with(['images' => function ($q) {
             $q->orderBy('pivot_position');
         }])->get();
+
+        $albumIds = $albums->pluck('id')->toArray();
+        if (!empty($albumIds)) {
+            $stats = $this->batchStats($albumIds);
+            $albums->transform(function ($album) use ($stats) {
+                $album->stats = $stats[$album->id] ?? null;
+                return $album;
+            });
+        }
+
+        return $albums;
     }
     /**
      * @unauthenticated
@@ -223,9 +248,20 @@ class AlbumController extends Controller
             $query->where('is_private', false);
         }
 
-        return $query->with(['images' => function ($q) {
+        $albums = $query->with(['images' => function ($q) {
             $q->orderBy('pivot_position');
         }])->get();
+
+        $albumIds = $albums->pluck('id')->toArray();
+        if (!empty($albumIds)) {
+            $stats = $this->batchStats($albumIds);
+            $albums->transform(function ($album) use ($stats) {
+                $album->stats = $stats[$album->id] ?? null;
+                return $album;
+            });
+        }
+
+        return $albums;
     }
 
     /**
@@ -250,6 +286,133 @@ class AlbumController extends Controller
             'album_id' => $album->id,
             'tags'     => $tags,
         ]);
+    }
+
+    /**
+     * Estatísticas de um álbum
+     *
+     * Retorna estatísticas agregadas do álbum: total de imagens, intervalo de anos,
+     * distribuição de tags por imagem e médias dos eixos de binômios.
+     *
+     * @group Álbuns
+     * @unauthenticated
+     */
+    public function stats(Request $request, Album $album)
+    {
+        if ($album->is_private) {
+            $user = $request->user('api');
+            $canSee = $album->isOwnedByCollective()
+                ? ($user && $album->collective->isMember($user))
+                : ($user && $album->isOwnedByUser($user));
+            if (!$canSee) abort(403);
+        }
+
+        $albumId = $album->id;
+
+        $totalImages = DB::table('album_image')->where('album_id', $albumId)->count();
+
+        $dateRange = DB::table('album_image')
+            ->join('date_image', 'album_image.image_id', '=', 'date_image.image_id')
+            ->join('vrac_dates', 'date_image.date_id', '=', 'vrac_dates.id')
+            ->where('album_image.album_id', $albumId)
+            ->selectRaw('YEAR(MIN(vrac_dates.earliest_date)) as from_year, YEAR(MAX(vrac_dates.latest_date)) as to_year')
+            ->first();
+
+        $tagDistribution = DB::table(function ($sub) use ($albumId) {
+            $sub->from('album_image')
+                ->leftJoin('image_subject', 'album_image.image_id', '=', 'image_subject.image_id')
+                ->where('album_image.album_id', $albumId)
+                ->selectRaw('album_image.image_id, COUNT(image_subject.subject_id) as tag_count')
+                ->groupBy('album_image.image_id');
+        }, 'image_tags')
+        ->selectRaw('
+            SUM(CASE WHEN tag_count <= 2 THEN 1 ELSE 0 END) as up_to_2,
+            SUM(CASE WHEN tag_count BETWEEN 3 AND 5 THEN 1 ELSE 0 END) as between_3_and_5,
+            SUM(CASE WHEN tag_count > 5 THEN 1 ELSE 0 END) as more_than_5
+        ')
+        ->first();
+
+        $binomialAverages = DB::table('binomials')
+            ->join('binomial_evaluations', 'binomials.id', '=', 'binomial_evaluations.binomial_id')
+            ->join('album_image', 'binomial_evaluations.image_id', '=', 'album_image.image_id')
+            ->where('album_image.album_id', $albumId)
+            ->where('binomials.active', true)
+            ->select('binomials.id', 'binomials.word_left', 'binomials.word_right', 'binomials.order')
+            ->selectRaw('CAST(ROUND(AVG(binomial_evaluations.value), 1) AS DECIMAL(5,1)) as average')
+            ->groupBy('binomials.id', 'binomials.word_left', 'binomials.word_right', 'binomials.order')
+            ->orderBy('binomials.order')
+            ->get();
+
+        return response()->json([
+            'total_images'      => $totalImages,
+            'date_range'        => [
+                'from' => $dateRange->from_year,
+                'to'   => $dateRange->to_year,
+            ],
+            'tag_distribution'  => [
+                'up_to_2'         => (int) ($tagDistribution->up_to_2 ?? 0),
+                'between_3_and_5' => (int) ($tagDistribution->between_3_and_5 ?? 0),
+                'more_than_5'     => (int) ($tagDistribution->more_than_5 ?? 0),
+            ],
+            'binomial_averages' => $binomialAverages,
+        ]);
+    }
+
+    private function batchStats(array $albumIds): array
+    {
+        $totals = DB::table('album_image')
+            ->whereIn('album_id', $albumIds)
+            ->selectRaw('album_id, COUNT(*) as total')
+            ->groupBy('album_id')
+            ->get()->keyBy('album_id');
+
+        $dateRanges = DB::table('album_image')
+            ->join('date_image', 'album_image.image_id', '=', 'date_image.image_id')
+            ->join('vrac_dates', 'date_image.date_id', '=', 'vrac_dates.id')
+            ->whereIn('album_image.album_id', $albumIds)
+            ->selectRaw('album_image.album_id, YEAR(MIN(vrac_dates.earliest_date)) as from_year, YEAR(MAX(vrac_dates.latest_date)) as to_year')
+            ->groupBy('album_image.album_id')
+            ->get()->keyBy('album_id');
+
+        $tagDist = DB::table(function ($sub) use ($albumIds) {
+            $sub->from('album_image')
+                ->leftJoin('image_subject', 'album_image.image_id', '=', 'image_subject.image_id')
+                ->whereIn('album_image.album_id', $albumIds)
+                ->selectRaw('album_image.album_id, album_image.image_id, COUNT(image_subject.subject_id) as tag_count')
+                ->groupBy('album_image.album_id', 'album_image.image_id');
+        }, 'image_tags')
+        ->selectRaw('album_id, SUM(CASE WHEN tag_count <= 2 THEN 1 ELSE 0 END) as up_to_2, SUM(CASE WHEN tag_count BETWEEN 3 AND 5 THEN 1 ELSE 0 END) as between_3_and_5, SUM(CASE WHEN tag_count > 5 THEN 1 ELSE 0 END) as more_than_5')
+        ->groupBy('album_id')
+        ->get()->keyBy('album_id');
+
+        $binomials = DB::table('binomials')
+            ->join('binomial_evaluations', 'binomials.id', '=', 'binomial_evaluations.binomial_id')
+            ->join('album_image', 'binomial_evaluations.image_id', '=', 'album_image.image_id')
+            ->whereIn('album_image.album_id', $albumIds)
+            ->where('binomials.active', true)
+            ->select('album_image.album_id', 'binomials.id', 'binomials.word_left', 'binomials.word_right', 'binomials.order')
+            ->selectRaw('CAST(ROUND(AVG(binomial_evaluations.value), 1) AS DECIMAL(5,1)) as average')
+            ->groupBy('album_image.album_id', 'binomials.id', 'binomials.word_left', 'binomials.word_right', 'binomials.order')
+            ->orderBy('binomials.order')
+            ->get()->groupBy('album_id');
+
+        $result = [];
+        foreach ($albumIds as $id) {
+            $result[$id] = [
+                'total_images'      => (int) ($totals[$id]->total ?? 0),
+                'date_range'        => isset($dateRanges[$id]) ? ['from' => $dateRanges[$id]->from_year, 'to' => $dateRanges[$id]->to_year] : null,
+                'tag_distribution'  => [
+                    'up_to_2'         => (int) ($tagDist[$id]->up_to_2 ?? 0),
+                    'between_3_and_5' => (int) ($tagDist[$id]->between_3_and_5 ?? 0),
+                    'more_than_5'     => (int) ($tagDist[$id]->more_than_5 ?? 0),
+                ],
+                'binomial_averages' => isset($binomials[$id])
+                    ? $binomials[$id]->map(fn ($b) => ['id' => $b->id, 'word_left' => $b->word_left, 'word_right' => $b->word_right, 'order' => $b->order, 'average' => $b->average])->values()
+                    : [],
+            ];
+        }
+
+        return $result;
     }
 
     public function syncImages(Request $request, $albumId)
