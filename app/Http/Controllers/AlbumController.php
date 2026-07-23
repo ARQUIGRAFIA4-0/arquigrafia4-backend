@@ -220,9 +220,20 @@ class AlbumController extends Controller
             $query->where('is_private', false);
         }
 
-        return $query->with(['images' => function ($q) {
+        $albums = $query->with(['images' => function ($q) {
             $q->orderBy('pivot_position');
         }])->get();
+
+        $albumIds = $albums->pluck('id')->toArray();
+        if (!empty($albumIds)) {
+            $stats = $this->batchStats($albumIds);
+            $albums->transform(function ($album) use ($stats) {
+                $album->stats = $stats[$album->id] ?? null;
+                return $album;
+            });
+        }
+
+        return $albums;
     }
     /**
      * @unauthenticated
@@ -237,9 +248,20 @@ class AlbumController extends Controller
             $query->where('is_private', false);
         }
 
-        return $query->with(['images' => function ($q) {
+        $albums = $query->with(['images' => function ($q) {
             $q->orderBy('pivot_position');
         }])->get();
+
+        $albumIds = $albums->pluck('id')->toArray();
+        if (!empty($albumIds)) {
+            $stats = $this->batchStats($albumIds);
+            $albums->transform(function ($album) use ($stats) {
+                $album->stats = $stats[$album->id] ?? null;
+                return $album;
+            });
+        }
+
+        return $albums;
     }
 
     /**
