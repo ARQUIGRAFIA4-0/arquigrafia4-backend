@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\VRACore\VRACCulturalContext;
 use App\Models\VRACore\VRACMaterial;
 use App\Models\VRACore\VRACStylePeriod;
 use App\Models\VRACore\VRACTechnique;
@@ -18,10 +19,11 @@ class SyncTematres extends Command
     protected string $baseUrl = 'https://vocabularios.eca.usp.br/vcaa/services.php';
 
     protected array $rootMapping = [
-        '3'    => ['model' => VRACWorkType::class,    'extra' => []],
-        '4'    => ['model' => VRACTechnique::class,   'extra' => []],
-        '16'   => ['model' => VRACMaterial::class,    'extra' => ['type' => 'medium']],
-        '1870' => ['model' => VRACStylePeriod::class, 'extra' => []],
+        '3'    => ['model' => VRACWorkType::class,       'extra' => []],
+        '4'    => ['model' => VRACTechnique::class,      'extra' => []],
+        '16'   => ['model' => VRACMaterial::class,       'extra' => ['type' => 'medium']],
+        '1870' => ['model' => VRACStylePeriod::class,    'extra' => []],
+        '7621' => ['model' => VRACCulturalContext::class, 'extra' => []],
     ];
 
     public function handle(): int
