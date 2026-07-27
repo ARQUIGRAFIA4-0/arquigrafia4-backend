@@ -60,6 +60,52 @@ O servidor pode ser acessado em: http://localhost:8000
     php artisan storage:link
     php artisan serve
 
+## Tiles IIIF
+
+As imagens são servidas como pirâmides de tiles no padrão [IIIF Image API 3](https://iiif.io/api/image/3.0/), permitindo _deep zoom_ no visualizador do frontend.
+
+### Como funciona
+
+1. No upload (`POST /api/images`), a imagem original é gravada em `images/iiif/{uuid}/full/max/0/default.jpg` e um job `TileImage` é enfileirado.
+2. O job [`TileImage`](app/Jobs/TileImage.php) roda o `dzsave` do libvips (`layout: iiif3`) para gerar a pirâmide de tiles e, ao concluir, grava `vrac_images.processed_at`.
+3. A fila usa `QUEUE_CONNECTION=database`, então os jobs só são processados enquanto houver um _worker_ rodando.
+
+`processed_at IS NOT NULL` é a fonte de verdade para "os tiles existem". A URL pública embutida nos manifestos/`info.json` vem de `config/iiif.php` (env `IIIF_BASE_URL`).
+
+### Worker (processamento da fila)
+
+Em produção o worker roda como um serviço **systemd**, sempre ativo e reiniciado automaticamente:
+
+    sudo systemctl status arquigrafia-worker     # ver estado
+    sudo systemctl restart arquigrafia-worker    # reiniciar
+    sudo journalctl -u arquigrafia-worker -f      # acompanhar logs
+
+O arquivo de unidade fica em `/etc/systemd/system/arquigrafia-worker.service` no servidor.
+
+> **Importante:** o worker **precisa** rodar como o usuário `www-data` (o mesmo do servidor web). Rodar `queue:work` como outro usuário causa erros de `Permission denied` ao gravar os tiles em `images/iiif`.
+
+Em desenvolvimento, basta rodar o worker manualmente:
+
+    php artisan queue:work
+
+### Verificação e auto-recuperação
+
+O comando abaixo mostra a saúde do tiling (total, com tiles, sem tiles, órfãs sem original, jobs na fila/falhos):
+
+    php artisan images:tile-status              # relatório
+    php artisan images:tile-status --dispatch   # reenfileira as imagens sem tiles (idempotente)
+
+Esse comando roda automaticamente **a cada hora** (agendado em [`routes/console.php`](routes/console.php) e disparado pelo cron `schedule:run`), então qualquer imagem que perca os tiles é reenfileirada sozinha. O `TileImage` é idempotente: pula imagens já processadas e pula (registrando no log, sem falhar) imagens cujo original não existe.
+
+### Reprocessamento manual
+
+    php artisan images:process-migrated               # todas sem tiles (idempotente)
+    php artisan images:process-migrated --id=<uuid>   # uma imagem
+    php artisan images:process-migrated --id=<uuid> --force   # força reprocessar
+    php artisan queue:retry all                        # retenta jobs falhos
+
+> **Observação:** cerca de 307 imagens legadas têm registro e diretório mas **não têm o arquivo original** (nunca migraram do servidor antigo). Elas permanecem sem `processed_at` e aparecem como "órfãs" no `images:tile-status` — isso é esperado, não é um bug.
+
 ## Licença
 O projeto ARQUIGRAFIA é um software livre licenciado segundo diretrizes da [GNU GPL](https://www.gnu.org/licenses/).
 
