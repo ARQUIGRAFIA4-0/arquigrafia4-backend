@@ -311,6 +311,12 @@ class AlbumController extends Controller
 
         $totalImages = DB::table('album_image')->where('album_id', $albumId)->count();
 
+        $totalUniqueTags = DB::table('image_subject')
+            ->join('album_image', 'image_subject.image_id', '=', 'album_image.image_id')
+            ->where('album_image.album_id', $albumId)
+            ->distinct('image_subject.subject_id')
+            ->count('image_subject.subject_id');
+
         $dateRange = DB::table('album_image')
             ->join('date_image', 'album_image.image_id', '=', 'date_image.image_id')
             ->join('vrac_dates', 'date_image.date_id', '=', 'vrac_dates.id')
@@ -345,6 +351,7 @@ class AlbumController extends Controller
 
         return response()->json([
             'total_images'      => $totalImages,
+            'total_unique_tags' => $totalUniqueTags,
             'date_range'        => [
                 'from' => $dateRange->from_year,
                 'to'   => $dateRange->to_year,
@@ -374,6 +381,13 @@ class AlbumController extends Controller
             ->groupBy('album_image.album_id')
             ->get()->keyBy('album_id');
 
+        $uniqueTags = DB::table('image_subject')
+            ->join('album_image', 'image_subject.image_id', '=', 'album_image.image_id')
+            ->whereIn('album_image.album_id', $albumIds)
+            ->selectRaw('album_image.album_id, COUNT(DISTINCT image_subject.subject_id) as total_unique_tags')
+            ->groupBy('album_image.album_id')
+            ->get()->keyBy('album_id');
+
         $tagDist = DB::table(function ($sub) use ($albumIds) {
             $sub->from('album_image')
                 ->leftJoin('image_subject', 'album_image.image_id', '=', 'image_subject.image_id')
@@ -400,6 +414,7 @@ class AlbumController extends Controller
         foreach ($albumIds as $id) {
             $result[$id] = [
                 'total_images'      => (int) ($totals[$id]->total ?? 0),
+                'total_unique_tags' => (int) ($uniqueTags[$id]->total_unique_tags ?? 0),
                 'date_range'        => isset($dateRanges[$id]) ? ['from' => $dateRanges[$id]->from_year, 'to' => $dateRanges[$id]->to_year] : null,
                 'tag_distribution'  => [
                     'up_to_2'         => (int) ($tagDist[$id]->up_to_2 ?? 0),
