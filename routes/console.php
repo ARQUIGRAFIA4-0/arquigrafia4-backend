@@ -14,3 +14,5 @@ Artisan::command('inspire', function () {
 Schedule::command('images:tile-status --dispatch')
     ->hourly()
     ->withoutOverlapping();
+
+Schedule::command('sync:tematres')->weekly()->mondays()->at('03:00');

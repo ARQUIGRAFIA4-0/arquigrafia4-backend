@@ -36,8 +36,7 @@ class VRACTechniqueController extends Controller
         $technique = new VRACTechnique;
 
         $technique->label = $request->input('label');
-        $technique->vocab = $request->input('vocab');
-        $technique->ref_id = $request->input('ref_id');
+        $technique->vocab = 'Arquigrafia';
         $technique->save();
 
         return response()->json([
@@ -65,8 +64,6 @@ class VRACTechniqueController extends Controller
         $technique = VRACTechnique::find($id);
 
         $technique->label = $request->input('label');
-        $technique->vocab = $request->input('vocab');
-        $technique->ref_id = $request->input('ref_id');
         $technique->save();
 
         return response()->json([

@@ -36,8 +36,7 @@ class VRACAgentRoleController extends Controller
         $role = new VRACAgentRole;
 
         $role->label = $request->input('label');
-        $role->vocab = $request->input('vocab');
-        $role->ref_id = $request->input('ref_id');
+        $role->vocab = 'Arquigrafia';
         $role->save();
 
         return response()->json([
@@ -65,8 +64,6 @@ class VRACAgentRoleController extends Controller
         $role = VRACAgentRole::find($id);
 
         $role->label = $request->input('label');
-        $role->vocab = $request->input('vocab');
-        $role->ref_id = $request->input('ref_id');
         $role->save();
 
         return response()->json([

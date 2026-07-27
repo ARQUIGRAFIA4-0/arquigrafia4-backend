@@ -36,9 +36,8 @@ class VRACMaterialController extends Controller
         $material = new VRACMaterial;
 
         $material->label = $request->input('label');
-        $material->type = $request->input('type');
-        $material->vocab = $request->input('vocab');
-        $material->ref_id = $request->input('ref_id');
+        $material->type  = $request->input('type');
+        $material->vocab = 'Arquigrafia';
         $material->save();
 
         return response()->json([
@@ -66,9 +65,7 @@ class VRACMaterialController extends Controller
         $material = VRACMaterial::find($id);
 
         $material->label = $request->input('label');
-        $material->type = $request->input('type');
-        $material->vocab = $request->input('vocab');
-        $material->ref_id = $request->input('ref_id');
+        $material->type  = $request->input('type');
         $material->save();
 
         return response()->json([
