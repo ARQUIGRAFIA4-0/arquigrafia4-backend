@@ -15,17 +15,22 @@ class VRACSubjectController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @queryParam per_page integer The number of items per page. Use -1 to fetch all records without pagination. Default is 15.
+     * @queryParam per_page integer Items per page. Use -1 for all records. Default: 15.
+     * @queryParam search string Filter by term (case and accent insensitive). Example: modernismo
      */
     public function index(Request $request)
     {
         $perPage = $request->integer('per_page', 15);
+        $search  = $request->string('search')->trim();
+
+        $query = VRACSubject::when($search, fn($q) => $q->where('term', 'like', "%{$search}%"))
+            ->orderBy('term');
 
         if ($perPage === -1) {
-            return response()->json(['data' => VRACSubject::all()]);
+            return response()->json(['data' => $query->get()]);
         }
 
-        return VRACSubject::paginate($perPage);
+        return $query->paginate($perPage);
     }
 
     /**
