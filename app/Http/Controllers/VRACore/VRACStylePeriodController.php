@@ -15,21 +15,28 @@ class VRACStylePeriodController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @queryParam per_page integer The number of items per page. Use -1 to fetch all records without pagination. Default is 15.
+     * @queryParam per_page integer Items per page. Use -1 for all records. Default: 15.
+     * @queryParam search string Filter by label (case and accent insensitive). Example: moderno
      */
     public function index(Request $request)
     {
         $perPage = $request->integer('per_page', 15);
+        $search  = $request->string('search')->trim();
+
+        $query = VRACStylePeriod::when($search, fn($q) => $q->where('label', 'like', "%{$search}%"))
+            ->orderBy('label');
 
         if ($perPage === -1) {
-            return response()->json(['data' => VRACStylePeriod::all()]);
+            return response()->json(['data' => $query->get()]);
         }
 
-        return VRACStylePeriod::paginate($perPage);
+        return $query->paginate($perPage);
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @authenticated
      */
     public function store(Request $request)
     {

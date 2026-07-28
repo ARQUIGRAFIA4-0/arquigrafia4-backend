@@ -142,6 +142,7 @@ Route::middleware('auth:api')->group(function () {
 
     // VRACore vocabularies (manual Arquigrafia entries)
     Route::apiResource('vrac-agent-roles', VRACAgentRoleController::class)->only(['store', 'update', 'destroy']);
+    Route::apiResource('vrac-cultural-contexts', VRACCulturalContextController::class)->only(['store', 'update', 'destroy']);
     Route::apiResource('vrac-materials', VRACMaterialController::class)->only(['store', 'update', 'destroy']);
     Route::apiResource('vrac-style-periods', VRACStylePeriodController::class)->only(['store', 'update', 'destroy']);
     Route::apiResource('vrac-techniques', VRACTechniqueController::class)->only(['store', 'update', 'destroy']);
@@ -165,7 +166,7 @@ Route::middleware('throttle:6,1')->group(function () {
 Route::apiResource('vrac-agents', VRACAgentController::class);
 Route::apiResource('vrac-agent-roles', VRACAgentRoleController::class)->only(['index', 'show']);
 Route::apiResource('vrac-contributor-names', VRACContributorNameController::class);
-Route::apiResource('vrac-cultural-contexts', VRACCulturalContextController::class);
+Route::apiResource('vrac-cultural-contexts', VRACCulturalContextController::class)->only(['index', 'show']);
 Route::apiResource('vrac-dates', VRACDateController::class);
 Route::apiResource('vrac-descriptions', VRACDescriptionController::class);
 Route::apiResource('vrac-inscriptions', VRACInscriptionController::class);
