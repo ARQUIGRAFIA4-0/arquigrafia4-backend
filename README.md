@@ -72,6 +72,18 @@ As imagens são servidas como pirâmides de tiles no padrão [IIIF Image API 3](
 
 `processed_at IS NOT NULL` é a fonte de verdade para "os tiles existem". A URL pública embutida nos manifestos/`info.json` vem de `config/iiif.php` (env `IIIF_BASE_URL`).
 
+### info.json (id + sizes)
+
+O `info.json` gerado pelo libvips tem duas limitações: o `id` fica **fixo no momento do tiling** (quebra se a URL base mudar) e **não traz o array `sizes`**. Por isso, logo após o `dzsave`, o `TileImage` reescreve o arquivo via [`IiifInfo::patch()`](app/Support/IiifInfo.php): corrige o `id` a partir de `config('iiif.base_url')` e injeta `sizes`. O arquivo continua **estático** (servido direto do disco pelo nginx) — só o conteúdo é corrigido.
+
+O `sizes` inclui **apenas** os derivativos que realmente existem no disco: thumb (`full/300,{h}`) e mid (`full/1024,{h}`). **Não** inclua o original nem tamanhos derivados dos `scaleFactors` — o `dzsave` só gera _tiles_ de região (não imagens `full/{w},{h}`), então qualquer tamanho inventado dá 404 no viewer. Além disso, se o `sizes` tiver exatamente `maxLevel+1` entradas que batam com os `scaleFactors`, o OpenSeadragon passa a usá-lo como `levelSizes` e calcula URLs de _tile_ de borda erradas (arredondamento diferente do libvips → 404 nos tiles das bordas). Mantendo só thumb+mid, o OSD usa seu cálculo `ceil()` padrão, que coincide com o libvips.
+
+**Se a URL base mudar** (ex.: `api-dev.arquigrafia.org.br` → `dev.arquigrafia.org.br`), NÃO é preciso re-tilear. Basta atualizar `IIIF_BASE_URL` e rodar o backfill, que reescreve o `id` de todos os `info.json` existentes:
+
+    php artisan images:fix-iiif-info               # reescreve id + sizes em todos
+    php artisan images:fix-iiif-info --stale-only  # só os que ainda não batem com o config (rápido)
+    php artisan images:fix-iiif-info --id=<uuid>   # uma imagem
+
 ### Worker (processamento da fila)
 
 Em produção o worker roda como um serviço **systemd**, sempre ativo e reiniciado automaticamente:

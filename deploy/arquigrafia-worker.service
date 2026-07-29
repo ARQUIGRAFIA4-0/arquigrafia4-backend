@@ -1,0 +1,22 @@
+[Unit]
+Description=Arquigrafia queue worker (IIIF tiling + map tiles)
+After=network.target mysql.service
+
+[Service]
+# MUST run as www-data — the same user the web app uses to write under
+# storage/app/public/images/iiif. Running as any other user causes
+# "Permission denied" failures when dzsave writes tiles.
+User=www-data
+Group=www-data
+Restart=always
+RestartSec=5
+WorkingDirectory=/var/www/arquigrafia-backend
+# --max-time recycles the process hourly (releases memory / libvips FFI handles).
+# --tries + backoff are also set on the job class; keep them consistent.
+ExecStart=/usr/bin/php /var/www/arquigrafia-backend/artisan queue:work database \
+    --queue=default --sleep=3 --tries=3 --timeout=900 --max-time=3600
+# Graceful stop lets the current job finish.
+ExecReload=/usr/bin/php /var/www/arquigrafia-backend/artisan queue:restart
+
+[Install]
+WantedBy=multi-user.target

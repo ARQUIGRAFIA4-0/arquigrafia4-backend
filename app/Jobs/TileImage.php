@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\VRACore\VRACImage;
+use App\Support\IiifInfo;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
@@ -60,6 +61,11 @@ class TileImage implements ShouldQueue
             'layout' => 'iiif3',
             'id' => config('iiif.base_url', 'https://api-dev.arquigrafia.org.br/iiif'),
         ]);
+
+        // libvips writes a minimal info.json with a baked-in id and no sizes.
+        // Rewrite it from config so the host survives base-URL changes and add
+        // the sizes array for whole-image derivative requests.
+        IiifInfo::patch($this->image);
 
         $this->image->update(['processed_at' => now()]);
     }
