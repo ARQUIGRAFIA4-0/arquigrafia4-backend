@@ -18,6 +18,7 @@ class StoreImageRequest extends FormRequest
     {
         if ($this->filled('collective_id')) {
             $collective = Collective::find($this->input('collective_id'));
+
             return $collective && $collective->isMember($this->user());
         }
 
@@ -32,7 +33,7 @@ class StoreImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'required|file|mimes:jpg,jpeg,png,heic|max:6000',
+            'image' => 'required|file|mimes:jpg,jpeg,png,heic|max:10240',
             'user_id' => 'required|uuid|exists:users,id',
             'collective_id' => 'nullable|uuid|exists:collectives,id',
             'photographer' => [
