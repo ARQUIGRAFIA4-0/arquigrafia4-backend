@@ -59,7 +59,7 @@ class TileImage implements ShouldQueue
         $image = Vips\Image::newFromFile($original, ['access' => 'sequential']);
         $image->dzsave($this->image->path('base', 'absolute'), [
             'layout' => 'iiif3',
-            'id' => config('iiif.base_url', 'https://api-dev.arquigrafia.org.br/iiif'),
+            'id' => config('iiif.base_url', 'https://api.arquigrafia.org.br/iiif'),
         ]);
 
         // libvips writes a minimal info.json with a baked-in id and no sizes.
