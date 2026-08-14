@@ -19,6 +19,10 @@ class IIIFManifestController extends Controller
     {
         $image = $this->getImageWithRelations($id);
 
+        if (! Storage::disk('public')->exists($image->path('info'))) {
+            abort(404, 'Arquivo de imagem não encontrado');
+        }
+
         $metadata = $this->getMetadata($image);
         $title = $this->getTitle($image);
         $description = $this->getDescription($image);
