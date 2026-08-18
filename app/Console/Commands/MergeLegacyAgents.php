@@ -83,7 +83,12 @@ class MergeLegacyAgents extends Command
         $pairs   = [];
 
         while (($values = fgetcsv($handle)) !== false) {
-            $row     = array_combine($headers, $values);
+            $row = array_combine($headers, $values);
+
+            if (isset($row['merge_flag']) && trim($row['merge_flag']) !== 'safe_to_merge') {
+                continue;
+            }
+
             $pairs[] = [
                 'legacy_id'      => trim($row['legacy_contrib_id']),
                 'arquigrafia_id' => trim($row['arquigrafia_contrib_id']),
