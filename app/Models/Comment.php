@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Models\VRACore\VRACImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -45,7 +46,7 @@ class Comment extends Model
 
     public function image(): BelongsTo
     {
-        return $this->belongsTo(Image::class);
+        return $this->belongsTo(VRACImage::class, 'image_id');
     }
 
     // Comentário pai (self-referential)
