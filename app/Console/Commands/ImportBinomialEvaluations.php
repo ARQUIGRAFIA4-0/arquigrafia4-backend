@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class ImportBinomialEvaluations extends Command
 {
-    protected $signature = 'binomials:import {file : Ruta al archivo CSV}';
+    protected $signature = 'binomials:import {file : Ruta al archivo CSV} {--dry-run : Simula la importación sin insertar datos}';
 
     protected $description = 'Importa evaluaciones de binomios desde un CSV del sistema legado';
 
@@ -31,6 +31,12 @@ class ImportBinomialEvaluations extends Command
             return Command::FAILURE;
         }
 
+        $dryRun = $this->option('dry-run');
+
+        if ($dryRun) {
+            $this->warn('⚠  MODO DRY-RUN: no se insertará ningún dato');
+        }
+
         $this->info("Iniciando importación desde: {$file}");
 
         // Pre-cargar mapeos en memoria para mayor velocidad
@@ -51,6 +57,7 @@ class ImportBinomialEvaluations extends Command
         fgetcsv($handle); // saltar header
 
         $imported        = 0;
+        $skippedExisting = 0;
         $skippedNoImage  = 0;
         $skippedNoUser   = 0;
         $skippedBinomial = 0;
@@ -84,18 +91,27 @@ class ImportBinomialEvaluations extends Command
                 continue;
             }
 
-            BinomialEvaluation::updateOrCreate(
-                [
-                    'image_id'    => $imageMap[(int) $photoId],
-                    'user_id'     => $userMap[(int) $userId],
-                    'binomial_id' => $this->binomialMap[(int) $binomialId],
-                ],
-                [
-                    'value' => (int) $evaluationPosition,
-                ]
-            );
+            $attributes = [
+                'image_id'    => $imageMap[(int) $photoId],
+                'user_id'     => $userMap[(int) $userId],
+                'binomial_id' => $this->binomialMap[(int) $binomialId],
+            ];
 
-            $imported++;
+            if ($dryRun) {
+                if (BinomialEvaluation::where($attributes)->exists()) {
+                    $skippedExisting++;
+                } else {
+                    $imported++;
+                }
+            } else {
+                $record = BinomialEvaluation::firstOrCreate($attributes, ['value' => (int) $evaluationPosition]);
+
+                if ($record->wasRecentlyCreated) {
+                    $imported++;
+                } else {
+                    $skippedExisting++;
+                }
+            }
             $bar->advance();
         }
 
@@ -104,11 +120,15 @@ class ImportBinomialEvaluations extends Command
         $this->newLine(2);
 
         $this->info('══════════════════════════════════════');
-        $this->info("Total filas procesadas : {$total}");
-        $this->info("Importadas             : {$imported}");
-        $this->warn("Skipeadas (sin imagen) : {$skippedNoImage}");
-        $this->warn("Skipeadas (sin usuario): {$skippedNoUser}");
-        $this->warn("Skipeadas (sin binomio): {$skippedBinomial}");
+        if ($dryRun) {
+            $this->warn('  RESULTADO DRY-RUN (nada fue insertado)');
+        }
+        $this->info("Total filas procesadas   : {$total}");
+        $this->info("Insertadas               : {$imported}");
+        $this->line("Ya existían (preservadas): {$skippedExisting}");
+        $this->warn("Skipeadas (sin imagen)   : {$skippedNoImage}");
+        $this->warn("Skipeadas (sin usuario)  : {$skippedNoUser}");
+        $this->warn("Skipeadas (sin binomio)  : {$skippedBinomial}");
         $this->info('══════════════════════════════════════');
 
         return Command::SUCCESS;
