@@ -20,6 +20,7 @@ class ImageSearchService
             ->when($filters['q'] ?? null, fn (Builder $q, string $search) => $this->filterByFullText($q, $search))
             ->when($filters['title'] ?? null, fn (Builder $q, string $title) => $this->filterByTitle($q, $title))
             ->when($filters['contributor'] ?? null, fn (Builder $q, string $contributor) => $this->filterByContributor($q, $contributor))
+            ->when($filters['location'] ?? null, fn (Builder $q, string $location) => $this->filterByLocation($q, $location))
             ->when($filters['subject'] ?? null, fn (Builder $q, array $ids) => $this->filterBySubjectIds($q, $ids))
             ->when($filters['subject_term'] ?? null, fn (Builder $q, array $terms) => $this->filterBySubjectTerm($q, $terms))
             ->when($filters['work'] ?? null, fn (Builder $q, array $ids) => $this->filterByWorkIds($q, $ids))
@@ -60,6 +61,13 @@ class ImageSearchService
             $q->whereHas('contributorName', function (Builder $q2) use ($contributor) {
                 $q2->where('name', 'LIKE', '%'.$contributor.'%');
             });
+        });
+    }
+
+    protected function filterByLocation(Builder $query, string $location): Builder
+    {
+        return $query->whereHas('locations', function (Builder $q) use ($location) {
+            $q->where('label', 'LIKE', '%'.$location.'%');
         });
     }
 
@@ -180,11 +188,17 @@ class ImageSearchService
             ->join('vrac_titles', 'work_title.title_id', '=', 'vrac_titles.id')
             ->whereRaw('MATCH(vrac_titles.label) AGAINST(? IN BOOLEAN MODE)', [$search]);
 
+        $locationIds = DB::table('image_location')
+            ->select('image_location.image_id')
+            ->join('locations', 'image_location.location_id', '=', 'locations.id')
+            ->where('locations.label', 'LIKE', '%'.$search.'%');
+
         $matchingIds = $titleIds
             ->union($subjectIds)
             ->union($descriptionIds)
             ->union($contributorIds)
             ->union($workTitleIds)
+            ->union($locationIds)
             ->pluck('image_id');
 
         return $query->whereIn('vrac_images.id', $matchingIds);
