@@ -84,11 +84,32 @@ class ApplyImageChangesAction
                 array_key_exists('longitude', $data) ||
                 array_key_exists('location_label', $data)
             ) {
-                $location = $image->locations()->first() ?? new Location();
+                $current = $image->locations()->first();
 
-                $location->latitude = $data['latitude'] ?? null;
-                $location->longitude = $data['longitude'] ?? null;
-                $location->label = $data['location_label'] ?? null;
+                // Locations podem ser compartilhadas entre imagens (herança da
+                // migração legada, que agrupava por coordenada). Editar a linha
+                // no lugar alteraria a localização de todas as outras imagens,
+                // então clonamos antes de gravar (copy-on-write).
+                $isShared = $current
+                    && $current->images()->where('vrac_images.id', '!=', $image->id)->exists();
+
+                $location = ($current && ! $isShared) ? $current : new Location();
+
+                if ($isShared) {
+                    $location->latitude = $current->latitude;
+                    $location->longitude = $current->longitude;
+                    $location->label = $current->label;
+                }
+
+                // Só sobrescreve os campos enviados: atualizar apenas o rótulo
+                // não pode apagar as coordenadas já existentes.
+                foreach (['latitude', 'longitude', 'location_label'] as $field) {
+                    if (array_key_exists($field, $data)) {
+                        $column = $field === 'location_label' ? 'label' : $field;
+                        $location->$column = $data[$field];
+                    }
+                }
+
                 $location->save();
 
                 $image->locations()->sync([$location->id]);
