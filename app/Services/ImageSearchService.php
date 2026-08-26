@@ -24,6 +24,11 @@ class ImageSearchService
             ->when($filters['subject'] ?? null, fn (Builder $q, array $ids) => $this->filterBySubjectIds($q, $ids))
             ->when($filters['subject_term'] ?? null, fn (Builder $q, array $terms) => $this->filterBySubjectTerm($q, $terms))
             ->when($filters['work'] ?? null, fn (Builder $q, array $ids) => $this->filterByWorkIds($q, $ids))
+            ->when($filters['technique'] ?? null, fn (Builder $q, array $ids) => $this->filterByTechniqueIds($q, $ids))
+            ->when($filters['work_type'] ?? null, fn (Builder $q, array $ids) => $this->filterByWorkTypeIds($q, $ids))
+            ->when($filters['material'] ?? null, fn (Builder $q, array $ids) => $this->filterByMaterialIds($q, $ids))
+            ->when($filters['style_period'] ?? null, fn (Builder $q, array $ids) => $this->filterByStylePeriodIds($q, $ids))
+            ->when($filters['cultural_context'] ?? null, fn (Builder $q, array $ids) => $this->filterByCulturalContextIds($q, $ids))
             ->when($filters['date_from'] ?? null, fn (Builder $q, string $from) => $this->filterByDateFrom($q, $from))
             ->when($filters['date_to'] ?? null, fn (Builder $q, string $to) => $this->filterByDateTo($q, $to))
             ->when($filters['work_date_from'] ?? null, fn (Builder $q, string $from) => $this->filterByWorkDateFrom($q, $from))
@@ -93,6 +98,41 @@ class ImageSearchService
     {
         return $query->whereHas('works', function (Builder $q) use ($ids) {
             $q->whereIn('vrac_works.id', $ids);
+        });
+    }
+
+    protected function filterByTechniqueIds(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('techniques', function (Builder $q) use ($ids) {
+            $q->whereIn('vrac_techniques.id', $ids);
+        });
+    }
+
+    protected function filterByWorkTypeIds(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('workTypes', function (Builder $q) use ($ids) {
+            $q->whereIn('vrac_work_types.id', $ids);
+        });
+    }
+
+    protected function filterByMaterialIds(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('materials', function (Builder $q) use ($ids) {
+            $q->whereIn('vrac_materials.id', $ids);
+        });
+    }
+
+    protected function filterByStylePeriodIds(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('stylePeriods', function (Builder $q) use ($ids) {
+            $q->whereIn('vrac_style_periods.id', $ids);
+        });
+    }
+
+    protected function filterByCulturalContextIds(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('culturalContexts', function (Builder $q) use ($ids) {
+            $q->whereIn('vrac_cultural_contexts.id', $ids);
         });
     }
 
