@@ -54,7 +54,8 @@ class TransformLegacy extends Command
         {--keep-db : Do not drop the temporary database after the run}
         {--dry-run : Run the transforms but do not write anything to the app database}
         {--skip-users : Skip the user-migration phase (assume users.legacy_id is already populated)}
-        {--skip-images : Skip the image-migration phase (only migrate users)}';
+        {--skip-images : Skip the image-migration phase (only migrate users)}
+        {--only-legacy-user-id= : Only migrate photos owned by this legacy `photos.user_id` (for backfilling one account)}';
 
     protected $description = 'Load a legacy SQL dump, migrate new users, then seed VRACore tables from the legacy photos';
 
@@ -378,7 +379,11 @@ class TransformLegacy extends Command
      */
     private function fetchPhotos(): array
     {
-        $sql = <<<'SQL'
+        $onlyLegacyUserId = $this->option('only-legacy-user-id');
+        $where = $onlyLegacyUserId ? 'WHERE p.user_id = ?' : '';
+        $bindings = $onlyLegacyUserId ? [$onlyLegacyUserId] : [];
+
+        $sql = <<<SQL
             SELECT
                 p.*,
                 (
@@ -394,11 +399,12 @@ class TransformLegacy extends Command
                     WHERE pa.photo_id = p.id
                 ) AS authors
             FROM photos p
+            {$where}
         SQL;
 
         return array_map(
             fn ($row) => (array) $row,
-            DB::connection('legacy_dump')->select($sql)
+            DB::connection('legacy_dump')->select($sql, $bindings)
         );
     }
 
