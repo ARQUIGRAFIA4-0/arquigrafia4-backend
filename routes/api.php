@@ -68,6 +68,7 @@ Route::get('/comments/{commentId}/replies', [CommentController::class, 'replies'
 // álbumes
 Route::get('/albums', [AlbumController::class, 'index']);
 Route::get('/albums/{album}', [AlbumController::class, 'show']);
+Route::get('/albums/{album}/images', [AlbumController::class, 'images']);
 Route::get('/albums/{album}/tags', [AlbumController::class, 'tags']);
 Route::get('/albums/{album}/stats', [AlbumController::class, 'stats']);
 Route::get('/users/{user}/albums', [AlbumController::class, 'getByUser']);

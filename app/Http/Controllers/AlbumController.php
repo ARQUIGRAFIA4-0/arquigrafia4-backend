@@ -86,6 +86,32 @@ class AlbumController extends Controller
         return $album;
     }
 
+    /**
+     * Imagens de um álbum (paginado)
+     *
+     * Retorna as imagens de um álbum específico, ordenadas por posição, paginadas para uso em scroll infinito.
+     *
+     * @group Álbuns
+     * @unauthenticated
+     * @queryParam per_page integer Itens por página. Default: 15. Example: 15
+     */
+    public function images(Request $request, $albumId)
+    {
+        $album = Album::findOrFail($albumId);
+
+        if ($album->is_private) {
+            $user = $request->user('api');
+            $canSee = $album->isOwnedByCollective()
+                ? ($user && $album->collective->isMember($user))
+                : ($user && $album->isOwnedByUser($user));
+            if (!$canSee) abort(403);
+        }
+
+        $perPage = $request->integer('per_page', 15);
+
+        return $album->images()->orderBy('pivot_position')->paginate($perPage);
+    }
+
     public function update(Request $request, $id)
     {
         $album = Album::findOrFail($id);
