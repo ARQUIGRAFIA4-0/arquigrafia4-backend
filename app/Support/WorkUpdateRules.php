@@ -44,6 +44,9 @@ class WorkUpdateRules
             'titles' => 'sometimes|array|min:1',
             'titles.*' => 'uuid|exists:vrac_titles,id',
 
+            'descriptions' => 'sometimes|array',
+            'descriptions.*' => 'uuid|exists:vrac_descriptions,id',
+
             'agents' => 'sometimes|array',
             'agents.*' => 'uuid|exists:vrac_agents,id',
 

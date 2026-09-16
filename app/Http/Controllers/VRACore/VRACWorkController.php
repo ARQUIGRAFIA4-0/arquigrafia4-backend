@@ -19,6 +19,7 @@ class VRACWorkController extends Controller
     private const EAGER = [
         'location',
         'titles',
+        'descriptions',
         'agents.contributorName',
         'agents.role',
         'dates',
@@ -63,6 +64,7 @@ class VRACWorkController extends Controller
      * @bodyParam longitude numeric Longitude for a new location. Required if location_id is not provided.
      * @bodyParam location_label string Human-readable label/address for the new location.
      * @bodyParam titles string[] UUIDs of existing VRACTitle records. At least one preferred title is required.
+     * @bodyParam descriptions string[] UUIDs of existing VRACDescription records.
      * @bodyParam agents string[] UUIDs of existing VRACAgent records.
      * @bodyParam dates string[] UUIDs of existing VRACDate records.
      * @bodyParam materials string[] UUIDs of existing VRACMaterial records.
@@ -78,6 +80,8 @@ class VRACWorkController extends Controller
             'location_label' => 'nullable|string|max:255',
             'titles' => 'required|array|min:1',
             'titles.*' => 'uuid|exists:vrac_titles,id',
+            'descriptions' => 'nullable|array',
+            'descriptions.*' => 'uuid|exists:vrac_descriptions,id',
             'agents' => 'nullable|array',
             'agents.*' => 'uuid|exists:vrac_agents,id',
             'dates' => 'nullable|array',
@@ -109,6 +113,7 @@ class VRACWorkController extends Controller
         $work->save();
 
         $work->titles()->sync($request->input('titles'));
+        $work->descriptions()->sync($request->input('descriptions', []));
         $work->agents()->sync($request->input('agents', []));
         $work->dates()->sync($request->input('dates', []));
         $work->materials()->sync($request->input('materials', []));
@@ -139,6 +144,8 @@ class VRACWorkController extends Controller
 
     /**
      * Update the specified work.
+     *
+     * @bodyParam descriptions string[] UUIDs of existing VRACDescription records. Replaces the work's current descriptions entirely (sync). Omit the field to leave descriptions unchanged; send an empty array to remove all descriptions from the work.
      */
     public function update(Request $request, string $id)
     {
@@ -174,6 +181,7 @@ class VRACWorkController extends Controller
         foreach (
             [
                 'titles' => 'titles',
+                'descriptions' => 'descriptions',
                 'agents' => 'agents',
                 'dates' => 'dates',
                 'materials' => 'materials',
