@@ -67,7 +67,7 @@ class ImageController extends Controller
         $image->save();
 
         // load original into vips from uploaded buffer and capture original dimensions
-        $uploaded = VipsImage::newFromBuffer($request->file('image')->getContent(), '', ['access' => 'sequential']);
+        $uploaded = VipsImage::newFromBuffer($request->file('image')->getContent(), '', ['access' => 'sequential', 'autorotate' => true]);
         $origWidth = $uploaded->width ?? null;
         $origHeight = $uploaded->height ?? null;
         $converted = $uploaded->writeToBuffer('.jpg');
