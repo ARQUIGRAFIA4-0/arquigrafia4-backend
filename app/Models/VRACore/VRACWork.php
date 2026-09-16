@@ -35,6 +35,7 @@ class VRACWork extends Model
 
     public const RELATIONS = [
         'titles',
+        'descriptions',
         'agents',
         'dates',
         'materials',
@@ -60,6 +61,11 @@ class VRACWork extends Model
     public function titles(): BelongsToMany
     {
         return $this->belongsToMany(VRACTitle::class, 'work_title', 'work_id', 'title_id');
+    }
+
+    public function descriptions(): BelongsToMany
+    {
+        return $this->belongsToMany(VRACDescription::class, 'work_description', 'work_id', 'description_id');
     }
 
     public function agents(): BelongsToMany

@@ -14,6 +14,7 @@ class ApplyWorkChangesAction
      */
     private const RELATION_MAP = [
         'titles' => 'titles',
+        'descriptions' => 'descriptions',
         'agents' => 'agents',
         'dates' => 'dates',
         'materials' => 'materials',
