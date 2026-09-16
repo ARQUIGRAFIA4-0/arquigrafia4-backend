@@ -168,7 +168,7 @@ class ImportLegacyAvatars extends Command
             mkdir(dirname($destPath), 0775, true);
         }
 
-        $image = VipsImage::newFromFile($sourcePath, ['access' => 'sequential']);
+        $image = VipsImage::newFromFile($sourcePath, ['access' => 'sequential', 'autorotate' => true]);
 
         $width = $image->width;
         $height = $image->height;

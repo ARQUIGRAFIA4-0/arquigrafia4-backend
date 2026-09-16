@@ -88,7 +88,7 @@ class UserController extends Controller
             $image = Image::newFromBuffer(
                 $uploadedFile->getContent(),
                 '',
-                ['access' => 'sequential']
+                ['access' => 'sequential', 'autorotate' => true]
             );
 
             $width  = $image->width;

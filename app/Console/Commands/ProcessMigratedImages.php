@@ -105,7 +105,7 @@ class ProcessMigratedImages extends Command
     protected function createDerivatives(VRACImage $image): void
     {
         $this->info($image->path('original', 'absolute'));
-        $original = VipsImage::newFromFile($image->path('original', 'absolute'), ['access' => 'sequential']);
+        $original = VipsImage::newFromFile($image->path('original', 'absolute'), ['access' => 'sequential', 'autorotate' => true]);
         $origWidth = $original->width ?? null;
         $origHeight = $original->height ?? null;
 
