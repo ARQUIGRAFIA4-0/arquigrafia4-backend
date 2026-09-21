@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\VRACore\VRACImage;
 use App\Models\User;
 
@@ -76,4 +77,9 @@ class Album extends Model
      ->withPivot('position')
      ->withTimestamps();
 }
+
+    public function percursos(): HasMany
+    {
+        return $this->hasMany(Percurso::class)->orderBy('position');
+    }
 }
