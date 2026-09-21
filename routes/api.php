@@ -32,6 +32,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\PercursoController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentLikeController;
 use App\Http\Controllers\BinomialEvaluationController;
@@ -71,6 +72,7 @@ Route::get('/albums/{album}', [AlbumController::class, 'show']);
 Route::get('/albums/{album}/images', [AlbumController::class, 'images']);
 Route::get('/albums/{album}/tags', [AlbumController::class, 'tags']);
 Route::get('/albums/{album}/stats', [AlbumController::class, 'stats']);
+Route::get('/albums/{album}/percursos', [PercursoController::class, 'index']);
 Route::get('/users/{user}/albums', [AlbumController::class, 'getByUser']);
 
 //suggestions
@@ -115,6 +117,9 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/albums/{album}/images', [AlbumController::class, 'syncImages']);
     Route::post('/albums/{album}/images', [AlbumController::class, 'addImage']);
     Route::delete('/albums/{album}/images', [AlbumController::class, 'removeImages']);
+    Route::post('/albums/{album}/percursos', [PercursoController::class, 'store']);
+    Route::put('/albums/{album}/percursos', [PercursoController::class, 'sync']);
+    Route::delete('/albums/{album}/percursos/{percurso}', [PercursoController::class, 'destroy']);
 
     // Binomials
     Route::post('/images/{image}/binomials', [BinomialEvaluationController::class, 'store']);
