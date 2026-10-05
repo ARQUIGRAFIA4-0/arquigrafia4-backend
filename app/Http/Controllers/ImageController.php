@@ -38,6 +38,8 @@ class ImageController extends Controller
      *
      * Retorna imagens paginadas com suporte a filtros de texto, data da imagem, data da obra,
      * licença, assunto, contribuidor, binômios e coletivo. Todos os filtros são combinados com AND.
+     * Dentro de um filtro com vários valores (assuntos, obras, técnicas, tipos de obra, materiais,
+     * períodos e contextos culturais) a imagem precisa ter todos os valores; só `license` aceita qualquer uma.
      *
      * @group Imagens
      *
@@ -284,15 +286,18 @@ class ImageController extends Controller
      * Retorna os termos mais usados por categoria: tipos de obra, materiais, técnicas, períodos,
      * contextos culturais, contribuidores e assuntos. Os assuntos vêm agrupados por categoria VRACore
      * (material, technique, work_type, style_period, uncategorized), top 10 por grupo.
+     * Tipos de obra, materiais, períodos e contextos culturais são contados pelas imagens que têm um
+     * assunto (tag) com o mesmo texto do termo, e o `id` retornado é o do vocabulário, aceito pelos
+     * filtros `work_type`, `material`, `style_period` e `cultural_context` de `GET /images`.
      * Resultado cacheado por 24h.
      *
      * @group Imagens
      *
      * @unauthenticated
      */
-    public function searchSuggestions()
+    public function searchSuggestions(ImageSearchService $searchService)
     {
-        return Cache::remember('image.search-suggestions', 86400, function () {
+        return Cache::remember('image.search-suggestions', 86400, function () use ($searchService) {
             $top = fn (string $pivot, string $table, string $fk, string $label) => DB::table($pivot)
                 ->join($table, "{$pivot}.{$fk}", '=', "{$table}.id")
                 ->select("{$table}.id", "{$table}.{$label} as term", DB::raw('COUNT(*) as total'))
@@ -335,11 +340,11 @@ class ImageController extends Controller
             ];
 
             return response()->json([
-                'work_types' => $top('image_work_type', 'vrac_work_types', 'work_type_id', 'label'),
-                'materials' => $top('image_material', 'vrac_materials', 'material_id', 'label'),
+                'work_types' => $searchService->topVocabularyByTag('vrac_work_types'),
+                'materials' => $searchService->topVocabularyByTag('vrac_materials'),
                 'techniques' => $top('image_technique', 'vrac_techniques', 'technique_id', 'label'),
-                'style_periods' => $top('image_style_period', 'vrac_style_periods', 'style_period_id', 'label'),
-                'cultural_contexts' => $top('cultural_context_image', 'vrac_cultural_contexts', 'cultural_context_id', 'label'),
+                'style_periods' => $searchService->topVocabularyByTag('vrac_style_periods'),
+                'cultural_contexts' => $searchService->topVocabularyByTag('vrac_cultural_contexts'),
                 'contributors' => DB::table('agent_image')
                     ->join('vrac_agents', 'agent_image.agent_id', '=', 'vrac_agents.id')
                     ->join('vrac_contributor_names', 'vrac_agents.contributor_name_id', '=', 'vrac_contributor_names.id')
