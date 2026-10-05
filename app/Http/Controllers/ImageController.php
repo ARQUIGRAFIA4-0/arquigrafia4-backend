@@ -38,6 +38,8 @@ class ImageController extends Controller
      *
      * Retorna imagens paginadas com suporte a filtros de texto, data da imagem, data da obra,
      * licença, assunto, contribuidor, binômios e coletivo. Todos os filtros são combinados com AND.
+     * Dentro de um filtro com vários valores (assuntos, obras, técnicas, tipos de obra, materiais,
+     * períodos e contextos culturais) a imagem precisa ter todos os valores; só `license` aceita qualquer uma.
      *
      * @group Imagens
      *

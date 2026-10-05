@@ -77,36 +77,52 @@ class ImageSearchService
         });
     }
 
+    /**
+     * Filters with several values refine the result: the image must match every value
+     * (AND). `license` is the exception, since an image has a single license.
+     */
     protected function filterBySubjectIds(Builder $query, array $ids): Builder
     {
-        return $query->whereHas('subjects', function (Builder $q) use ($ids) {
-            $q->whereIn('vrac_subjects.id', $ids);
-        });
+        foreach ($ids as $id) {
+            $query->whereHas('subjects', function (Builder $q) use ($id) {
+                $q->where('vrac_subjects.id', $id);
+            });
+        }
+
+        return $query;
     }
 
     protected function filterBySubjectTerm(Builder $query, array $terms): Builder
     {
-        return $query->whereHas('subjects', function (Builder $q) use ($terms) {
-            $q->where(function (Builder $q2) use ($terms) {
-                foreach ($terms as $term) {
-                    $q2->orWhere('term', 'LIKE', '%'.$term.'%');
-                }
+        foreach ($terms as $term) {
+            $query->whereHas('subjects', function (Builder $q) use ($term) {
+                $q->where('term', 'LIKE', '%'.$term.'%');
             });
-        });
+        }
+
+        return $query;
     }
 
     protected function filterByWorkIds(Builder $query, array $ids): Builder
     {
-        return $query->whereHas('works', function (Builder $q) use ($ids) {
-            $q->whereIn('vrac_works.id', $ids);
-        });
+        foreach ($ids as $id) {
+            $query->whereHas('works', function (Builder $q) use ($id) {
+                $q->where('vrac_works.id', $id);
+            });
+        }
+
+        return $query;
     }
 
     protected function filterByTechniqueIds(Builder $query, array $ids): Builder
     {
-        return $query->whereHas('techniques', function (Builder $q) use ($ids) {
-            $q->whereIn('vrac_techniques.id', $ids);
-        });
+        foreach ($ids as $id) {
+            $query->whereHas('techniques', function (Builder $q) use ($id) {
+                $q->where('vrac_techniques.id', $id);
+            });
+        }
+
+        return $query;
     }
 
     protected function filterByWorkTypeIds(Builder $query, array $ids): Builder
@@ -131,24 +147,29 @@ class ImageSearchService
 
     /**
      * Legacy images carry their VCAA vocabulary only as subjects (tags), never in the
-     * `image_*` pivots, so an image matches when it is linked to the term directly or
-     * has a subject with the same text.
+     * `image_*` pivots, so for each selected term an image matches when it is linked to
+     * the term directly or has a subject with the same text. Every selected term must
+     * match (AND).
      */
     protected function filterByVocabularyIds(Builder $query, string $relation, string $table, array $ids): Builder
     {
-        $subjectIds = $this->subjectIdsForVocabulary($table, $ids);
+        foreach ($ids as $id) {
+            $subjectIds = $this->subjectIdsForVocabulary($table, [$id]);
 
-        return $query->where(function (Builder $q) use ($relation, $table, $ids, $subjectIds) {
-            $q->whereHas($relation, function (Builder $r) use ($table, $ids) {
-                $r->whereIn("{$table}.id", $ids);
-            });
-
-            if ($subjectIds !== []) {
-                $q->orWhereHas('subjects', function (Builder $s) use ($subjectIds) {
-                    $s->whereIn('vrac_subjects.id', $subjectIds);
+            $query->where(function (Builder $q) use ($relation, $table, $id, $subjectIds) {
+                $q->whereHas($relation, function (Builder $r) use ($table, $id) {
+                    $r->where("{$table}.id", $id);
                 });
-            }
-        });
+
+                if ($subjectIds !== []) {
+                    $q->orWhereHas('subjects', function (Builder $s) use ($subjectIds) {
+                        $s->whereIn('vrac_subjects.id', $subjectIds);
+                    });
+                }
+            });
+        }
+
+        return $query;
     }
 
     protected function subjectIdsForVocabulary(string $table, array $ids): array
