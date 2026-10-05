@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Location;
 use App\Models\User;
 use App\Models\VRACore\VRACImage;
 use App\Models\VRACore\VRACSubject;
@@ -102,6 +103,46 @@ class ImageTextSearchTest extends TestCase
         $this->image('Edifício Copan');
 
         $response = $this->search('"edifício" -dom (pedro*');
+
+        $response->assertStatus(200);
+        $response->assertJsonCount(1, 'data');
+        $response->assertJsonPath('data.0.id', $match->id);
+    }
+
+    public function test_two_letter_words_are_required_as_whole_words(): void
+    {
+        $match = $this->image('Praça da Sé');
+        $this->image('Praça Roosevelt');
+        $this->image('Praça Marechal');
+
+        $response = $this->search('praça da se');
+
+        $response->assertStatus(200);
+        $response->assertJsonCount(1, 'data');
+        $response->assertJsonPath('data.0.id', $match->id);
+    }
+
+    public function test_a_two_letter_word_can_match_in_the_address(): void
+    {
+        $match = $this->image('Catedral');
+        $match->locations()->sync([
+            Location::create(['latitude' => -23.55, 'longitude' => -46.63, 'label' => 'Praça da Sé, São Paulo, SP'])->id,
+        ]);
+        $this->image('Catedral Metropolitana');
+
+        $response = $this->search('catedral sé');
+
+        $response->assertStatus(200);
+        $response->assertJsonCount(1, 'data');
+        $response->assertJsonPath('data.0.id', $match->id);
+    }
+
+    public function test_a_search_of_only_a_two_letter_word_matches_whole_words_only(): void
+    {
+        $match = $this->image('Praça da Sé');
+        $this->image('Seminário Roosevelt');
+
+        $response = $this->search('sé');
 
         $response->assertStatus(200);
         $response->assertJsonCount(1, 'data');

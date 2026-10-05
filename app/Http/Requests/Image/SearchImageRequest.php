@@ -14,7 +14,7 @@ class SearchImageRequest extends FormRequest
     public function queryParameters(): array
     {
         return [
-            'q' => ['description' => 'Busca de texto em títulos, assuntos, descrições, contribuidores, títulos de obra e endereço. Todas as palavras precisam aparecer (E), cada uma em qualquer um desses campos, e valem como prefixo ("mosaico" encontra "mosaicos"). Palavras com menos de 3 letras e conectores como "de" e "da" são ignorados. Sem `sort_by`, as imagens com todas as palavras no título vêm primeiro.', 'example' => 'No-example'],
+            'q' => ['description' => 'Busca de texto em títulos, assuntos, descrições, contribuidores, títulos de obra e endereço. Todas as palavras precisam aparecer (E), cada uma em qualquer um desses campos, e valem como prefixo ("mosaico" encontra "mosaicos"). Conectores como "de" e "da" e palavras de uma letra são ignorados; palavras de duas letras, como "sé", precisam aparecer como palavra inteira no título, assunto, contribuidor, título de obra ou endereço. Sem `sort_by`, as imagens com todas as palavras no título vêm primeiro.', 'example' => 'No-example'],
             'title' => ['description' => 'Filtra por título da imagem (busca parcial).', 'example' => 'No-example'],
             'contributor' => ['description' => 'Filtra por nome do contribuidor (busca parcial).', 'example' => 'No-example'],
             'location' => ['description' => 'Filtra por localização da imagem (busca parcial pelo rótulo legível).', 'example' => 'No-example'],

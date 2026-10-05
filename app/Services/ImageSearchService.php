@@ -10,6 +10,11 @@ class ImageSearchService
 {
     private const MAX_SEARCH_TERMS = 6;
 
+    private const SHORT_CONNECTORS = [
+        'de', 'da', 'do', 'em', 'no', 'na', 'ao', 'as', 'os', 'um', 'ou',
+        'la', 'el', 'en', 'of', 'to', 'in', 'on', 'at', 'by', 'or', 'an',
+    ];
+
     private const IGNORED_WORDS = [
         'dos', 'das', 'uma', 'uns', 'por', 'para', 'com', 'que', 'nos', 'nas',
         'the', 'and', 'for', 'from', 'with', 'that', 'this', 'about', 'are', 'how',
@@ -296,14 +301,16 @@ class ImageSearchService
 
     /**
      * Every word of the search must match, each one in any of the searched fields.
-     * Words are matched as prefixes ("mosaico" finds "mosaicos").
+     * Words of three letters or more match as prefixes ("mosaico" finds "mosaicos");
+     * two-letter words ("sé") match as whole words.
      */
     protected function filterByFullText(Builder $query, string $search): Builder
     {
         $terms = $this->searchTerms($search);
+        $shortTerms = $this->shortSearchTerms($search);
 
-        if ($terms === []) {
-            // Every word was too short or ignored: fall back to the whole phrase in the title.
+        if ($terms === [] && $shortTerms === []) {
+            // Only connectors or one-letter words: fall back to the whole phrase in the title.
             return $this->filterByTitle($query, trim($search));
         }
 
@@ -311,26 +318,53 @@ class ImageSearchService
             $query->whereIn('vrac_images.id', $this->imageIdsMatchingTerm($term));
         }
 
+        foreach ($shortTerms as $term) {
+            $query->whereIn('vrac_images.id', $this->imageIdsMatchingShortTerm($term));
+        }
+
         return $query;
     }
 
     /**
-     * Splits the search into words, dropping operators and punctuation, words under three
-     * letters and common connectors. InnoDB does not index those, so requiring one of them
-     * would make the whole search return nothing.
+     * @return array<int, string> lowercase words without operators or punctuation
+     */
+    private function searchWords(string $search): array
+    {
+        $text = mb_strtolower((string) preg_replace('/[^\p{L}\p{N}]+/u', ' ', $search));
+
+        return array_values(array_unique(preg_split('/\s+/u', trim($text), -1, PREG_SPLIT_NO_EMPTY)));
+    }
+
+    /**
+     * Words of three letters or more, minus common connectors. InnoDB does not index words
+     * shorter than that, and requiring a stop word would make the whole search return nothing.
      *
      * @return array<int, string>
      */
     protected function searchTerms(string $search): array
     {
-        $text = mb_strtolower((string) preg_replace('/[^\p{L}\p{N}]+/u', ' ', $search));
-
         $terms = array_filter(
-            preg_split('/\s+/u', trim($text), -1, PREG_SPLIT_NO_EMPTY),
+            $this->searchWords($search),
             fn (string $term) => mb_strlen($term) >= 3 && ! in_array($term, self::IGNORED_WORDS, true),
         );
 
-        return array_slice(array_values(array_unique($terms)), 0, self::MAX_SEARCH_TERMS);
+        return array_slice(array_values($terms), 0, self::MAX_SEARCH_TERMS);
+    }
+
+    /**
+     * Two-letter words that are not connectors ("sé"). The full-text index cannot hold them,
+     * so they are compared as whole words instead.
+     *
+     * @return array<int, string>
+     */
+    protected function shortSearchTerms(string $search): array
+    {
+        $terms = array_filter(
+            $this->searchWords($search),
+            fn (string $term) => mb_strlen($term) === 2 && ! in_array($term, self::SHORT_CONNECTORS, true),
+        );
+
+        return array_slice(array_values($terms), 0, self::MAX_SEARCH_TERMS);
     }
 
     protected function booleanQuery(array $terms): string
@@ -385,15 +419,81 @@ class ImageSearchService
     }
 
     /**
+     * Images with a title, subject, contributor, work title or address that contains the
+     * two-letter word as a whole word. Descriptions are skipped: they are long texts where
+     * a short word appears almost everywhere and a LIKE over them is expensive.
+     */
+    protected function imageIdsMatchingShortTerm(string $term): \Illuminate\Database\Query\Builder
+    {
+        $like = '% '.$term.' %';
+
+        $titleIds = DB::table('image_title')
+            ->select('image_title.image_id')
+            ->join('vrac_titles', 'image_title.title_id', '=', 'vrac_titles.id')
+            ->whereRaw($this->wholeWordColumn('vrac_titles.label').' LIKE ?', [$like]);
+
+        $subjectIds = DB::table('image_subject')
+            ->select('image_subject.image_id')
+            ->join('vrac_subjects', 'image_subject.subject_id', '=', 'vrac_subjects.id')
+            ->whereRaw($this->wholeWordColumn('vrac_subjects.term').' LIKE ?', [$like]);
+
+        $contributorIds = DB::table('agent_image')
+            ->select('agent_image.image_id')
+            ->join('vrac_agents', 'agent_image.agent_id', '=', 'vrac_agents.id')
+            ->join('vrac_contributor_names', 'vrac_agents.contributor_name_id', '=', 'vrac_contributor_names.id')
+            ->whereRaw($this->wholeWordColumn('vrac_contributor_names.name').' LIKE ?', [$like]);
+
+        $workTitleIds = DB::table('image_work')
+            ->select('image_work.image_id')
+            ->join('work_title', 'image_work.work_id', '=', 'work_title.work_id')
+            ->join('vrac_titles', 'work_title.title_id', '=', 'vrac_titles.id')
+            ->whereRaw($this->wholeWordColumn('vrac_titles.label').' LIKE ?', [$like]);
+
+        $locationIds = DB::table('image_location')
+            ->select('image_location.image_id')
+            ->join('locations', 'image_location.location_id', '=', 'locations.id')
+            ->whereRaw($this->wholeWordColumn('locations.label').' LIKE ?', [$like]);
+
+        $matching = $titleIds
+            ->union($subjectIds)
+            ->union($contributorIds)
+            ->union($workTitleIds)
+            ->union($locationIds);
+
+        return DB::query()->fromSub($matching, 'matching')->select('matching.image_id');
+    }
+
+    /**
+     * The column with common punctuation turned into spaces and wrapped in spaces, so a
+     * `LIKE '% se %'` only matches the whole word (and, as any LIKE, ignores case and accents).
+     */
+    protected function wholeWordColumn(string $column): string
+    {
+        $expression = $column;
+
+        foreach (["','", "'.'", "';'", "':'", "'-'", "'/'", "'('", "')'", "'\"'", "''''", "'_'"] as $punctuation) {
+            $expression = "REPLACE({$expression}, {$punctuation}, ' ')";
+        }
+
+        return "CONCAT(' ', {$expression}, ' ')";
+    }
+
+    /**
      * With a text search and no explicit sort, images whose title contains every word come
      * first, then the rest, newest first. Without text the order stays random.
      */
     protected function applyDefaultOrder(Builder $query, array $filters): Builder
     {
-        $terms = $this->searchTerms((string) ($filters['q'] ?? ''));
+        $search = (string) ($filters['q'] ?? '');
+
+        if (trim($search) === '') {
+            return $query->inRandomOrder();
+        }
+
+        $terms = $this->searchTerms($search);
 
         if ($terms === []) {
-            return $query->inRandomOrder();
+            return $query->orderByDesc('vrac_images.id');
         }
 
         $titleMatches = DB::table('image_title')
