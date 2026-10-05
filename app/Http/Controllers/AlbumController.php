@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Album\SearchAlbumRequest;
 use App\Models\Album;
 use App\Models\Collective;
 use App\Models\VRACore\VRACSubject;
@@ -16,14 +17,58 @@ use Illuminate\Support\Facades\DB;
 class AlbumController extends Controller
 {
     /**
+     * Listar / buscar álbuns
+     *
+     * Retorna os álbuns públicos, paginados, do mais novo para o mais antigo. Todos os filtros enviados
+     * são combinados com E. Quando o texto de `title`, `user` ou `collective` é exatamente igual ao
+     * título/nome, esse álbum vem antes dos que apenas o contêm. Cada álbum inclui `percursos_count`.
+     *
      * @unauthenticated
      */
-    public function index()
+    public function index(SearchAlbumRequest $request)
     {
-        $albums = Album::where('is_private', false)
+        $query = Album::where('is_private', false)
+            ->withCount('percursos')
             ->with(['images' => function ($q) {
                 $q->orderBy('pivot_position');
-            }])->paginate();
+            }]);
+
+        $title = trim((string) $request->input('title'));
+        $user = trim((string) $request->input('user'));
+        $collective = trim((string) $request->input('collective'));
+
+        if ($title !== '') {
+            $this->whereContainsWords($query, 'albums.title', $title);
+        }
+
+        if ($user !== '') {
+            $query->whereHas('user', fn ($q) => $this->whereContainsWords($q, 'users.name', $user));
+        }
+
+        if ($collective !== '') {
+            $query->whereHas('collective', fn ($q) => $this->whereContainsWords($q, 'collectives.name', $collective));
+        }
+
+        if ($request->filled('has_percursos')) {
+            filter_var($request->input('has_percursos'), FILTER_VALIDATE_BOOLEAN)
+                ? $query->whereHas('percursos')
+                : $query->whereDoesntHave('percursos');
+        }
+
+        if ($title !== '') {
+            $query->orderByRaw('(albums.title = ?) DESC', [$title]);
+        }
+        if ($user !== '') {
+            $query->orderByRaw('(EXISTS (SELECT 1 FROM users WHERE users.id = albums.user_id AND users.name = ?)) DESC', [$user]);
+        }
+        if ($collective !== '') {
+            $query->orderByRaw('(EXISTS (SELECT 1 FROM collectives WHERE collectives.id = albums.collective_id AND collectives.name = ?)) DESC', [$collective]);
+        }
+
+        $albums = $query
+            ->orderByDesc('albums.id')
+            ->paginate($request->integer('per_page', 15))
+            ->withQueryString();
 
         $albumIds = $albums->pluck('id')->toArray();
 
@@ -389,6 +434,16 @@ class AlbumController extends Controller
             ],
             'binomial_averages' => $binomialAverages,
         ]);
+    }
+
+    /**
+     * Every word must appear in the column, in any order (case and accent insensitive).
+     */
+    private function whereContainsWords($query, string $column, string $text): void
+    {
+        foreach (preg_split('/\s+/u', $text, -1, PREG_SPLIT_NO_EMPTY) as $word) {
+            $query->where($column, 'LIKE', '%'.addcslashes($word, '\\%_').'%');
+        }
     }
 
     private function batchStats(array $albumIds): array
