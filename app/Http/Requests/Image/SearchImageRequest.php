@@ -14,7 +14,7 @@ class SearchImageRequest extends FormRequest
     public function queryParameters(): array
     {
         return [
-            'q' => ['description' => 'Busca full-text em títulos, assuntos, descrições e nomes de contribuidores.', 'example' => 'No-example'],
+            'q' => ['description' => 'Busca de texto em títulos, assuntos, descrições, contribuidores, títulos de obra e endereço. Todas as palavras precisam aparecer (E), cada uma em qualquer um desses campos, e valem como prefixo ("mosaico" encontra "mosaicos"). Palavras com menos de 3 letras e conectores como "de" e "da" são ignorados. Sem `sort_by`, as imagens com todas as palavras no título vêm primeiro.', 'example' => 'No-example'],
             'title' => ['description' => 'Filtra por título da imagem (busca parcial).', 'example' => 'No-example'],
             'contributor' => ['description' => 'Filtra por nome do contribuidor (busca parcial).', 'example' => 'No-example'],
             'location' => ['description' => 'Filtra por localização da imagem (busca parcial pelo rótulo legível).', 'example' => 'No-example'],
@@ -44,7 +44,7 @@ class SearchImageRequest extends FormRequest
             'license.*' => ['description' => 'Uma licença Creative Commons. Para múltiplas licenças, repita o parâmetro: `?license[]=BY&license[]=CC0`.', 'example' => 'BY'],
             'binomial' => ['description' => 'Filtra por características avaliadas pelos usuários. Chave = ID do binômio, valor = `left` ou `right`. Ex: `?binomial[1]=left&binomial[3]=right`.', 'example' => 'No-example'],
             'binomial.*' => ['description' => 'Lado do binômio: `left` (palavra esquerda) ou `right` (palavra direita).', 'example' => 'left'],
-            'sort_by' => ['description' => 'Campo de ordenação: `created_at`, `title` ou `date`. Padrão: ordem aleatória.', 'example' => 'created_at'],
+            'sort_by' => ['description' => 'Campo de ordenação: `created_at`, `title` ou `date`. Padrão: por relevância quando há `q`; sem `q`, ordem aleatória.', 'example' => 'created_at'],
             'sort_order' => ['description' => 'Direção da ordenação: `asc` ou `desc`.', 'example' => 'desc'],
             'per_page' => ['description' => 'Resultados por página (mín: 1, máx: 100, padrão: 50).', 'example' => 5],
         ];
