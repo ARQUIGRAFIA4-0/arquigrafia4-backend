@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class ImageSearchService
@@ -110,30 +111,95 @@ class ImageSearchService
 
     protected function filterByWorkTypeIds(Builder $query, array $ids): Builder
     {
-        return $query->whereHas('workTypes', function (Builder $q) use ($ids) {
-            $q->whereIn('vrac_work_types.id', $ids);
-        });
+        return $this->filterByVocabularyIds($query, 'workTypes', 'vrac_work_types', $ids);
     }
 
     protected function filterByMaterialIds(Builder $query, array $ids): Builder
     {
-        return $query->whereHas('materials', function (Builder $q) use ($ids) {
-            $q->whereIn('vrac_materials.id', $ids);
-        });
+        return $this->filterByVocabularyIds($query, 'materials', 'vrac_materials', $ids);
     }
 
     protected function filterByStylePeriodIds(Builder $query, array $ids): Builder
     {
-        return $query->whereHas('stylePeriods', function (Builder $q) use ($ids) {
-            $q->whereIn('vrac_style_periods.id', $ids);
-        });
+        return $this->filterByVocabularyIds($query, 'stylePeriods', 'vrac_style_periods', $ids);
     }
 
     protected function filterByCulturalContextIds(Builder $query, array $ids): Builder
     {
-        return $query->whereHas('culturalContexts', function (Builder $q) use ($ids) {
-            $q->whereIn('vrac_cultural_contexts.id', $ids);
+        return $this->filterByVocabularyIds($query, 'culturalContexts', 'vrac_cultural_contexts', $ids);
+    }
+
+    /**
+     * Legacy images carry their VCAA vocabulary only as subjects (tags), never in the
+     * `image_*` pivots, so an image matches when it is linked to the term directly or
+     * has a subject with the same text.
+     */
+    protected function filterByVocabularyIds(Builder $query, string $relation, string $table, array $ids): Builder
+    {
+        $subjectIds = $this->subjectIdsForVocabulary($table, $ids);
+
+        return $query->where(function (Builder $q) use ($relation, $table, $ids, $subjectIds) {
+            $q->whereHas($relation, function (Builder $r) use ($table, $ids) {
+                $r->whereIn("{$table}.id", $ids);
+            });
+
+            if ($subjectIds !== []) {
+                $q->orWhereHas('subjects', function (Builder $s) use ($subjectIds) {
+                    $s->whereIn('vrac_subjects.id', $subjectIds);
+                });
+            }
         });
+    }
+
+    protected function subjectIdsForVocabulary(string $table, array $ids): array
+    {
+        $labels = DB::table($table)
+            ->whereIn('id', $ids)
+            ->whereNotNull('label')
+            ->pluck('label')
+            ->map(fn (string $label) => mb_strtolower($label))
+            ->unique()
+            ->values()
+            ->all();
+
+        if ($labels === []) {
+            return [];
+        }
+
+        return DB::table('vrac_subjects')
+            ->whereIn(DB::raw('LOWER(term)'), $labels)
+            ->pluck('id')
+            ->all();
+    }
+
+    /**
+     * Most used terms of a vocabulary table, ranked by the images that carry a subject
+     * with the same text. The vocabulary can repeat a label (a VCAA row and a manual
+     * one), so each label is returned once, preferring the VCAA row, and its id is one
+     * the vocabulary filters accept.
+     */
+    public function topVocabularyByTag(string $table, int $limit = 10): Collection
+    {
+        $terms = DB::table($table)
+            ->selectRaw("LOWER(label) as k, MIN(label) as term, COALESCE(MIN(CASE WHEN vocab = 'VCAA' THEN id END), MIN(id)) as id")
+            ->whereNotNull('label')
+            ->groupByRaw('LOWER(label)');
+
+        $matches = DB::table('vrac_subjects')
+            ->joinSub($terms, 't', function ($join) {
+                $join->on(DB::raw('LOWER(vrac_subjects.term)'), '=', 't.k');
+            })
+            ->select('vrac_subjects.id as subject_id', 't.id', 't.term');
+
+        return DB::table('image_subject')
+            ->joinSub($matches, 'm', 'm.subject_id', '=', 'image_subject.subject_id')
+            ->join('vrac_images', 'vrac_images.id', '=', 'image_subject.image_id')
+            ->whereNull('vrac_images.deleted_at')
+            ->select('m.id', 'm.term', DB::raw('COUNT(DISTINCT image_subject.image_id) as total'))
+            ->groupBy('m.id', 'm.term')
+            ->orderByDesc('total')
+            ->limit($limit)
+            ->get();
     }
 
     protected function filterByLicense(Builder $query, array $licenses): Builder
