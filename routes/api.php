@@ -37,6 +37,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentLikeController;
 use App\Http\Controllers\BinomialEvaluationController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RouteController;
 
 // álbumes
 Route::get('/albums', [AlbumController::class, 'index']);
@@ -123,6 +124,9 @@ Route::middleware('auth:api')->group(function () {
 
     // Binomials
     Route::post('/images/{image}/binomials', [BinomialEvaluationController::class, 'store']);
+
+    // //percursos
+    Route::post('/route', [RouteController::class, 'route']);
 
     // Reports
     Route::post('/reports', [ReportController::class, 'store']);

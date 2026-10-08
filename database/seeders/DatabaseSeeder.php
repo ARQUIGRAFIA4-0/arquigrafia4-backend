@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             SubjectSeeder::class,
             TechniqueSeeder::class,
             WorkTypeSeeder::class,
-            LegacyUserSeeder::class,
+            // LegacyUserSeeder::class,
         ]);
     }
 }

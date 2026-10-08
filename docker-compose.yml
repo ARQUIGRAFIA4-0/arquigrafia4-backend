@@ -27,6 +27,20 @@ services:
             - meilisearch
             - mailpit
             - selenium
+    osrm:
+        image: 'ghcr.io/project-osrm/osrm-backend:26.9.0-debian'
+        command: 
+            - osrm-routed
+            - --algorithm
+            - mld
+            - /data/brazil-latest.osrm
+        volumes:
+            - ../../osrm-lab/data:/data
+
+        ports:
+            - '5000:5000'
+        networks:
+            - sail
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
