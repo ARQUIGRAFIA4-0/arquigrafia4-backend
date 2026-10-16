@@ -24,6 +24,8 @@ class Album extends Model
         'is_private',
     ];
 
+    protected $hidden = ['legacy_id'];
+
     protected function casts(): array
     {
         return [
