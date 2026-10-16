@@ -87,7 +87,7 @@ class AlbumController extends Controller
     {
         $data = $request->validate([
             'collective_id' => 'nullable|uuid|exists:collectives,id',
-            'title'         => 'nullable|string|max:255',
+            'title'         => 'nullable|string|max:150',
             'description'   => 'nullable|string|max:1000',
             'is_private'    => 'boolean',
         ]);
@@ -166,7 +166,7 @@ class AlbumController extends Controller
         }
 
         $data = $request->validate([
-            'title'       => 'sometimes|nullable|string|max:255',
+            'title'       => 'sometimes|nullable|string|max:150',
             'description' => 'sometimes|nullable|string|max:1000',
             'is_private'  => 'sometimes|boolean',
         ]);
