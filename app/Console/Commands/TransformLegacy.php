@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Album;
 use App\Models\Collective;
 use App\Models\Location;
 use App\Models\Profile;
@@ -38,6 +39,8 @@ use Symfony\Component\Process\Process;
  * Faulty CSV-quoting fixes from history.json are intentionally skipped — we
  * read straight from MySQL so the quoting issues never arise.
  *
+ * Albums are a separate phase (`--only-albums`) that runs after users and images exist.
+ *
  * Skipped on purpose:
  *   - geocoding (ops 259–278) — assume lat/lon are already in `photos`-like data
  *   - VCAA tag reconciliation (ops 283–287) — handled by sync:tematres + DB match
@@ -55,6 +58,7 @@ class TransformLegacy extends Command
         {--dry-run : Run the transforms but do not write anything to the app database}
         {--skip-users : Skip the user-migration phase (assume users.legacy_id is already populated)}
         {--skip-images : Skip the image-migration phase (only migrate users)}
+        {--only-albums : Run only the albums phase (users and images must already be migrated)}
         {--only-legacy-user-id= : Only migrate photos owned by this legacy `photos.user_id` (for backfilling one account)}';
 
     protected $description = 'Load a legacy SQL dump, migrate new users, then seed VRACore tables from the legacy photos';
@@ -96,6 +100,11 @@ class TransformLegacy extends Command
         try {
             $this->loadDump($inputPath, $dbName);
             $this->configureConnection($dbName);
+
+            if ($this->option('only-albums')) {
+                $this->runAlbumsPhase();
+                return self::SUCCESS;
+            }
 
             if (! $this->option('skip-users')) {
                 $this->runUsersPhase();
@@ -181,6 +190,149 @@ class TransformLegacy extends Command
 
         [$processed, $imported, $skipped] = $this->processRows($rows);
         $this->info("Images: processed {$processed}, imported {$imported}, skipped {$skipped}.");
+    }
+
+    private function runAlbumsPhase(): void
+    {
+        $this->info('--- Phase 3: albums ---');
+        $dryRun = (bool) $this->option('dry-run');
+
+        $stats = $this->importLegacyAlbums($dryRun);
+
+        foreach ($stats['errors'] as $error) {
+            $this->warn($error);
+        }
+
+        $verb = $dryRun ? 'would be imported' : 'imported';
+        $this->info("Albums in the dump: {$stats['legacy']}");
+        $this->info("  skipped, 'Favoritos' (automatic per-user album): {$stats['favorites']}");
+        $this->info("  skipped, already imported (legacy_id present): {$stats['already']}");
+        $this->info("  skipped, owner not found in users.legacy_id: {$stats['no_owner']}");
+        $this->info("  skipped, no photos left in the new system: {$stats['no_photos']}");
+        $this->info("  {$verb}: {$stats['imported']} albums with {$stats['links']} photos");
+        $this->info("  photo links dropped (photo not in vrac_images.legacy_id): {$stats['links_missing']}");
+        $this->info("  with collective: {$stats['collective']}; collective missing locally (imported without it): {$stats['collective_missing']}");
+        if ($stats['failed'] > 0) {
+            $this->warn("  failed: {$stats['failed']}");
+        }
+    }
+
+    /**
+     * Copies the legacy `albums` + `album_elements` into `albums` + `album_image`.
+     *
+     * Skips the automatic per-user "Favoritos" albums, albums whose owner or photos
+     * do not exist in the new system, and albums already imported (by `legacy_id`).
+     * Imported albums are public: the legacy platform had no private albums.
+     *
+     * @return array<string, mixed> counters plus a list of `errors`
+     */
+    public function importLegacyAlbums(bool $dryRun): array
+    {
+        $legacy = DB::connection('legacy_dump');
+
+        $users = User::whereNotNull('legacy_id')->pluck('id', 'legacy_id')->all();
+        $images = VRACImage::whereNotNull('legacy_id')->pluck('id', 'legacy_id')->all();
+        $existing = Album::withTrashed()->whereNotNull('legacy_id')->pluck('id', 'legacy_id')->all();
+        $this->existingCollectiveIds = Collective::pluck('id')->flip()->all();
+
+        $photosByAlbum = [];
+        foreach ($legacy->table('album_elements')->select('album_id', 'photo_id')->get() as $row) {
+            $photosByAlbum[(int) $row->album_id][] = (int) $row->photo_id;
+        }
+
+        $albums = $legacy->table('albums')->orderBy('id')->get();
+
+        $stats = [
+            'legacy' => count($albums), 'favorites' => 0, 'already' => 0, 'no_owner' => 0,
+            'no_photos' => 0, 'imported' => 0, 'links' => 0, 'links_missing' => 0,
+            'collective' => 0, 'collective_missing' => 0, 'failed' => 0, 'errors' => [],
+        ];
+
+        foreach ($albums as $row) {
+            $legacyId = (int) $row->id;
+
+            if (strcasecmp(trim((string) $row->title), 'Favoritos') === 0) {
+                $stats['favorites']++;
+                continue;
+            }
+            if (isset($existing[$legacyId])) {
+                $stats['already']++;
+                continue;
+            }
+            $ownerId = $users[(int) $row->user_id] ?? null;
+            if ($ownerId === null) {
+                $stats['no_owner']++;
+                continue;
+            }
+
+            $imageIds = [];
+            foreach (array_unique($photosByAlbum[$legacyId] ?? []) as $photoId) {
+                if (isset($images[$photoId])) {
+                    $imageIds[] = $images[$photoId];
+                } else {
+                    $stats['links_missing']++;
+                }
+            }
+            if ($imageIds === []) {
+                $stats['no_photos']++;
+                continue;
+            }
+
+            $collectiveId = null;
+            if ($row->institution_id !== null) {
+                $collectiveId = $this->resolveCollectiveId((string) $row->institution_id);
+                $collectiveId !== null ? $stats['collective']++ : $stats['collective_missing']++;
+            }
+
+            if (! $dryRun) {
+                try {
+                    $this->storeLegacyAlbum($row, $ownerId, $collectiveId, $imageIds);
+                } catch (\Throwable $e) {
+                    $stats['failed']++;
+                    $stats['errors'][] = "Album legacy_id={$legacyId} failed: ".$e->getMessage();
+                    continue;
+                }
+            }
+
+            $stats['imported']++;
+            $stats['links'] += count($imageIds);
+        }
+
+        return $stats;
+    }
+
+    private function storeLegacyAlbum(object $row, string $ownerId, ?string $collectiveId, array $imageIds): void
+    {
+        $createdAt = $this->parseTimestamp($this->nullableString($row->creationDate ?? null)) ?? now();
+
+        DB::transaction(function () use ($row, $ownerId, $collectiveId, $imageIds, $createdAt) {
+            $album = new Album();
+            $album->legacy_id = (int) $row->id;
+            $album->user_id = $ownerId;
+            $album->collective_id = $collectiveId;
+            $album->title = ($title = $this->nullableString($row->title ?? null)) !== null
+                ? Str::limit($title, 255, '')
+                : null;
+            $album->description = $this->nullableString($row->description ?? null);
+            $album->is_private = false;
+            $album->created_at = $createdAt;
+            $album->updated_at = $createdAt;
+            $album->save();
+
+            $links = [];
+            foreach (array_values($imageIds) as $position => $imageId) {
+                $links[] = [
+                    'album_id' => $album->id,
+                    'image_id' => $imageId,
+                    'position' => $position,
+                    'created_at' => $createdAt,
+                    'updated_at' => $createdAt,
+                ];
+            }
+            foreach (array_chunk($links, 500) as $chunk) {
+                DB::table('album_image')->insert($chunk);
+            }
+        });
     }
 
     private function validUserRow(object $row): bool
