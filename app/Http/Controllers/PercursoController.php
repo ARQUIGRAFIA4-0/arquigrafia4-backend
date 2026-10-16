@@ -62,7 +62,7 @@ class PercursoController extends Controller
             return response()->json(['message' => 'No tienes permiso para agregar percursos a este álbum.'], 403);
         }
 
-        $data = $request->validate(array_merge(['id' => 'prohibited'], $this->itemRules()));
+        $data = $request->validate(array_merge(['id' => 'prohibited'], $this->itemRules()), $this->itemMessages());
 
         $position = ($album->percursos()->reorder()->max('position') ?? -1) + 1;
 
@@ -115,7 +115,7 @@ class PercursoController extends Controller
         $data = $request->validate(array_merge(
             ['*' => 'array', '*.id' => 'nullable|uuid'],
             $this->itemRules('*.')
-        ));
+        ), $this->itemMessages('*.'));
 
         $items = array_values($data);
         $incomingIds = collect($items)->pluck('id')->filter()->values()->all();
@@ -164,9 +164,12 @@ class PercursoController extends Controller
 
     private function itemRules(string $prefix = ''): array
     {
+        $maxStops = config('services.percursos.max_stops');
+        $maxPoints = config('services.percursos.max_route_points');
+
         return [
             "{$prefix}title"                 => 'nullable|string|max:255',
-            "{$prefix}stops"                 => 'required|array|min:2',
+            "{$prefix}stops"                 => "required|array|min:2|max:{$maxStops}",
             "{$prefix}stops.*.type"          => 'required|in:image,custom',
             "{$prefix}stops.*.title"         => 'nullable|string|max:255',
             "{$prefix}stops.*.order"         => 'required|integer|min:1',
@@ -178,10 +181,62 @@ class PercursoController extends Controller
             "{$prefix}route.isStreet"        => 'required|boolean',
             "{$prefix}route.distanceMeters"  => 'nullable|numeric|min:0',
             "{$prefix}route.durationSeconds" => 'nullable|numeric|min:0',
-            "{$prefix}route.coordinates"     => 'required|array',
-            "{$prefix}route.coordinates.*"   => 'array|size:2',
-            "{$prefix}route.coordinates.*.*" => 'numeric',
+            // Sem regras curinga (route.coordinates.*.*): com milhares de pontos o validador do Laravel
+            // fica superlinear (15 mil pontos ≈ 26 s). Uma regra só percorre o array uma vez.
+            "{$prefix}route.coordinates"     => ['required', 'array', "max:{$maxPoints}", $this->routeCoordinatesRule()],
         ];
+    }
+
+    private function itemMessages(string $prefix = ''): array
+    {
+        return [
+            "{$prefix}stops.max"             => 'O percurso pode ter no máximo :max paradas.',
+            "{$prefix}route.coordinates.max" => 'O trajeto pode ter no máximo :max pontos.',
+        ];
+    }
+
+    /**
+     * Valida o formato de cada ponto e o comprimento total da linha (haversine), sem confiar no
+     * distanceMeters enviado pelo cliente — vale também para o fallback em linha reta.
+     */
+    private function routeCoordinatesRule(): \Closure
+    {
+        return function (string $attribute, mixed $value, \Closure $fail) {
+            $maxMeters = config('services.percursos.max_distance_km') * 1000;
+            $total = 0.0;
+            $previous = null;
+
+            foreach (array_values($value) as $i => $point) {
+                if (!is_array($point) || count($point) !== 2
+                    || !is_numeric($point[0] ?? null) || !is_numeric($point[1] ?? null)
+                    || abs($point[0]) > 180 || abs($point[1]) > 90) {
+                    return $fail("O ponto {$i} do trajeto é inválido.");
+                }
+
+                if ($previous) {
+                    $total += $this->haversineMeters($previous, $point);
+                }
+                $previous = $point;
+            }
+
+            if ($total > $maxMeters) {
+                $fail(sprintf(
+                    'O percurso tem %s km. O máximo permitido é %s km.',
+                    number_format($total / 1000, 1, ',', '.'),
+                    number_format($maxMeters / 1000, 0, ',', '.')
+                ));
+            }
+        };
+    }
+
+    private function haversineMeters(array $a, array $b): float
+    {
+        $lat1 = deg2rad($a[1]);
+        $lat2 = deg2rad($b[1]);
+        $h = sin(($lat2 - $lat1) / 2) ** 2
+            + cos($lat1) * cos($lat2) * sin(deg2rad($b[0] - $a[0]) / 2) ** 2;
+
+        return 2 * 6371008.8 * asin(min(1, sqrt($h)));
     }
 
     private function persist(Album $album, array $item, int $position, ?Percurso $percurso = null): Percurso
