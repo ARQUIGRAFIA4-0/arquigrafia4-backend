@@ -17,13 +17,18 @@ class PercursoResource extends JsonResource
         return [
             'id'    => $this->id,
             'title' => $this->title,
-            'stops' => $this->stops->map(fn ($stop) => [
-                'type'        => $stop->type,
-                'title'       => $stop->title,
-                'order'       => $stop->order,
-                'coordinates' => [$stop->longitude, $stop->latitude],
-                'imageId'     => $stop->image_id,
-            ])->values(),
+            'stops' => $this->stops->map(function ($stop) {
+                // Ponto de imagem cuja imagem foi apagada sai como ponto sem imagem relacionada.
+                $hasImage = $stop->type === 'image' && $stop->image !== null;
+
+                return [
+                    'type'        => $hasImage ? 'image' : 'custom',
+                    'title'       => $stop->title,
+                    'order'       => $stop->order,
+                    'coordinates' => [$stop->longitude, $stop->latitude],
+                    'imageId'     => $hasImage ? $stop->image_id : null,
+                ];
+            })->values(),
             'route' => [
                 'isStreet'        => $this->is_street,
                 'distanceMeters'  => $this->distance_meters,
