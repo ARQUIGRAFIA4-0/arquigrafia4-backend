@@ -7,6 +7,7 @@ use App\Models\Album;
 use App\Models\Percurso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 /**
  * @group Percursos
@@ -176,7 +177,11 @@ class PercursoController extends Controller
             "{$prefix}stops.*.coordinates"   => 'required|array|size:2',
             "{$prefix}stops.*.coordinates.0" => 'required|numeric|between:-180,180',
             "{$prefix}stops.*.coordinates.1" => 'required|numeric|between:-90,90',
-            "{$prefix}stops.*.imageId"       => "required_if:{$prefix}stops.*.type,image|nullable|uuid|exists:vrac_images,id",
+            "{$prefix}stops.*.imageId"       => [
+                "required_if:{$prefix}stops.*.type,image", 'nullable', 'uuid',
+                // Imagens apagadas (soft delete) não podem virar ponto do percurso.
+                Rule::exists('vrac_images', 'id')->whereNull('deleted_at'),
+            ],
             "{$prefix}route"                 => 'required|array',
             "{$prefix}route.isStreet"        => 'required|boolean',
             "{$prefix}route.distanceMeters"  => 'nullable|numeric|min:0',
