@@ -21,6 +21,9 @@ class VRACImage extends Model
 
     protected $table = 'vrac_images';
 
+    // Oculto até que a exposição do tombo na API seja definida (ver ImageResource).
+    protected $hidden = ['tombo'];
+
     protected $fillable = [
         'id',
         'user_id',
