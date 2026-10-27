@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ImageSearchService
 {
@@ -19,6 +20,20 @@ class ImageSearchService
         'dos', 'das', 'uma', 'uns', 'por', 'para', 'com', 'que', 'nos', 'nas',
         'the', 'and', 'for', 'from', 'with', 'that', 'this', 'about', 'are', 'how',
         'was', 'what', 'when', 'where', 'who', 'will', 'und', 'www',
+    ];
+
+    /**
+     * Location labels name the state either way ("Itapipoca - CE", "..., Ceará, Brasil"),
+     * depending on whether they came from an upload or from the legacy import.
+     */
+    private const BRAZILIAN_STATES = [
+        'AC' => 'Acre', 'AL' => 'Alagoas', 'AP' => 'Amapá', 'AM' => 'Amazonas',
+        'BA' => 'Bahia', 'CE' => 'Ceará', 'DF' => 'Distrito Federal', 'ES' => 'Espírito Santo',
+        'GO' => 'Goiás', 'MA' => 'Maranhão', 'MT' => 'Mato Grosso', 'MS' => 'Mato Grosso do Sul',
+        'MG' => 'Minas Gerais', 'PA' => 'Pará', 'PB' => 'Paraíba', 'PR' => 'Paraná',
+        'PE' => 'Pernambuco', 'PI' => 'Piauí', 'RJ' => 'Rio de Janeiro', 'RN' => 'Rio Grande do Norte',
+        'RS' => 'Rio Grande do Sul', 'RO' => 'Rondônia', 'RR' => 'Roraima', 'SC' => 'Santa Catarina',
+        'SP' => 'São Paulo', 'SE' => 'Sergipe', 'TO' => 'Tocantins',
     ];
 
     /**
@@ -85,9 +100,93 @@ class ImageSearchService
 
     protected function filterByLocation(Builder $query, string $location): Builder
     {
-        return $query->whereHas('locations', function (Builder $q) use ($location) {
-            $q->where('label', 'LIKE', '%'.$location.'%');
+        $tokens = $this->locationTokens($location);
+
+        if ($tokens === []) {
+            return $query;
+        }
+
+        $label = $this->wholeWordColumn('locations.label');
+
+        return $query->whereHas('locations', function (Builder $q) use ($tokens, $label) {
+            foreach ($tokens as $alternatives) {
+                $q->where(function (Builder $any) use ($alternatives, $label) {
+                    foreach ($alternatives as $alternative) {
+                        $any->orWhere(function (Builder $one) use ($alternative, $label) {
+                            $one->whereRaw($label.' LIKE ?', [$alternative['like']]);
+                            foreach ($alternative['notLike'] as $pattern) {
+                                $one->whereRaw($label.' NOT LIKE ?', [$pattern]);
+                            }
+                        });
+                    }
+                });
+            }
         });
+    }
+
+    /**
+     * The location search split into tokens. Each token is a list of alternatives, any of
+     * which may match: a LIKE pattern against wholeWordColumn, plus patterns that must not
+     * match ("mato grosso" must not find "mato grosso do sul"). States are taken out first,
+     * so multi-word names stay together and "TO" is not dropped as a connector.
+     *
+     * @return array<int, array<int, array{like: string, notLike: array<int, string>}>>
+     */
+    protected function locationTokens(string $location): array
+    {
+        $text = ' '.implode(' ', $this->searchWords(Str::ascii($location))).' ';
+        $states = $this->statesByLongestName();
+        $tokens = [];
+
+        foreach ($states as $abbreviation => $name) {
+            $nameNeedle = ' '.$name.' ';
+            $abbreviationNeedle = ' '.$abbreviation.' ';
+
+            if (! str_contains($text, $nameNeedle) && ! str_contains($text, $abbreviationNeedle)) {
+                continue;
+            }
+
+            $longerNames = array_filter(
+                $states,
+                fn (string $other) => $other !== $name && str_contains(' '.$other.' ', $nameNeedle),
+            );
+
+            $tokens[] = [
+                ['like' => '%'.$nameNeedle.'%', 'notLike' => array_values(array_map(fn (string $other) => '% '.$other.' %', $longerNames))],
+                ['like' => '%'.$abbreviationNeedle.'%', 'notLike' => []],
+            ];
+            $text = str_replace([$nameNeedle, $abbreviationNeedle], ' ', $text);
+        }
+
+        foreach (preg_split('/\s+/', trim($text), -1, PREG_SPLIT_NO_EMPTY) as $word) {
+            if (in_array($word, self::SHORT_CONNECTORS, true) || in_array($word, self::IGNORED_WORDS, true)) {
+                continue;
+            }
+
+            $like = mb_strlen($word) <= 2 ? '% '.$word.' %' : '% '.$word.'%';
+            $tokens[] = [['like' => $like, 'notLike' => []]];
+        }
+
+        return array_slice($tokens, 0, self::MAX_SEARCH_TERMS);
+    }
+
+    /**
+     * Lowercase, accent-free state names keyed by abbreviation, longest name first so
+     * "mato grosso do sul" is found before "mato grosso".
+     *
+     * @return array<string, string>
+     */
+    private function statesByLongestName(): array
+    {
+        $states = [];
+
+        foreach (self::BRAZILIAN_STATES as $abbreviation => $name) {
+            $states[mb_strtolower($abbreviation)] = mb_strtolower(Str::ascii($name));
+        }
+
+        uasort($states, fn (string $a, string $b) => mb_strlen($b) <=> mb_strlen($a));
+
+        return $states;
     }
 
     /**
