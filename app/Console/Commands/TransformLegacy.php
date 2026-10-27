@@ -39,7 +39,8 @@ use Symfony\Component\Process\Process;
  * Faulty CSV-quoting fixes from history.json are intentionally skipped — we
  * read straight from MySQL so the quoting issues never arise.
  *
- * Albums are a separate phase (`--only-albums`) that runs after users and images exist.
+ * Albums (`--only-albums`) and tombo (`--only-tombo`) are separate phases that run after users and
+ * images exist. They never run the users/images phases, so they cannot create agents.
  *
  * Skipped on purpose:
  *   - geocoding (ops 259–278) — assume lat/lon are already in `photos`-like data
@@ -59,6 +60,7 @@ class TransformLegacy extends Command
         {--skip-users : Skip the user-migration phase (assume users.legacy_id is already populated)}
         {--skip-images : Skip the image-migration phase (only migrate users)}
         {--only-albums : Run only the albums phase (users and images must already be migrated)}
+        {--only-tombo : Run only the tombo phase: copies photos.tombo into vrac_images.tombo (images must already be migrated)}
         {--only-legacy-user-id= : Only migrate photos owned by this legacy `photos.user_id` (for backfilling one account)}';
 
     protected $description = 'Load a legacy SQL dump, migrate new users, then seed VRACore tables from the legacy photos';
@@ -73,6 +75,14 @@ class TransformLegacy extends Command
         '7' => '8a2c1a68-260b-41fc-a067-3259b4601bd8',
         '8' => 'c02bb389-895c-4962-98fa-ed58f9ba0535',
     ];
+
+    /** Values the legacy platform used for "no tombo". */
+    private const TOMBO_PLACEHOLDERS = ['-', '0', '001', 'NULL'];
+
+    /** Legacy institutions whose `tombo` is not an inventory number (2 = Acervo Quapá: photo file codes). */
+    private const TOMBO_EXCLUDED_INSTITUTIONS = ['2'];
+
+    private const TOMBO_MAX_LENGTH = 64;
 
     private array $tagsMap = [];
     private array $authorsMap = [];
@@ -103,6 +113,11 @@ class TransformLegacy extends Command
 
             if ($this->option('only-albums')) {
                 $this->runAlbumsPhase();
+                return self::SUCCESS;
+            }
+
+            if ($this->option('only-tombo')) {
+                $this->runTomboPhase();
                 return self::SUCCESS;
             }
 
@@ -333,6 +348,115 @@ class TransformLegacy extends Command
                 DB::table('album_image')->insert($chunk);
             }
         });
+    }
+
+    private function runTomboPhase(): void
+    {
+        $this->info('--- Phase 4: tombo ---');
+        $dryRun = (bool) $this->option('dry-run');
+
+        $stats = $this->importLegacyTombos($dryRun);
+
+        foreach ($stats['errors'] as $error) {
+            $this->warn($error);
+        }
+
+        $verb = $dryRun ? 'would be updated' : 'updated';
+        $this->info("Photos with a tombo in the dump: {$stats['legacy']}");
+        $this->info("  skipped, placeholder value ('-', '0', '001', 'NULL'): {$stats['placeholder']}");
+        $this->info("  skipped, excluded institution (file codes, not inventory numbers): {$stats['excluded']}");
+        $this->info("  skipped, longer than ".self::TOMBO_MAX_LENGTH." characters: {$stats['too_long']}");
+        $this->info("  skipped, photo not in vrac_images.legacy_id: {$stats['no_image']}");
+        $this->info("  skipped, image already has a tombo: {$stats['already']}");
+        $this->info("  {$verb}: {$stats['updated']} images");
+        if ($stats['failed'] > 0) {
+            $this->warn("  failed: {$stats['failed']}");
+        }
+    }
+
+    /**
+     * Copies the legacy `photos.tombo` into `vrac_images.tombo`.
+     *
+     * Only writes the `tombo` column, with plain UPDATE queries: no models, no events, no
+     * `updated_at` change, and nothing outside `vrac_images`. It never goes through the users
+     * or images phases, so it cannot create agents or contributor names. Soft-deleted images
+     * are included, and an image that already has a tombo is never overwritten.
+     *
+     * @return array<string, mixed> counters plus a list of `errors`
+     */
+    public function importLegacyTombos(bool $dryRun): array
+    {
+        $legacy = DB::connection('legacy_dump');
+
+        $images = VRACImage::withTrashed()->whereNotNull('legacy_id')->pluck('id', 'legacy_id')->all();
+        $withTombo = DB::table('vrac_images')->whereNotNull('tombo')->pluck('id')->flip()->all();
+
+        $stats = [
+            'legacy' => 0, 'placeholder' => 0, 'excluded' => 0, 'too_long' => 0, 'no_image' => 0,
+            'already' => 0, 'updated' => 0, 'failed' => 0, 'errors' => [],
+        ];
+
+        $updates = [];
+        $rows = $legacy->table('photos')->select('id', 'tombo', 'institution_id')->whereNotNull('tombo')->orderBy('id')->get();
+
+        foreach ($rows as $row) {
+            $tombo = trim((string) $row->tombo);
+            if ($tombo === '') {
+                continue;
+            }
+            $stats['legacy']++;
+
+            if (in_array(strtoupper($tombo), self::TOMBO_PLACEHOLDERS, true)) {
+                $stats['placeholder']++;
+                continue;
+            }
+            if (in_array((string) $row->institution_id, self::TOMBO_EXCLUDED_INSTITUTIONS, true)) {
+                $stats['excluded']++;
+                continue;
+            }
+            if (mb_strlen($tombo) > self::TOMBO_MAX_LENGTH) {
+                $stats['too_long']++;
+                continue;
+            }
+
+            $imageId = $images[(int) $row->id] ?? null;
+            if ($imageId === null) {
+                $stats['no_image']++;
+                continue;
+            }
+            if (isset($withTombo[$imageId])) {
+                $stats['already']++;
+                continue;
+            }
+
+            $updates[$imageId] = $tombo;
+        }
+
+        if ($dryRun) {
+            $stats['updated'] = count($updates);
+            return $stats;
+        }
+
+        foreach (array_chunk($updates, 500, true) as $chunk) {
+            try {
+                $stats['updated'] += DB::transaction(function () use ($chunk) {
+                    $done = 0;
+                    foreach ($chunk as $imageId => $tombo) {
+                        $done += DB::table('vrac_images')
+                            ->where('id', $imageId)
+                            ->whereNull('tombo')
+                            ->update(['tombo' => $tombo]);
+                    }
+
+                    return $done;
+                });
+            } catch (\Throwable $e) {
+                $stats['failed'] += count($chunk);
+                $stats['errors'][] = 'Tombo batch of '.count($chunk).' images failed: '.$e->getMessage();
+            }
+        }
+
+        return $stats;
     }
 
     private function validUserRow(object $row): bool
