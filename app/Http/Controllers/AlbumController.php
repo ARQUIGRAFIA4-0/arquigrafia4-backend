@@ -293,7 +293,7 @@ class AlbumController extends Controller
 
         $albums = $query->with(['images' => function ($q) {
             $q->orderBy('pivot_position');
-        }])->get();
+        }])->withCount('percursos')->get();
 
         $albumIds = $albums->pluck('id')->toArray();
         if (!empty($albumIds)) {
@@ -321,7 +321,7 @@ class AlbumController extends Controller
 
         $albums = $query->with(['images' => function ($q) {
             $q->orderBy('pivot_position');
-        }])->get();
+        }])->withCount('percursos')->get();
 
         $albumIds = $albums->pluck('id')->toArray();
         if (!empty($albumIds)) {
