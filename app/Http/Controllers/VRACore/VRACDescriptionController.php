@@ -33,6 +33,11 @@ class VRACDescriptionController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'text' => 'required|string',
+            'source' => 'nullable|string|max:255',
+        ]);
+
         $description = new VRACDescription;
 
         $description->text = $request->input('text');
@@ -49,7 +54,7 @@ class VRACDescriptionController extends Controller
      */
     public function show(string $id)
     {
-        $description = VRACDescription::find($id);
+        $description = VRACDescription::findOrFail($id);
 
         return response()->json([
             'description' => $description,
@@ -61,10 +66,21 @@ class VRACDescriptionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $description = VRACDescription::find($id);
+        $description = VRACDescription::findOrFail($id);
 
-        $description->text = $request->input('text');
-        $description->source = $request->input('source');
+        $request->validate([
+            'text' => 'sometimes|required|string',
+            'source' => 'sometimes|nullable|string|max:255',
+        ]);
+
+        if ($request->has('text')) {
+            $description->text = $request->input('text');
+        }
+
+        if ($request->has('source')) {
+            $description->source = $request->input('source');
+        }
+
         $description->save();
 
         return response()->json([
@@ -77,7 +93,7 @@ class VRACDescriptionController extends Controller
      */
     public function destroy(string $id)
     {
-        $description = VRACDescription::find($id);
+        $description = VRACDescription::findOrFail($id);
 
         $description->delete();
 

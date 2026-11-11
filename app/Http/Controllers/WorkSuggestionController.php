@@ -53,13 +53,11 @@ class WorkSuggestionController extends Controller
      *
      * @authenticated
      *
-     * @bodyParam payload object required Suggested changes.
+     * @bodyParam payload object required Suggested changes. Same keys and rules as PUT /api/vrac-works/{id}; validated on submission.
      */
     public function store(Request $request, VRACWork $work)
     {
-        $request->validate([
-            'payload' => ['required', 'array'],
-        ]);
+        $this->validatePayload($request);
 
         $suggestion = new WorkSuggestion;
         $suggestion->id = (string) Str::uuid();
@@ -97,7 +95,7 @@ class WorkSuggestionController extends Controller
      *
      * @authenticated
      *
-     * @bodyParam payload object required Suggested changes.
+     * @bodyParam payload object required Suggested changes. Same keys and rules as PUT /api/vrac-works/{id}; validated on submission.
      */
     public function update(Request $request, WorkSuggestion $workSuggestion)
     {
@@ -111,9 +109,7 @@ class WorkSuggestionController extends Controller
             ], 422);
         }
 
-        $request->validate([
-            'payload' => ['required', 'array'],
-        ]);
+        $this->validatePayload($request);
 
         $workSuggestion->payload = $request->input('payload');
         $workSuggestion->save();
@@ -296,6 +292,21 @@ class WorkSuggestionController extends Controller
             'message' => 'Sugestão rejeitada com sucesso.',
             'suggestion' => $workSuggestion->fresh(['work', 'user', 'reviewer']),
         ]);
+    }
+
+    /**
+     * Validate the suggested payload up front with the same rules applied on
+     * accept, so the author gets the 422 instead of the reviewer.
+     */
+    private function validatePayload(Request $request): void
+    {
+        $request->validate(WorkUpdateRules::payloadRules());
+
+        WorkUpdateRules::assertPayloadHasWorkField($request->input('payload'));
+
+        if ($request->has('payload.titles')) {
+            WorkUpdateRules::assertExactlyOnePrimaryTitle($request->input('payload.titles'));
+        }
     }
 
     /**

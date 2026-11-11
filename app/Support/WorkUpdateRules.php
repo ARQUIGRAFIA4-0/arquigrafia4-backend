@@ -30,6 +30,54 @@ class WorkUpdateRules
     }
 
     /**
+     * Top-level keys accepted in a work update / suggestion payload.
+     *
+     * @return array<int, string>
+     */
+    public static function allowedKeys(): array
+    {
+        return array_values(array_filter(
+            array_keys(self::rules()),
+            fn (string $key) => ! str_contains($key, '.')
+        ));
+    }
+
+    /**
+     * Validation rules for a work-suggestion payload nested under $prefix.
+     * Same rules as a direct update, plus: only known keys are allowed.
+     * `reason` (the author's free-text justification) is accepted but is not
+     * a work field and is never applied. Pair with assertPayloadHasWorkField().
+     */
+    public static function payloadRules(string $prefix = 'payload'): array
+    {
+        $workFields = self::allowedKeys();
+
+        $rules = [
+            $prefix => ['required', 'array:'.implode(',', [...$workFields, 'reason'])],
+            "{$prefix}.reason" => 'sometimes|nullable|string|max:2000',
+        ];
+
+        foreach (self::rules() as $key => $rule) {
+            $rules["{$prefix}.{$key}"] = $rule;
+        }
+
+        return $rules;
+    }
+
+    /**
+     * Require at least one work field in the payload (`reason` alone would
+     * change nothing). Throws a ValidationException keyed on $prefix.
+     */
+    public static function assertPayloadHasWorkField(array $payload, string $prefix = 'payload'): void
+    {
+        if (array_intersect(array_keys($payload), self::allowedKeys()) === []) {
+            throw ValidationException::withMessages([
+                $prefix => ['A sugestão deve alterar ao menos um campo da obra.'],
+            ]);
+        }
+    }
+
+    /**
      * Validation rules for updating a work, shared by the direct update
      * endpoint (VRACWorkController) and the work-suggestion accept flow.
      *
