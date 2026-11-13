@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PercursoResource;
 use App\Models\Album;
 use App\Models\Percurso;
+use App\Support\Haversine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -219,7 +220,7 @@ class PercursoController extends Controller
                 }
 
                 if ($previous) {
-                    $total += $this->haversineMeters($previous, $point);
+                    $total += Haversine::meters($previous, $point);
                 }
                 $previous = $point;
             }
@@ -232,16 +233,6 @@ class PercursoController extends Controller
                 ));
             }
         };
-    }
-
-    private function haversineMeters(array $a, array $b): float
-    {
-        $lat1 = deg2rad($a[1]);
-        $lat2 = deg2rad($b[1]);
-        $h = sin(($lat2 - $lat1) / 2) ** 2
-            + cos($lat1) * cos($lat2) * sin(deg2rad($b[0] - $a[0]) / 2) ** 2;
-
-        return 2 * 6371008.8 * asin(min(1, sqrt($h)));
     }
 
     private function persist(Album $album, array $item, int $position, ?Percurso $percurso = null): Percurso
