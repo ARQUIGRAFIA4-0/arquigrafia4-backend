@@ -27,6 +27,10 @@ class ApplyImageChangesAction
                 $image->collective_id = $data['collective_id'];
             }
 
+            if (array_key_exists('tombo', $data)) {
+                $image->tombo = $data['tombo'];
+            }
+
             $image->save();
 
             // Title

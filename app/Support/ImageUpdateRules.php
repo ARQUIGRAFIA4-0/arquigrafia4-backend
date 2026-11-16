@@ -17,6 +17,9 @@ class ImageUpdateRules
             'user_id' => 'sometimes|uuid|exists:users,id',
             'collective_id' => 'nullable|uuid|exists:collectives,id',
 
+            // Tombo (número de inventário do acervo); null apaga
+            'tombo' => 'sometimes|nullable|string|max:64',
+
             // Title
             'title' => 'sometimes|string|max:255',
 
