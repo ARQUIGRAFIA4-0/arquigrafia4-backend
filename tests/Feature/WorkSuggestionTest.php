@@ -65,6 +65,79 @@ class WorkSuggestionTest extends TestCase
         ]);
     }
 
+    public function test_suggestion_payload_rejects_unknown_keys(): void
+    {
+        $work = $this->workOwnedBy($this->createUser());
+
+        Passport::actingAs($this->createUser());
+
+        $response = $this->postJson("/api/vrac-works/{$work->id}/suggestions", [
+            'payload' => [
+                'titles' => [$this->createTitle('Novo')->id],
+                'campo_inexistente' => 'x',
+            ],
+        ]);
+
+        $response->assertStatus(422)->assertJsonValidationErrors(['payload']);
+        $this->assertDatabaseCount('work_suggestions', 0);
+    }
+
+    public function test_suggestion_with_only_reason_is_rejected(): void
+    {
+        $work = $this->workOwnedBy($this->createUser());
+
+        Passport::actingAs($this->createUser());
+
+        $response = $this->postJson("/api/vrac-works/{$work->id}/suggestions", [
+            'payload' => ['reason' => 'Corrigir o título'],
+        ]);
+
+        $response->assertStatus(422)->assertJsonValidationErrors(['payload']);
+        $this->assertDatabaseCount('work_suggestions', 0);
+    }
+
+    public function test_suggestion_titles_must_include_one_primary_title(): void
+    {
+        $work = $this->workOwnedBy($this->createUser());
+
+        $secondary = new VRACTitle;
+        $secondary->label = 'Secundário';
+        $secondary->pref = false;
+        $secondary->save();
+
+        Passport::actingAs($this->createUser());
+
+        $response = $this->postJson("/api/vrac-works/{$work->id}/suggestions", [
+            'payload' => ['titles' => [$secondary->id]],
+        ]);
+
+        $response->assertStatus(422)->assertJsonValidationErrors(['titles']);
+        $this->assertDatabaseCount('work_suggestions', 0);
+    }
+
+    public function test_suggestion_accepts_work_field_with_reason(): void
+    {
+        $suggester = $this->createUser();
+        $work = $this->workOwnedBy($this->createUser());
+
+        Passport::actingAs($suggester);
+
+        $response = $this->postJson("/api/vrac-works/{$work->id}/suggestions", [
+            'payload' => [
+                'titles' => [$this->createTitle('Novo')->id],
+                'reason' => 'Nome correto da obra',
+            ],
+        ]);
+
+        $response->assertStatus(201)
+            ->assertJsonPath('suggestion.payload.reason', 'Nome correto da obra');
+        $this->assertDatabaseHas('work_suggestions', [
+            'work_id' => $work->id,
+            'user_id' => $suggester->id,
+            'status' => 'pending',
+        ]);
+    }
+
     public function test_owner_of_related_image_can_accept_suggestion(): void
     {
         $owner = $this->createUser();

@@ -230,11 +230,11 @@ class ImportLegacyTombosTest extends TestCase
         $this->assertSame($updatedAt, DB::table('vrac_images')->where('id', $image->id)->value('updated_at'));
     }
 
-    public function test_the_tombo_is_not_exposed_in_the_model_json(): void
+    public function test_the_tombo_is_exposed_in_the_model_json(): void
     {
         $image = $this->image(120);
         DB::table('vrac_images')->where('id', $image->id)->update(['tombo' => '12345']);
 
-        $this->assertArrayNotHasKey('tombo', VRACImage::find($image->id)->toArray());
+        $this->assertSame('12345', VRACImage::find($image->id)->toArray()['tombo']);
     }
 }
