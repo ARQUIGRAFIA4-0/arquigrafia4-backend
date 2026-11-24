@@ -45,6 +45,7 @@ class Percurso extends Model
 
     public function stops(): HasMany
     {
-        return $this->hasMany(PercursoStop::class)->orderBy('order');
+        // A imagem (só o id) vem junto para o PercursoResource saber se ela ainda existe.
+        return $this->hasMany(PercursoStop::class)->with('image:id')->orderBy('order');
     }
 }

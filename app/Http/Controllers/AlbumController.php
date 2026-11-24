@@ -128,6 +128,14 @@ class AlbumController extends Controller
             if (!$canSee) abort(403);
         }
 
+        // Contagens para os avisos de localização do percurso (imagem sem localização não aparece no mapa).
+        $album->loadCount([
+            'images as images_count',
+            'images as located_images_count' => fn ($q) => $q->whereHas('locations', fn ($l) => $l
+                ->whereNotNull('latitude')->whereNotNull('longitude')
+                ->where('latitude', '!=', 0)->where('longitude', '!=', 0)),
+        ]);
+
         return $album;
     }
 
